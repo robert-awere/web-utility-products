@@ -1,2 +1,7 @@
-# web-utility-products
-REPO to hold web-utility-products i.e 1-page websites with useful 'Evergreen' utilities
+# Web Utility Products
+
+Small, evergreen web utilities that provide an immediate answer.
+
+## Projects
+
+- [Project Quantity — Paint Calculator](paint-calculator/) — [Live site](https://projectquantity.com/)
