@@ -1,6 +1,10 @@
 /** UI wiring — describe -> confirm ≤4 questions -> explained recommendation. */
 
-import { MODEL_REGISTRY } from '../data/registry';
+import { MODEL_REGISTRY as STATIC_REGISTRY } from '../data/registry';
+import { refreshFreshness } from '../domain/model';
+
+/** Freshness recomputed for today's date, so a stale deploy tells the truth. */
+const MODEL_REGISTRY = refreshFreshness(STATIC_REGISTRY, new Date().toISOString().slice(0, 10));
 import { defaultTaskProfile, type Modality, type TaskCategory, type TaskProfile } from '../domain/task';
 import { downgrade } from '../engine/downgrader';
 import { classifyInteraction } from '../engine/interaction';

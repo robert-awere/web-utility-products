@@ -105,3 +105,30 @@ export function classifyFreshness(verifiedIso: string, todayIso: string): Freshn
   if (days <= 120) return 'AGING';
   return 'STALE';
 }
+
+const FRESHNESS_BADNESS: Record<Freshness, number> = { FRESH: 0, AGING: 1, STALE: 2, UNKNOWN: 3 };
+
+/**
+ * Recompute a fact's freshness for "today". The stored freshness is a
+ * baseline (it already encodes caps like "secondary source => at most
+ * AGING"), so the result can only be the same or worse — a fact never
+ * gets fresher by the passage of time.
+ */
+export function degradeFact<T>(f: Fact<T>, todayIso: string): Fact<T> {
+  if (f.freshness === 'UNKNOWN') return f;
+  const byAge = classifyFreshness(f.verified, todayIso);
+  const worse = FRESHNESS_BADNESS[byAge] > FRESHNESS_BADNESS[f.freshness] ? byAge : f.freshness;
+  return worse === f.freshness ? f : { ...f, freshness: worse };
+}
+
+/** Registry-wide freshness recomputation — call once at app load. */
+export function refreshFreshness(models: ModelProfile[], todayIso: string): ModelProfile[] {
+  return models.map((m) => ({
+    ...m,
+    inputCost: degradeFact(m.inputCost, todayIso),
+    outputCost: degradeFact(m.outputCost, todayIso),
+    contextLimit: degradeFact(m.contextLimit, todayIso),
+    supportedModalities: degradeFact(m.supportedModalities, todayIso),
+    supportsTools: degradeFact(m.supportsTools, todayIso),
+  }));
+}
