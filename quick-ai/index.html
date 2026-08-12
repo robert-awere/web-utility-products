@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUICK//AI — Right AI. Right task.</title>
+  <meta name="description" content="Describe your task, answer a few questions, and get an explained, honest recommendation for which AI model or tool to use — or whether you need AI at all.">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #16181d;
+      --muted: #5b616e;
+      --paper: #fafaf7;
+      --surface: #ffffff;
+      --line: #e2e2da;
+      --accent: #1a4fd6;
+      --accent-soft: #eef2fd;
+      --good: #176e3f;
+      --warn: #9a6200;
+      --bad: #a32c2c;
+      --radius: 12px;
+      font-family: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+    main { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0 80px; }
+    header.site { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 40px; }
+    .brand { font-weight: 800; letter-spacing: -0.02em; font-size: 1.05rem; }
+    .brand span { color: var(--accent); }
+    .local-badge { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: var(--good); border: 1px solid currentColor; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+    h1 { font-size: clamp(1.9rem, 6vw, 3rem); letter-spacing: -0.04em; line-height: 1.05; margin: 0 0 8px; }
+    .lede { color: var(--muted); margin: 0 0 28px; max-width: 46ch; }
+    textarea { width: 100%; min-height: 96px; padding: 14px; font: inherit; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); resize: vertical; }
+    textarea:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    button.primary { margin-top: 12px; padding: 12px 22px; font: inherit; font-weight: 700; color: #fff; background: var(--accent); border: 0; border-radius: 10px; cursor: pointer; }
+    button.primary:hover { filter: brightness(1.08); }
+    .hint { font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+    fieldset { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 16px; margin: 0 0 16px; }
+    legend { font-weight: 700; font-size: 0.92rem; padding: 0 6px; }
+    label { display: block; font-size: 0.9rem; margin: 8px 0 2px; color: var(--muted); }
+    select { width: 100%; padding: 9px 10px; font: inherit; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 540px) { .row { grid-template-columns: 1fr; } }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 0.9rem; color: var(--ink); }
+    .check input { width: 16px; height: 16px; accent-color: var(--accent); }
+    .prefill-note { font-size: 0.82rem; color: var(--accent); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; }
+    .hidden { display: none; }
+    /* Result */
+    .result-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 20px; margin-bottom: 16px; }
+    .kicker { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin: 0 0 6px; }
+    .winner-name { font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+    .winner-meta { color: var(--muted); font-size: 0.9rem; margin: 2px 0 12px; }
+    .pill { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); margin-right: 6px; }
+    .pill.fit { color: var(--good); border-color: var(--good); }
+    .pill.conf-HIGH { color: var(--good); border-color: var(--good); }
+    .pill.conf-MEDIUM { color: var(--warn); border-color: var(--warn); }
+    .pill.conf-LOW { color: var(--bad); border-color: var(--bad); }
+    ul.reasons { list-style: none; margin: 8px 0 0; padding: 0; }
+    ul.reasons li { padding: 3px 0 3px 24px; position: relative; font-size: 0.93rem; }
+    ul.reasons li::before { position: absolute; left: 0; font-weight: 700; }
+    ul.reasons li.plus::before { content: "✓"; color: var(--good); }
+    ul.reasons li.minus::before { content: "✕"; color: var(--bad); }
+    ul.reasons li.flag::before { content: "△"; color: var(--warn); }
+    h3.section { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 18px 0 4px; }
+    ol.workflow { margin: 6px 0 0; padding-left: 20px; font-size: 0.93rem; }
+    ol.workflow li { margin: 4px 0; }
+    details { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; }
+    details summary { cursor: pointer; font-size: 0.88rem; font-weight: 700; color: var(--accent); }
+    .alt { padding: 10px 0; border-bottom: 1px dashed var(--line); }
+    .alt:last-child { border-bottom: 0; }
+    .alt-name { font-weight: 700; font-size: 0.95rem; }
+    .alt-fit { font-size: 0.8rem; color: var(--muted); }
+    table.evals { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }
+    table.evals th, table.evals td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+    table.evals th { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .footnote { font-size: 0.8rem; color: var(--muted); margin-top: 24px; }
+    .noai-card { border-left: 4px solid var(--good); }
+    button.link { background: none; border: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; }
+    .tool-tabs { display: flex; gap: 6px; margin: 0 0 18px; flex-wrap: wrap; }
+    .tool-tabs button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+    .tool-tabs button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .mode-headline { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 4px; }
+    .guard-note { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="site">
+      <div class="brand">QUICK<span>//</span>AI</div>
+      <div class="local-badge" title="Your task description never leaves this page. All routing logic runs in your browser.">PROCESSED LOCALLY</div>
+    </header>
+
+    <section id="step-describe">
+      <h1>Right AI. Right task.</h1>
+      <p class="lede">Describe what you're trying to do. Get an honest, explained recommendation — including "you don't need AI for this."</p>
+      <nav class="tool-tabs" aria-label="Tool">
+        <button id="tab-router" aria-pressed="true">Task Router — what AI should I use?</button>
+        <button id="tab-agent" aria-pressed="false">Agent or Chat? — does this need an agent?</button>
+        <button id="tab-downgrade" aria-pressed="false">Model Downgrader — can I use something cheaper?</button>
+        <button id="tab-cost" aria-pressed="false">Cost Leak — why is my AI costing so much?</button>
+        <button id="tab-inspect" aria-pressed="false">Can AI Handle This? — check a file first</button>
+      </nav>
+      <textarea id="description" placeholder="Describe what you're trying to do…" aria-label="Task description"></textarea>
+      <button class="primary" id="btn-start">Find my AI</button>
+      <p class="hint">Nothing is uploaded — the analysis runs entirely in your browser.</p>
+    </section>
+
+    <section id="step-questions" class="hidden" aria-live="polite">
+      <p class="prefill-note hidden" id="prefill-note"></p>
+
+      <fieldset id="fieldset-current-model" class="hidden">
+        <legend>0 · What are you using today?</legend>
+        <label for="q-current-model">Current model (the downgrade is judged against this)</label>
+        <select id="q-current-model"></select>
+      </fieldset>
+
+      <fieldset>
+        <legend>1 · What kind of task is this?</legend>
+        <label for="q-category">Task type (affects which capability matters)</label>
+        <select id="q-category"></select>
+      </fieldset>
+
+      <fieldset>
+        <legend>2 · How demanding is it?</legend>
+        <div class="row">
+          <div>
+            <label for="q-complexity">Difficulty (sets the capability bar)</label>
+            <select id="q-complexity">
+              <option value="trivial">Trivial — mechanical</option>
+              <option value="simple">Simple — routine, low judgment</option>
+              <option value="moderate" selected>Moderate — some judgment</option>
+              <option value="complex">Complex — deep reasoning</option>
+              <option value="frontier">Hardest — expert-level</option>
+            </select>
+          </div>
+          <div>
+            <label for="q-reliability">Cost of a mistake</label>
+            <select id="q-reliability">
+              <option value="best_effort">Low — easy to spot &amp; fix</option>
+              <option value="high" selected>Medium — I review outputs</option>
+              <option value="critical">High — failure is costly</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="fieldset-constraints">
+        <legend>3 · Constraints</legend>
+        <div class="row">
+          <div>
+            <label for="q-privacy">Data privacy (can disqualify hosted models)</label>
+            <select id="q-privacy">
+              <option value="standard" selected>Standard — no special constraint</option>
+              <option value="sensitive">Confidential — check provider terms</option>
+              <option value="strict_local">Strict — data must stay in-house</option>
+            </select>
+          </div>
+          <div>
+            <label for="q-budget">Budget priority (sets cost weighting)</label>
+            <select id="q-budget">
+              <option value="minimize">Minimize cost</option>
+              <option value="balanced" selected>Balanced</option>
+              <option value="quality_first">Quality first, cost secondary</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>4 · Input &amp; scale</legend>
+        <div class="row">
+          <div>
+            <label for="q-size">Input size (checks context-window fit)</label>
+            <select id="q-size">
+              <option value="" selected>Small — a page or a prompt</option>
+              <option value="40000">Long document (~50 pages)</option>
+              <option value="480000">Very large (~600 pages)</option>
+              <option value="4000000">Huge corpus (thousands of pages)</option>
+            </select>
+          </div>
+          <div>
+            <label for="q-scale">Volume (bulk penalizes overpriced models)</label>
+            <select id="q-scale">
+              <option value="one_off" selected>One-off</option>
+              <option value="recurring">Recurring</option>
+              <option value="bulk">Bulk — thousands of items</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="q-images"> Input includes images or diagrams</label>
+        <label class="check"><input type="checkbox" id="q-scans"> Input includes scanned pages / photos of documents</label>
+        <label class="check"><input type="checkbox" id="q-agent"> This should run on its own (multi-step or on a schedule)</label>
+      </fieldset>
+
+      <button class="primary" id="btn-route">Get recommendation</button>
+    </section>
+
+    <section id="step-cost" class="hidden" aria-live="polite">
+      <fieldset>
+        <legend>1 · Your setup</legend>
+        <div class="row">
+          <div>
+            <label for="qc-model">Model you use most</label>
+            <select id="qc-model"></select>
+          </div>
+          <div>
+            <label for="qc-category">What it mostly does</label>
+            <select id="qc-category"></select>
+          </div>
+        </div>
+        <label for="qc-complexity">How demanding is that work, honestly?</label>
+        <select id="qc-complexity">
+          <option value="trivial">Trivial — mechanical</option>
+          <option value="simple">Simple — routine</option>
+          <option value="moderate" selected>Moderate</option>
+          <option value="complex">Complex — deep reasoning</option>
+        </select>
+      </fieldset>
+      <fieldset>
+        <legend>2 · Shape of a typical call</legend>
+        <div class="row">
+          <div>
+            <label for="qc-input">Input per call</label>
+            <select id="qc-input">
+              <option value="small">Under ~1K tokens</option>
+              <option value="medium" selected>1K–10K tokens</option>
+              <option value="large">10K–100K tokens</option>
+              <option value="huge">Over 100K tokens</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-output">Output per call</label>
+            <select id="qc-output">
+              <option value="short">Short (&lt;500 tokens)</option>
+              <option value="medium" selected>Medium (500–2K)</option>
+              <option value="long">Long (&gt;2K)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="qc-sysprompt">System prompt size</label>
+            <select id="qc-sysprompt">
+              <option value="small" selected>Under ~1K tokens</option>
+              <option value="medium">1K–5K tokens</option>
+              <option value="large">Over 5K tokens</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-caching">Prompt caching enabled?</label>
+            <select id="qc-caching">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unknown" selected>Not sure</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="qc-repeated"> Most calls resend largely the same context (docs, instructions)</label>
+      </fieldset>
+      <fieldset>
+        <legend>3 · Architecture</legend>
+        <div class="row">
+          <div>
+            <label for="qc-sessions">Sessions</label>
+            <select id="qc-sessions">
+              <option value="single_shot" selected>Single-shot calls</option>
+              <option value="short">Short conversations</option>
+              <option value="long">Long conversations (20+ turns)</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-agents">Agents</label>
+            <select id="qc-agents">
+              <option value="none" selected>No agents</option>
+              <option value="single">One agent</option>
+              <option value="multi">Multiple agents</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="qc-toolcalls">Tool calls per run</label>
+            <select id="qc-toolcalls">
+              <option value="none" selected>None</option>
+              <option value="few">A few</option>
+              <option value="many">Many (10+)</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-rag">Retrieval (RAG)</label>
+            <select id="qc-rag">
+              <option value="none" selected>Not used</option>
+              <option value="chunks">Retrieves chunks</option>
+              <option value="whole_documents">Feeds whole documents</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+      <button class="primary" id="btn-diagnose">Find the leaks</button>
+    </section>
+
+    <section id="step-inspect" class="hidden" aria-live="polite">
+      <fieldset>
+        <legend>Check a file before sending it to any AI</legend>
+        <label for="q-file">Pick the file (it is inspected in your browser and never uploaded)</label>
+        <input type="file" id="q-file">
+        <p class="hint">Size, format, token estimate, tables/images/scan detection — all computed locally.</p>
+      </fieldset>
+    </section>
+
+    <section id="step-result" class="hidden" aria-live="polite"></section>
+
+    <p class="footnote" id="data-note"></p>
+  </main>
+  <script type="module" src="/src/ui/main.ts"></script>
+</body>
+</html>
