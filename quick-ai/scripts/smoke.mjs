@@ -71,6 +71,19 @@ try {
   check('agent-or-chat renders a mode', /chat|agent|automation|software/i.test(result3));
   check('agent-or-chat explains itself', result3.includes('Why'));
 
+  // Flow 4: Model Downgrader — frontier model on a simple task -> downgrade
+  await page.click('#btn-again');
+  await page.click('#tab-downgrade');
+  await page.fill('#description', 'Classify customer reviews as positive or negative');
+  await page.click('#btn-start');
+  await page.waitForSelector('#step-questions:not(.hidden)');
+  check('current-model question visible in downgrader mode', await page.isVisible('#fieldset-current-model'));
+  await page.selectOption('#q-current-model', 'claude-opus-5');
+  await page.click('#btn-route');
+  await page.waitForSelector('#step-result:not(.hidden)');
+  const result4 = await page.textContent('#step-result');
+  check('downgrader suggests a cheaper switch', /switch to|cheaper/i.test(result4));
+
   check('no page errors', consoleErrors.length === 0);
   if (consoleErrors.length) console.log(consoleErrors.join('\n'));
 } finally {

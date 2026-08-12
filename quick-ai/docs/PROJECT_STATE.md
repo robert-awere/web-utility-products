@@ -5,7 +5,8 @@ Updated: 2026-08-12 (Phase 2, increment 1)
 ## Current phase
 
 **Phase 2 — additional tools on shared primitives (user-approved 2026-08-12).**
-Increment 1 ("Agent or Chat?") complete. Phase 1 — Router Proof: COMPLETE.
+Increments 1 ("Agent or Chat?") and 2 ("Model Downgrader") complete.
+Phase 1 — Router Proof: COMPLETE.
 
 ## Completed
 
@@ -31,6 +32,11 @@ Increment 1 ("Agent or Chat?") complete. Phase 1 — Router Proof: COMPLETE.
   over the shared TaskProfile — 10 modes (chat/agent/automation/no-AI). Anti-agent-hype
   invariant tested: no autonomy + no tools can never yield an agent recommendation.
   UI tool tabs; constraint questions hidden where they can't change the answer.
+- **Phase 2 / "Model Downgrader"** (src/engine/downgrader.ts): reuses the fit engine.
+  Verdicts: use_deterministic_code / downgrade (STRONG fit + ≥20% savings only) /
+  split_workflow (bulk: cheap model + escalation path) / upgrade (honest inverse
+  when the current model is too weak) / keep. Savings shown as blended per-token
+  arithmetic on sourced facts, never a quality score.
 
 ## Phase 1 exit criteria — status
 
@@ -60,7 +66,7 @@ tests/         router-benchmarks/, engine/        — benchmarks + unit tests
 
 ## Test status
 
-61/61 passing (vitest). Smoke test 12/12 passing (playwright-core + preview server).
+68/68 passing (vitest). Smoke test 14/14 passing (playwright-core + preview server).
 
 ## Known issues
 
@@ -80,5 +86,8 @@ None for Phase 1. Phase 2 requires a product decision on which tool to build nex
 
 Phase 2 continues:
 1. ~~"Agent or Chat?" classifier~~ — DONE.
-2. "Model Downgrader" (re-uses fit engine with a "current model" input).
-3. Registry re-verification workflow + freshness recomputation at load time.
+2. ~~"Model Downgrader"~~ — DONE.
+3. Registry re-verification workflow + freshness recomputation at load time
+   (blocked on primary-doc network access; freshness recomputation is buildable now).
+4. "Cost Leak" tool.
+5. "Can AI Handle This?" (browser-side file inspection).

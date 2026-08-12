@@ -2,10 +2,11 @@
 
 import { MODEL_REGISTRY } from '../data/registry';
 import { defaultTaskProfile, type Modality, type TaskCategory, type TaskProfile } from '../domain/task';
+import { downgrade } from '../engine/downgrader';
 import { classifyInteraction } from '../engine/interaction';
 import { prefillFromDescription } from '../engine/prefill';
 import { route } from '../engine/router';
-import { esc, renderClassification, renderOutcome } from './render';
+import { esc, renderClassification, renderDowngrade, renderOutcome } from './render';
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -38,17 +39,27 @@ function populateCategories(select: HTMLSelectElement, selected: TaskCategory) {
 }
 
 let prefill: Partial<TaskProfile> = {};
-let activeTool: 'router' | 'agent' = 'router';
+type Tool = 'router' | 'agent' | 'downgrade';
+let activeTool: Tool = 'router';
 
-function selectTool(tool: 'router' | 'agent') {
+function selectTool(tool: Tool) {
   activeTool = tool;
-  ($('tab-router') as HTMLButtonElement).setAttribute('aria-pressed', String(tool === 'router'));
-  ($('tab-agent') as HTMLButtonElement).setAttribute('aria-pressed', String(tool === 'agent'));
-  // Constraints (privacy/budget) influence model routing but not the
-  // agent-or-chat classification — never ask a question that can't change
-  // the recommendation.
+  for (const t of ['router', 'agent', 'downgrade'] as const) {
+    ($(`tab-${t}`) as HTMLButtonElement).setAttribute('aria-pressed', String(tool === t));
+  }
+  // Constraints (privacy/budget) influence model routing and the downgrader,
+  // but not the agent-or-chat classification — never ask a question that
+  // can't change the recommendation.
   $('fieldset-constraints').classList.toggle('hidden', tool === 'agent');
+  $('fieldset-current-model').classList.toggle('hidden', tool !== 'downgrade');
   $('step-result').classList.add('hidden');
+}
+
+function populateCurrentModels() {
+  const select = $('q-current-model') as HTMLSelectElement;
+  select.innerHTML = MODEL_REGISTRY.map(
+    (m, i) => `<option value="${esc(m.id)}"${i === 0 ? ' selected' : ''}>${esc(m.model)} (${esc(m.provider)})</option>`,
+  ).join('');
 }
 
 function startQuestions() {
@@ -135,6 +146,10 @@ function showResult() {
   const target = $('step-result');
   if (activeTool === 'agent') {
     target.innerHTML = renderClassification(classifyInteraction(profile));
+  } else if (activeTool === 'downgrade') {
+    const currentId = ($('q-current-model') as HTMLSelectElement).value;
+    const current = MODEL_REGISTRY.find((m) => m.id === currentId) ?? MODEL_REGISTRY[0]!;
+    target.innerHTML = renderDowngrade(downgrade(profile, current, MODEL_REGISTRY));
   } else {
     target.innerHTML = renderOutcome(route(profile, MODEL_REGISTRY));
   }
@@ -164,6 +179,8 @@ $('btn-start').addEventListener('click', startQuestions);
 $('btn-route').addEventListener('click', showResult);
 $('tab-router').addEventListener('click', () => selectTool('router'));
 $('tab-agent').addEventListener('click', () => selectTool('agent'));
+$('tab-downgrade').addEventListener('click', () => selectTool('downgrade'));
+populateCurrentModels();
 ($('description') as HTMLTextAreaElement).addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') startQuestions();
 });

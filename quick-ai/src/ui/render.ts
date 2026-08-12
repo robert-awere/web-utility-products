@@ -1,6 +1,7 @@
 /** Result rendering — compact, explained, progressive disclosure. */
 
 import type { ModelEvaluation, Reason, RouterOutcome } from '../domain/result';
+import type { DowngradeOutcome } from '../engine/downgrader';
 import type { InteractionClassification } from '../engine/interaction';
 import { isAgentMode } from '../engine/interaction';
 
@@ -34,6 +35,48 @@ export function renderClassification(c: InteractionClassification): string {
       <h3 class="section">Why</h3>
       <ul class="reasons">${c.why.map(reasonLi).join('')}</ul>
       ${c.agentGuard ? `<p class="guard-note">${esc(c.agentGuard)}</p>` : ''}
+    </div>
+    <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
+}
+
+const DOWNGRADE_HEADLINES: Record<DowngradeOutcome['verdict'], (d: DowngradeOutcome) => string> = {
+  use_deterministic_code: () => 'Drop the model — use code.',
+  downgrade: (d) => `Yes — switch to ${d.recommended?.model.model ?? 'a cheaper model'}.`,
+  split_workflow: (d) => `Split the workflow — ${d.recommended?.model.model ?? 'a cheaper model'} for routine items, escalate the rest.`,
+  upgrade: (d) => `No — your current model is too weak for this task${d.recommended ? `; use ${d.recommended.model.model}` : ''}.`,
+  keep: () => 'Keep your current model.',
+};
+
+export function renderDowngrade(d: DowngradeOutcome): string {
+  return `
+    <div class="result-card">
+      <p class="kicker">Model downgrader</p>
+      <h2 class="mode-headline">${esc(DOWNGRADE_HEADLINES[d.verdict](d))}</h2>
+      <p>
+        ${d.savingsPct != null ? `<span class="pill fit">~${d.savingsPct}% cheaper per token</span>` : ''}
+        ${confidencePill(d.confidence.level)}
+      </p>
+      <h3 class="section">Why</h3>
+      <ul class="reasons">${d.reasons.map(reasonLi).join('')}</ul>
+      ${d.recommended ? `
+      <h3 class="section">Recommended</h3>
+      <div class="alt">
+        <span class="alt-name">${esc(d.recommended.model.model)}</span>
+        <span class="alt-fit"> — Fit: ${esc(d.recommended.fit)} · ${esc(costLabel(d.recommended))}</span>
+      </div>` : ''}
+      ${d.current ? `
+      <details>
+        <summary>How your current model scored on this task</summary>
+        <div class="alt">
+          <span class="alt-name">${esc(d.current.model.model)}</span>
+          <span class="alt-fit"> — Fit: ${esc(d.current.fit)} · ${esc(costLabel(d.current))}</span>
+          <ul class="reasons">${d.current.reasons.map(reasonLi).join('')}</ul>
+        </div>
+      </details>` : ''}
+      <details>
+        <summary>Why this confidence level</summary>
+        <ul class="reasons">${d.confidence.factors.map((f) => `<li class="flag">${esc(f)}</li>`).join('')}</ul>
+      </details>
     </div>
     <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
 }

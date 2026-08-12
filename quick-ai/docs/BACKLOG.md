@@ -2,14 +2,11 @@
 
 ## NOW
 
-- Phase 2 in progress. Increment 1 (**Agent or Chat?**) shipped 2026-08-12.
+- Phase 2 in progress. Shipped 2026-08-12: **Agent or Chat?**, **Model Downgrader**.
 
 ## NEXT (Phase 2, in order)
 
-1. **Model Downgrader** — input: current model + task profile; output: keep / drop a
-   tier / small model / deterministic code / split workflow / route hard cases only.
-   Reuses fit engine directly. Value: cost-efficiency.
-3. **Registry re-verification pass** against primary vendor docs (needs unblocked
+1. **Registry re-verification pass** against primary vendor docs (needs unblocked
    network); recompute freshness at page load from verification dates instead of
    storing it statically. Value: trust.
 4. **Cost Leak** tool — structured questionnaire over usage patterns → likely causes,

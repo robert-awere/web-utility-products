@@ -96,6 +96,7 @@
       <nav class="tool-tabs" aria-label="Tool">
         <button id="tab-router" aria-pressed="true">Task Router — what AI should I use?</button>
         <button id="tab-agent" aria-pressed="false">Agent or Chat? — does this need an agent?</button>
+        <button id="tab-downgrade" aria-pressed="false">Model Downgrader — can I use something cheaper?</button>
       </nav>
       <textarea id="description" placeholder="Describe what you're trying to do…" aria-label="Task description"></textarea>
       <button class="primary" id="btn-start">Find my AI</button>
@@ -104,6 +105,12 @@
 
     <section id="step-questions" class="hidden" aria-live="polite">
       <p class="prefill-note hidden" id="prefill-note"></p>
+
+      <fieldset id="fieldset-current-model" class="hidden">
+        <legend>0 · What are you using today?</legend>
+        <label for="q-current-model">Current model (the downgrade is judged against this)</label>
+        <select id="q-current-model"></select>
+      </fieldset>
 
       <fieldset>
         <legend>1 · What kind of task is this?</legend>
