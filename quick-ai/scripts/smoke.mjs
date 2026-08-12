@@ -101,6 +101,21 @@ try {
   check('cost leak finds the caching leak', /caching/i.test(result5));
   check('cost leak proposes cheaper architecture', /Cheaper architecture/i.test(result5));
 
+  // Flow 6: Can AI Handle This? — local file inspection
+  await page.click('#btn-again');
+  await page.click('#tab-inspect');
+  await page.waitForSelector('#step-inspect:not(.hidden)');
+  await page.setInputFiles('#q-file', {
+    name: 'notes.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.from('hello world. '.repeat(2000)),
+  });
+  await page.waitForSelector('#step-result:not(.hidden)');
+  const result6 = await page.textContent('#step-result');
+  check('file inspector renders a verdict', /direct processing|preprocessing|chunk/i.test(result6));
+  check('file inspector shows a token estimate', /tokens/i.test(result6));
+  check('file inspector states local processing', /processed locally/i.test(result6));
+
   check('no page errors', consoleErrors.length === 0);
   if (consoleErrors.length) console.log(consoleErrors.join('\n'));
 } finally {

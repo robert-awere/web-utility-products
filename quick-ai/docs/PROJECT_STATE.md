@@ -5,8 +5,17 @@ Updated: 2026-08-12 (Phase 2, increment 1)
 ## Current phase
 
 **Phase 2 — additional tools on shared primitives (user-approved 2026-08-12).**
-Increments 1 ("Agent or Chat?") and 2 ("Model Downgrader") complete.
+Increments 1–5 complete: Agent or Chat?, Model Downgrader, live freshness
+recomputation, Cost Leak, Can AI Handle This?. **All five MVP tools shipped.**
 Phase 1 — Router Proof: COMPLETE.
+
+## MVP completion criteria (spec §24)
+
+arrive → describe task → answer ≤4 meaningful questions → receive recommendation
+→ understand why → see cheaper/alternative option → see uncertainty → act:
+**all steps verified end-to-end in a headless browser** (scripts/smoke.mjs, 20 checks).
+Recommendations render instantly (fully client-side deterministic logic — well
+under the 30-second target).
 
 ## Completed
 
@@ -37,6 +46,14 @@ Phase 1 — Router Proof: COMPLETE.
   split_workflow (bulk: cheap model + escalation path) / upgrade (honest inverse
   when the current model is too weak) / keep. Savings shown as blended per-token
   arithmetic on sourced facts, never a quality score.
+- **Phase 2 / freshness recomputation** (src/domain/model.ts refreshFreshness):
+  stored freshness is a baseline that only degrades with time at app load.
+- **Phase 2 / "Cost Leak"** (src/engine/costleak.ts): severity-ranked findings with
+  evidence + actions; task/model mismatch reuses the fit engine; honest all-clear.
+- **Phase 2 / "Can AI Handle This?"** (src/engine/inspect.ts + src/ui/filefacts.ts):
+  fully local file inspection (size, format, token estimate with disclosed basis,
+  PDF page/image/scan heuristics, table detection) → verdict (direct / preprocess /
+  chunk / impractical), failure modes, preprocessing, model class, fitting models.
 
 ## Phase 1 exit criteria — status
 
@@ -66,7 +83,7 @@ tests/         router-benchmarks/, engine/        — benchmarks + unit tests
 
 ## Test status
 
-68/68 passing (vitest). Smoke test 14/14 passing (playwright-core + preview server).
+87/87 passing (vitest). Smoke test 20/20 passing (playwright-core + preview server).
 
 ## Known issues
 
@@ -84,10 +101,7 @@ None for Phase 1. Phase 2 requires a product decision on which tool to build nex
 
 ## Next likely increment
 
-Phase 2 continues:
-1. ~~"Agent or Chat?" classifier~~ — DONE.
-2. ~~"Model Downgrader"~~ — DONE.
-3. Registry re-verification workflow + freshness recomputation at load time
-   (blocked on primary-doc network access; freshness recomputation is buildable now).
-4. "Cost Leak" tool.
-5. "Can AI Handle This?" (browser-side file inspection).
+All five MVP tools are done. Remaining (see BACKLOG):
+1. Registry re-verification against primary vendor docs (blocked on network access).
+2. Benchmark regression snapshot script (spec §14 tooling).
+3. Deployment (static hosting) — a product decision for the user.

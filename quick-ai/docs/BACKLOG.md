@@ -2,17 +2,16 @@
 
 ## NOW
 
-- Phase 2 in progress. Shipped 2026-08-12: **Agent or Chat?**, **Model Downgrader**.
+- All five MVP tools shipped 2026-08-12: Task Router, Agent or Chat?, Model
+  Downgrader, Cost Leak, Can AI Handle This?. Freshness now recomputed at load.
 
-## NEXT (Phase 2, in order)
+## NEXT
 
 1. **Registry re-verification pass** against primary vendor docs (needs unblocked
-   network); recompute freshness at page load from verification dates instead of
-   storing it statically. Value: trust.
-4. **Cost Leak** tool — structured questionnaire over usage patterns → likely causes,
-   severity, evidence, corrective actions. Value: cost-efficiency.
-5. **Can AI Handle This?** — browser-side file inspection (size, format, token
-   estimate, page count) before any recommendation. Value: trust + clarity.
+   network). Fills the UNKNOWN GPT-5.6 context windows, promotes facts to FRESH.
+   Value: trust.
+2. **Deployment** — static hosting (the site is a pure static build). Needs the
+   user's hosting decision.
 
 ## LATER
 

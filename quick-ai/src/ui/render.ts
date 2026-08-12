@@ -2,6 +2,7 @@
 
 import type { ModelEvaluation, Reason, RouterOutcome } from '../domain/result';
 import type { CostDiagnosis } from '../engine/costleak';
+import type { DocumentAssessment } from '../engine/inspect';
 import type { DowngradeOutcome } from '../engine/downgrader';
 import type { InteractionClassification } from '../engine/interaction';
 import { isAgentMode } from '../engine/interaction';
@@ -110,6 +111,32 @@ export function renderCostDiagnosis(d: CostDiagnosis): string {
       ${d.cheaperArchitecture ? `
       <h3 class="section">Cheaper architecture</h3>
       <ol class="workflow">${d.cheaperArchitecture.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+    </div>
+    <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
+}
+
+export function renderInspection(a: DocumentAssessment): string {
+  return `
+    <div class="result-card ${a.verdict === 'direct' ? 'noai-card' : ''}">
+      <p class="kicker">Can AI handle this? · <span style="color:var(--good)">processed locally — file not uploaded</span></p>
+      <h2 class="mode-headline">${esc(a.headline)}</h2>
+      <h3 class="section">What we found</h3>
+      <ul class="reasons">${a.facts.map(reasonLi).join('')}</ul>
+      ${a.failureModes.length ? `
+      <h3 class="section">Likely failure modes</h3>
+      <ul class="reasons">${a.failureModes.map((f) => `<li class="minus">${esc(f)}</li>`).join('')}</ul>` : ''}
+      ${a.preprocessing.length ? `
+      <h3 class="section">Preprocessing needed</h3>
+      <ol class="workflow">${a.preprocessing.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+      <h3 class="section">Recommended model class</h3>
+      <p>${esc(a.recommendedClass)}</p>
+      ${a.fittingModels.length ? `
+      <details>
+        <summary>Registry models whose verified context fits (${a.fittingModels.length})</summary>
+        <ul class="reasons">${a.fittingModels.map((m) => `<li class="plus">${esc(m)}</li>`).join('')}</ul>
+      </details>` : ''}
+      <h3 class="section">Safest workflow</h3>
+      <ol class="workflow">${a.workflow.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
     </div>
     <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
 }

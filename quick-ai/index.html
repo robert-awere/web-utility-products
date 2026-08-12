@@ -98,6 +98,7 @@
         <button id="tab-agent" aria-pressed="false">Agent or Chat? — does this need an agent?</button>
         <button id="tab-downgrade" aria-pressed="false">Model Downgrader — can I use something cheaper?</button>
         <button id="tab-cost" aria-pressed="false">Cost Leak — why is my AI costing so much?</button>
+        <button id="tab-inspect" aria-pressed="false">Can AI Handle This? — check a file first</button>
       </nav>
       <textarea id="description" placeholder="Describe what you're trying to do…" aria-label="Task description"></textarea>
       <button class="primary" id="btn-start">Find my AI</button>
@@ -296,6 +297,15 @@
         </div>
       </fieldset>
       <button class="primary" id="btn-diagnose">Find the leaks</button>
+    </section>
+
+    <section id="step-inspect" class="hidden" aria-live="polite">
+      <fieldset>
+        <legend>Check a file before sending it to any AI</legend>
+        <label for="q-file">Pick the file (it is inspected in your browser and never uploaded)</label>
+        <input type="file" id="q-file">
+        <p class="hint">Size, format, token estimate, tables/images/scan detection — all computed locally.</p>
+      </fieldset>
     </section>
 
     <section id="step-result" class="hidden" aria-live="polite"></section>

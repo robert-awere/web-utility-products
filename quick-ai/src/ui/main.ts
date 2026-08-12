@@ -7,11 +7,13 @@ import { refreshFreshness } from '../domain/model';
 const MODEL_REGISTRY = refreshFreshness(STATIC_REGISTRY, new Date().toISOString().slice(0, 10));
 import { defaultTaskProfile, type Modality, type TaskCategory, type TaskProfile } from '../domain/task';
 import { diagnoseCost, type UsageProfile } from '../engine/costleak';
+import { assessFile } from '../engine/inspect';
+import { extractFileFacts } from './filefacts';
 import { downgrade } from '../engine/downgrader';
 import { classifyInteraction } from '../engine/interaction';
 import { prefillFromDescription } from '../engine/prefill';
 import { route } from '../engine/router';
-import { esc, renderClassification, renderCostDiagnosis, renderDowngrade, renderOutcome } from './render';
+import { esc, renderClassification, renderCostDiagnosis, renderDowngrade, renderInspection, renderOutcome } from './render';
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -44,12 +46,12 @@ function populateCategories(select: HTMLSelectElement, selected: TaskCategory) {
 }
 
 let prefill: Partial<TaskProfile> = {};
-type Tool = 'router' | 'agent' | 'downgrade' | 'cost';
+type Tool = 'router' | 'agent' | 'downgrade' | 'cost' | 'inspect';
 let activeTool: Tool = 'router';
 
 function selectTool(tool: Tool) {
   activeTool = tool;
-  for (const t of ['router', 'agent', 'downgrade', 'cost'] as const) {
+  for (const t of ['router', 'agent', 'downgrade', 'cost', 'inspect'] as const) {
     ($(`tab-${t}`) as HTMLButtonElement).setAttribute('aria-pressed', String(tool === t));
   }
   // Constraints (privacy/budget) influence model routing and the downgrader,
@@ -60,6 +62,9 @@ function selectTool(tool: Tool) {
   $('step-questions').classList.add('hidden');
   $('step-cost').classList.add('hidden');
   $('step-result').classList.add('hidden');
+  // The file inspector needs no task description — show it immediately.
+  $('step-inspect').classList.toggle('hidden', tool !== 'inspect');
+  $('step-describe').classList.toggle('hidden', tool === 'inspect');
 }
 
 function modelOptions(): string {
@@ -188,10 +193,23 @@ function attachAgain() {
       $('step-result').classList.add('hidden');
       $('step-questions').classList.add('hidden');
       $('step-cost').classList.add('hidden');
-      ($('description') as HTMLTextAreaElement).focus();
+      if (activeTool !== 'inspect') {
+        ($('description') as HTMLTextAreaElement).focus();
+      } else {
+        ($('q-file') as HTMLInputElement).value = '';
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+}
+
+async function showInspectResult(file: File) {
+  const facts = await extractFileFacts(file);
+  const target = $('step-result');
+  target.innerHTML = renderInspection(assessFile(facts, MODEL_REGISTRY));
+  target.classList.remove('hidden');
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  attachAgain();
 }
 
 function showCostResult() {
@@ -231,7 +249,12 @@ $('tab-router').addEventListener('click', () => selectTool('router'));
 $('tab-agent').addEventListener('click', () => selectTool('agent'));
 $('tab-downgrade').addEventListener('click', () => selectTool('downgrade'));
 $('tab-cost').addEventListener('click', () => selectTool('cost'));
+$('tab-inspect').addEventListener('click', () => selectTool('inspect'));
 $('btn-diagnose').addEventListener('click', showCostResult);
+($('q-file') as HTMLInputElement).addEventListener('change', (e) => {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (file) void showInspectResult(file);
+});
 populateCurrentModels();
 ($('description') as HTMLTextAreaElement).addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') startQuestions();
