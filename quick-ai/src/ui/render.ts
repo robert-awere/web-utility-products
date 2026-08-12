@@ -1,6 +1,8 @@
 /** Result rendering — compact, explained, progressive disclosure. */
 
 import type { ModelEvaluation, Reason, RouterOutcome } from '../domain/result';
+import type { InteractionClassification } from '../engine/interaction';
+import { isAgentMode } from '../engine/interaction';
 
 export function esc(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string);
@@ -22,6 +24,20 @@ function confidencePill(level: string): string {
   return `<span class="pill conf-${esc(level)}">Confidence: ${esc(level)}</span>`;
 }
 
+export function renderClassification(c: InteractionClassification): string {
+  const agent = isAgentMode(c.mode);
+  return `
+    <div class="result-card ${agent ? '' : 'noai-card'}">
+      <p class="kicker">Agent or chat?</p>
+      <h2 class="mode-headline">${esc(c.headline)}</h2>
+      <p><span class="pill fit">${agent ? 'AGENT' : c.mode === 'traditional_software' || c.mode === 'no_ai_needed' ? 'NO AI' : c.mode === 'workflow_automation' ? 'AUTOMATION' : 'CHAT'}</span></p>
+      <h3 class="section">Why</h3>
+      <ul class="reasons">${c.why.map(reasonLi).join('')}</ul>
+      ${c.agentGuard ? `<p class="guard-note">${esc(c.agentGuard)}</p>` : ''}
+    </div>
+    <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
+}
+
 export function renderOutcome(outcome: RouterOutcome): string {
   if (outcome.kind === 'no_ai') {
     return `
@@ -37,7 +53,8 @@ export function renderOutcome(outcome: RouterOutcome): string {
           <summary>Why this confidence level</summary>
           <ul class="reasons">${outcome.confidence.factors.map((f) => `<li class="flag">${esc(f)}</li>`).join('')}</ul>
         </details>
-      </div>`;
+      </div>
+      <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
   }
 
   const w = outcome.winner;

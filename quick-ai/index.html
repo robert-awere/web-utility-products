@@ -76,6 +76,11 @@
     .footnote { font-size: 0.8rem; color: var(--muted); margin-top: 24px; }
     .noai-card { border-left: 4px solid var(--good); }
     button.link { background: none; border: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; }
+    .tool-tabs { display: flex; gap: 6px; margin: 0 0 18px; flex-wrap: wrap; }
+    .tool-tabs button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+    .tool-tabs button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .mode-headline { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 4px; }
+    .guard-note { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; margin-top: 14px; }
   </style>
 </head>
 <body>
@@ -88,6 +93,10 @@
     <section id="step-describe">
       <h1>Right AI. Right task.</h1>
       <p class="lede">Describe what you're trying to do. Get an honest, explained recommendation — including "you don't need AI for this."</p>
+      <nav class="tool-tabs" aria-label="Tool">
+        <button id="tab-router" aria-pressed="true">Task Router — what AI should I use?</button>
+        <button id="tab-agent" aria-pressed="false">Agent or Chat? — does this need an agent?</button>
+      </nav>
       <textarea id="description" placeholder="Describe what you're trying to do…" aria-label="Task description"></textarea>
       <button class="primary" id="btn-start">Find my AI</button>
       <p class="hint">Nothing is uploaded — the analysis runs entirely in your browser.</p>
@@ -126,7 +135,7 @@
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset id="fieldset-constraints">
         <legend>3 · Constraints</legend>
         <div class="row">
           <div>

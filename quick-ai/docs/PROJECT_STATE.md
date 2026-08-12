@@ -1,10 +1,11 @@
 # PROJECT STATE — QUICK//AI
 
-Updated: 2026-08-12
+Updated: 2026-08-12 (Phase 2, increment 1)
 
 ## Current phase
 
-**Phase 1 — Router Proof: COMPLETE (exit criteria below).** Phase 2 not started.
+**Phase 2 — additional tools on shared primitives (user-approved 2026-08-12).**
+Increment 1 ("Agent or Chat?") complete. Phase 1 — Router Proof: COMPLETE.
 
 ## Completed
 
@@ -26,6 +27,10 @@ Updated: 2026-08-12
   → compact explained result with progressive disclosure. Fully client-side;
   PROCESSED LOCALLY badge is truthful.
 - Headless browser smoke test (scripts/smoke.mjs).
+- **Phase 2 / "Agent or Chat?"** (src/engine/interaction.ts): deterministic classifier
+  over the shared TaskProfile — 10 modes (chat/agent/automation/no-AI). Anti-agent-hype
+  invariant tested: no autonomy + no tools can never yield an agent recommendation.
+  UI tool tabs; constraint questions hidden where they can't change the answer.
 
 ## Phase 1 exit criteria — status
 
@@ -55,7 +60,7 @@ tests/         router-benchmarks/, engine/        — benchmarks + unit tests
 
 ## Test status
 
-40/40 passing (vitest). Smoke test 9/9 passing (playwright-core + preview server).
+61/61 passing (vitest). Smoke test 12/12 passing (playwright-core + preview server).
 
 ## Known issues
 
@@ -73,7 +78,7 @@ None for Phase 1. Phase 2 requires a product decision on which tool to build nex
 
 ## Next likely increment
 
-Phase 2, in priority order per the shared-primitives rule:
-1. "Agent or Chat?" classifier (pure function over TaskProfile — smallest reuse step).
+Phase 2 continues:
+1. ~~"Agent or Chat?" classifier~~ — DONE.
 2. "Model Downgrader" (re-uses fit engine with a "current model" input).
 3. Registry re-verification workflow + freshness recomputation at load time.

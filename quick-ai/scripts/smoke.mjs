@@ -58,6 +58,19 @@ try {
   const result2 = await page.textContent('#step-result');
   check('no-AI outcome works end to end', result2.includes("Don't use AI"));
 
+  // Flow 3: Agent or Chat? tool — daily monitoring -> automation, not agent hype
+  await page.click('#btn-again');
+  await page.click('#tab-agent');
+  check('constraints question hidden in agent mode', await page.isHidden('#fieldset-constraints'));
+  await page.fill('#description', 'Monitor a website every day for price changes');
+  await page.click('#btn-start');
+  await page.waitForSelector('#step-questions:not(.hidden)');
+  await page.click('#btn-route');
+  await page.waitForSelector('#step-result:not(.hidden)');
+  const result3 = await page.textContent('#step-result');
+  check('agent-or-chat renders a mode', /chat|agent|automation|software/i.test(result3));
+  check('agent-or-chat explains itself', result3.includes('Why'));
+
   check('no page errors', consoleErrors.length === 0);
   if (consoleErrors.length) console.log(consoleErrors.join('\n'));
 } finally {

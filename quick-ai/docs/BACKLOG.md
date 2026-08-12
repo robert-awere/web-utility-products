@@ -2,15 +2,11 @@
 
 ## NOW
 
-- (Phase 1 complete — nothing in flight.)
+- Phase 2 in progress. Increment 1 (**Agent or Chat?**) shipped 2026-08-12.
 
 ## NEXT (Phase 2, in order)
 
-1. **Agent or Chat?** tool — pure classifier over `TaskProfile` (standard chat /
-   reasoning chat / coding agent / research agent / browser agent / scheduled agent /
-   workflow automation / multi-agent / traditional software / no AI). Reuses the
-   no-AI gate and autonomy dimensions. Value: recommendation clarity.
-2. **Model Downgrader** — input: current model + task profile; output: keep / drop a
+1. **Model Downgrader** — input: current model + task profile; output: keep / drop a
    tier / small model / deterministic code / split workflow / route hard cases only.
    Reuses fit engine directly. Value: cost-efficiency.
 3. **Registry re-verification pass** against primary vendor docs (needs unblocked

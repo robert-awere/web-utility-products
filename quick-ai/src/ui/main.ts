@@ -2,9 +2,10 @@
 
 import { MODEL_REGISTRY } from '../data/registry';
 import { defaultTaskProfile, type Modality, type TaskCategory, type TaskProfile } from '../domain/task';
+import { classifyInteraction } from '../engine/interaction';
 import { prefillFromDescription } from '../engine/prefill';
 import { route } from '../engine/router';
-import { esc, renderOutcome } from './render';
+import { esc, renderClassification, renderOutcome } from './render';
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -37,6 +38,18 @@ function populateCategories(select: HTMLSelectElement, selected: TaskCategory) {
 }
 
 let prefill: Partial<TaskProfile> = {};
+let activeTool: 'router' | 'agent' = 'router';
+
+function selectTool(tool: 'router' | 'agent') {
+  activeTool = tool;
+  ($('tab-router') as HTMLButtonElement).setAttribute('aria-pressed', String(tool === 'router'));
+  ($('tab-agent') as HTMLButtonElement).setAttribute('aria-pressed', String(tool === 'agent'));
+  // Constraints (privacy/budget) influence model routing but not the
+  // agent-or-chat classification — never ask a question that can't change
+  // the recommendation.
+  $('fieldset-constraints').classList.toggle('hidden', tool === 'agent');
+  $('step-result').classList.add('hidden');
+}
 
 function startQuestions() {
   const description = ($('description') as HTMLTextAreaElement).value.trim();
@@ -119,9 +132,12 @@ function collectProfile(): TaskProfile {
 
 function showResult() {
   const profile = collectProfile();
-  const outcome = route(profile, MODEL_REGISTRY);
   const target = $('step-result');
-  target.innerHTML = renderOutcome(outcome);
+  if (activeTool === 'agent') {
+    target.innerHTML = renderClassification(classifyInteraction(profile));
+  } else {
+    target.innerHTML = renderOutcome(route(profile, MODEL_REGISTRY));
+  }
   target.classList.remove('hidden');
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const again = document.getElementById('btn-again');
@@ -146,6 +162,8 @@ function dataFreshnessNote(): string {
 
 $('btn-start').addEventListener('click', startQuestions);
 $('btn-route').addEventListener('click', showResult);
+$('tab-router').addEventListener('click', () => selectTool('router'));
+$('tab-agent').addEventListener('click', () => selectTool('agent'));
 ($('description') as HTMLTextAreaElement).addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') startQuestions();
 });
