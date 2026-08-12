@@ -1,0 +1,302 @@
+/**
+ * MODEL REGISTRY — small, verified, honest.
+ *
+ * Sourcing rules (docs/MODEL_DATA.md):
+ *  - Every volatile fact carries source + verification date + freshness.
+ *  - Facts verified only against SECONDARY sources are capped at AGING,
+ *    never FRESH — accuracy is plausible but not vendor-confirmed.
+ *  - Facts we could not verify are recorded as UNKNOWN, never guessed.
+ *
+ * Freshness stamped at data-entry: 2026-08-12.
+ *  - Anthropic data: Anthropic docs snapshot dated 2026-06-24 (49 days -> AGING).
+ *  - OpenAI / Google data: secondary aggregators checked 2026-08-12 (-> AGING cap).
+ */
+
+import type { Assessment, CapabilityTier, Fact, ModelProfile, SpeedClass } from '../domain/model';
+
+const ANTHROPIC_SRC = 'Anthropic docs snapshot (platform.claude.com), cached 2026-06-24';
+const ANTHROPIC_DATE = '2026-06-24';
+const OPENAI_SRC = 'Secondary aggregators (pricepertoken.com, benchlm.ai, aipricing.guru), checked 2026-08-12';
+const GOOGLE_SRC = 'Secondary aggregators (pricepertoken.com, curlscape.com, benchlm.ai), checked 2026-08-12';
+const SECONDARY_DATE = '2026-08-12';
+const REVIEW_DATE = '2026-08-12';
+const METHOD = 'Comparative judgment from vendor positioning, public benchmark reporting, and tier placement';
+
+function fact<T>(value: T, source: string, verified: string, freshness: Fact<T>['freshness'], note?: string): Fact<T> {
+  return note ? { value, source, verified, freshness, note } : { value, source, verified, freshness };
+}
+
+function assess<T extends CapabilityTier | SpeedClass>(value: T, rationale: string): Assessment<T> {
+  return { value, rationale, method: METHOD, lastReviewed: REVIEW_DATE };
+}
+
+const SECONDARY_NOTE = 'Secondary source; primary vendor docs unreachable from build environment. Capped at AGING.';
+
+export const MODEL_REGISTRY: ModelProfile[] = [
+  // ---------------- Anthropic ----------------
+  {
+    id: 'claude-fable-5',
+    provider: 'Anthropic',
+    model: 'Claude Fable 5',
+    family: 'Claude 5',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('FRONTIER', 'Anthropic positions Fable 5 as its most capable model for demanding reasoning and long-horizon agentic work'),
+    coding: assess('FRONTIER', 'Top-tier agentic coding per vendor positioning'),
+    writing: assess('FRONTIER', 'Flagship-tier writing quality'),
+    research: assess('FRONTIER', 'Strong long-horizon research and delegation'),
+    agentFit: assess('FRONTIER', 'Designed for long autonomous runs and sub-agent coordination'),
+    toolUse: assess('FRONTIER', 'Full tool-use surface'),
+    speed: assess('slow', 'Single requests on hard tasks can run many minutes; always-on thinking'),
+    inputCost: fact(10, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    outputCost: fact(50, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    contextLimit: fact(1_000_000, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    supportedModalities: fact(['text', 'image', 'diagram', 'scanned_page'], ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING', 'Vision + PDF support'),
+    supportsTools: fact(true, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only; requires 30-day data retention (no zero-data-retention option)' },
+    strengths: ['hardest reasoning problems', 'long-horizon autonomous work', 'dense/degraded document vision'],
+    weaknesses: ['most expensive option', 'slow turns', 'not available under zero data retention'],
+  },
+  {
+    id: 'claude-opus-5',
+    provider: 'Anthropic',
+    model: 'Claude Opus 5',
+    family: 'Claude 5',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('FRONTIER', 'Frontier-tier reasoning; step-change over Opus 4.8 on deep reasoning and agentic work'),
+    coding: assess('FRONTIER', 'Workhorse for complex agentic coding'),
+    writing: assess('HIGH', 'Strong but tuned toward technical/agentic work'),
+    research: assess('FRONTIER', 'Strong deep research'),
+    agentFit: assess('FRONTIER', 'State-of-the-art long-horizon agentic execution'),
+    toolUse: assess('FRONTIER', 'Full tool-use surface'),
+    speed: assess('medium', 'Thinking on by default; fast mode available at premium'),
+    inputCost: fact(5, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    outputCost: fact(25, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    contextLimit: fact(1_000_000, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    supportedModalities: fact(['text', 'image', 'diagram', 'scanned_page'], ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING', 'High-res vision + PDF support'),
+    supportsTools: fact(true, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['complex multi-file coding', 'long documents with diagrams', 'multi-agent coordination'],
+    weaknesses: ['premium price', 'overkill for simple tasks'],
+  },
+  {
+    id: 'claude-sonnet-5',
+    provider: 'Anthropic',
+    model: 'Claude Sonnet 5',
+    family: 'Claude 5',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('HIGH', 'Near-Opus quality on coding and agentic work at Sonnet cost, per vendor positioning'),
+    coding: assess('HIGH', 'Strong agentic coding; previously Opus-tier quality on many tasks'),
+    writing: assess('HIGH', 'Strong general writing'),
+    research: assess('HIGH', 'Capable research model'),
+    agentFit: assess('HIGH', 'Good agent fit; more agentic than predecessors by default'),
+    toolUse: assess('HIGH', 'Full tool-use surface'),
+    speed: assess('medium', 'Balanced speed/intelligence tier'),
+    inputCost: fact(3, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING', 'Intro pricing $2/$10 through 2026-08-31'),
+    outputCost: fact(15, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING', 'Intro pricing $10 through 2026-08-31'),
+    contextLimit: fact(1_000_000, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    supportedModalities: fact(['text', 'image', 'diagram', 'scanned_page'], ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING', 'High-res vision + PDF support'),
+    supportsTools: fact(true, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['best speed/intelligence balance in tier', 'long context', 'coding'],
+    weaknesses: ['not the ceiling for the hardest reasoning'],
+  },
+  {
+    id: 'claude-haiku-4-5',
+    provider: 'Anthropic',
+    model: 'Claude Haiku 4.5',
+    family: 'Claude 4',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('MEDIUM', 'Capable small model; not for deep multi-step reasoning'),
+    coding: assess('MEDIUM', 'Fine for simple/scoped coding'),
+    writing: assess('MEDIUM', 'Good for short-form and routine writing'),
+    research: assess('LOW', 'Not a research model'),
+    agentFit: assess('MEDIUM', 'Works as a cheap worker agent under a coordinator'),
+    toolUse: assess('HIGH', 'Reliable tool calling'),
+    speed: assess('fast', 'Fastest Anthropic tier'),
+    inputCost: fact(1, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    outputCost: fact(5, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    contextLimit: fact(200_000, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    supportedModalities: fact(['text', 'image'], ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    supportsTools: fact(true, ANTHROPIC_SRC, ANTHROPIC_DATE, 'AGING'),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['speed', 'cost', 'classification and extraction at scale'],
+    weaknesses: ['smaller context', 'shallow on complex reasoning'],
+  },
+
+  // ---------------- OpenAI ----------------
+  {
+    id: 'gpt-5.6-sol',
+    provider: 'OpenAI',
+    model: 'GPT-5.6 Sol',
+    family: 'GPT-5.6',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('FRONTIER', 'OpenAI flagship tier as of mid-2026'),
+    coding: assess('FRONTIER', 'Flagship coding tier'),
+    writing: assess('FRONTIER', 'Flagship writing tier'),
+    research: assess('HIGH', 'Strong research capability'),
+    agentFit: assess('HIGH', 'Capable agent model'),
+    toolUse: assess('FRONTIER', 'Full tool-use surface'),
+    speed: assess('slow', 'Flagship latency profile'),
+    inputCost: fact(5, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    outputCost: fact(30, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact<number | null>(null, 'none', 'never', 'UNKNOWN', 'Context window not confirmed against a primary source'),
+    supportedModalities: fact(['text', 'image'], OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportsTools: fact(true, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['frontier reasoning', 'broad ecosystem'],
+    weaknesses: ['high output cost', 'context window unverified'],
+  },
+  {
+    id: 'gpt-5.6-terra',
+    provider: 'OpenAI',
+    model: 'GPT-5.6 Terra',
+    family: 'GPT-5.6',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('HIGH', 'Mid-flagship tier; price cut July 2026 suggests volume positioning'),
+    coding: assess('HIGH', 'Strong coding tier'),
+    writing: assess('HIGH', 'Strong writing'),
+    research: assess('HIGH', 'Capable research model'),
+    agentFit: assess('HIGH', 'Good agent fit'),
+    toolUse: assess('HIGH', 'Full tool-use surface'),
+    speed: assess('medium', 'Balanced tier'),
+    inputCost: fact(2, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    outputCost: fact(12, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact<number | null>(null, 'none', 'never', 'UNKNOWN', 'Context window not confirmed against a primary source'),
+    supportedModalities: fact(['text', 'image'], OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportsTools: fact(true, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['strong capability per dollar'],
+    weaknesses: ['context window unverified'],
+  },
+  {
+    id: 'gpt-5.6-luna',
+    provider: 'OpenAI',
+    model: 'GPT-5.6 Luna',
+    family: 'GPT-5.6',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('MEDIUM', 'Small/cheap tier; 80% price cut July 2026'),
+    coding: assess('MEDIUM', 'Fine for scoped coding tasks'),
+    writing: assess('MEDIUM', 'Routine writing'),
+    research: assess('LOW', 'Not a research model'),
+    agentFit: assess('MEDIUM', 'Cheap worker-agent tier'),
+    toolUse: assess('HIGH', 'Reliable tool calling'),
+    speed: assess('fast', 'Small-model latency'),
+    inputCost: fact(0.2, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    outputCost: fact(1.2, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact<number | null>(null, 'none', 'never', 'UNKNOWN', 'Context window not confirmed against a primary source'),
+    supportedModalities: fact(['text', 'image'], OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportsTools: fact(true, OPENAI_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['very cheap', 'fast', 'bulk classification/extraction'],
+    weaknesses: ['shallow reasoning', 'context window unverified'],
+  },
+
+  // ---------------- Google ----------------
+  {
+    id: 'gemini-3.1-pro',
+    provider: 'Google',
+    model: 'Gemini 3.1 Pro',
+    family: 'Gemini 3',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('HIGH', 'Google flagship-adjacent tier'),
+    coding: assess('HIGH', 'Strong coding'),
+    writing: assess('HIGH', 'Strong writing'),
+    research: assess('HIGH', 'Strong with search grounding'),
+    agentFit: assess('HIGH', 'Good agent fit'),
+    toolUse: assess('HIGH', 'Full tool-use surface'),
+    speed: assess('medium', 'Pro-tier latency'),
+    inputCost: fact(2, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE + ' Price for prompts <=200K tokens; higher above.'),
+    outputCost: fact(12, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact(1_000_000, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportedModalities: fact(['text', 'image', 'diagram', 'scanned_page', 'audio', 'video'], GOOGLE_SRC, SECONDARY_DATE, 'AGING', 'Gemini line is natively multimodal incl. audio/video; ' + SECONDARY_NOTE),
+    supportsTools: fact(true, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['very long context', 'native audio/video input', 'competitive pricing'],
+    weaknesses: ['tiered pricing above 200K tokens'],
+  },
+  {
+    id: 'gemini-3.6-flash',
+    provider: 'Google',
+    model: 'Gemini 3.6 Flash',
+    family: 'Gemini 3',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('MEDIUM', 'Fast mid-tier'),
+    coding: assess('MEDIUM', 'Scoped coding'),
+    writing: assess('MEDIUM', 'Routine writing'),
+    research: assess('MEDIUM', 'Light research'),
+    agentFit: assess('MEDIUM', 'Cheap worker tier'),
+    toolUse: assess('HIGH', 'Reliable tool calling'),
+    speed: assess('fast', 'Flash tier'),
+    inputCost: fact(1.5, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    outputCost: fact(7.5, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact(1_000_000, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportedModalities: fact(['text', 'image', 'diagram', 'scanned_page', 'audio', 'video'], GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportsTools: fact(true, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['fast', 'long context at low cost', 'multimodal'],
+    weaknesses: ['mid-tier reasoning'],
+  },
+  {
+    id: 'gemini-3.5-flash-lite',
+    provider: 'Google',
+    model: 'Gemini 3.5 Flash-Lite',
+    family: 'Gemini 3',
+    availability: 'general',
+    deployment: 'api',
+    reasoning: assess('LOW', 'Smallest/cheapest tier'),
+    coding: assess('LOW', 'Trivial code only'),
+    writing: assess('MEDIUM', 'Simple writing tasks'),
+    research: assess('LOW', 'Not a research model'),
+    agentFit: assess('LOW', 'Not an agent model'),
+    toolUse: assess('MEDIUM', 'Basic tool calling'),
+    speed: assess('fast', 'Lightest tier'),
+    inputCost: fact(0.3, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    outputCost: fact(2.5, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    contextLimit: fact(1_000_000, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportedModalities: fact(['text', 'image'], GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    supportsTools: fact(true, GOOGLE_SRC, SECONDARY_DATE, 'AGING', SECONDARY_NOTE),
+    privacyCharacteristics: { canRunLocally: false, note: 'API-only' },
+    strengths: ['cheapest hosted option', 'bulk simple tasks'],
+    weaknesses: ['shallow on anything non-trivial'],
+  },
+
+  // ---------------- Open weights / local ----------------
+  {
+    id: 'open-weights-local',
+    provider: 'Open weights (Llama/Qwen/Mistral class)',
+    model: 'Open-weights model, self-hosted',
+    family: 'open',
+    availability: 'self_hosted',
+    deployment: 'local',
+    reasoning: assess('MEDIUM', 'Best open models reach strong-mid tier; below hosted frontier'),
+    coding: assess('MEDIUM', 'Capable on scoped tasks'),
+    writing: assess('MEDIUM', 'Good general writing'),
+    research: assess('MEDIUM', 'Usable with local RAG'),
+    agentFit: assess('MEDIUM', 'Workable in self-hosted agent stacks'),
+    toolUse: assess('MEDIUM', 'Tool calling varies by model/serving stack'),
+    speed: assess('medium', 'Depends entirely on user hardware'),
+    inputCost: fact<number | null>(null, 'n/a — self-hosted', 'n/a', 'UNKNOWN', 'Marginal cost ~0 after hardware; cannot be compared per-token'),
+    outputCost: fact<number | null>(null, 'n/a — self-hosted', 'n/a', 'UNKNOWN', 'Marginal cost ~0 after hardware'),
+    contextLimit: fact(128_000, 'Typical open-model config', SECONDARY_DATE, 'AGING', 'Varies widely by model and serving setup'),
+    supportedModalities: fact(['text', 'image'], 'Typical open-model config', SECONDARY_DATE, 'AGING', 'Vision variants exist; support varies'),
+    supportsTools: fact(true, 'Typical open-model config', SECONDARY_DATE, 'AGING', 'Varies by serving stack'),
+    privacyCharacteristics: { canRunLocally: true, note: 'Data never leaves user infrastructure when self-hosted' },
+    strengths: ['data never leaves your infrastructure', 'no per-token cost', 'full control'],
+    weaknesses: ['operational burden', 'below hosted frontier capability', 'capability varies by model choice'],
+  },
+];
+
+export function getModel(id: string): ModelProfile {
+  const m = MODEL_REGISTRY.find((x) => x.id === id);
+  if (!m) throw new Error(`Unknown model id: ${id}`);
+  return m;
+}
