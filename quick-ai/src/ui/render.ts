@@ -1,6 +1,7 @@
 /** Result rendering — compact, explained, progressive disclosure. */
 
 import type { ModelEvaluation, Reason, RouterOutcome } from '../domain/result';
+import type { CostDiagnosis } from '../engine/costleak';
 import type { DowngradeOutcome } from '../engine/downgrader';
 import type { InteractionClassification } from '../engine/interaction';
 import { isAgentMode } from '../engine/interaction';
@@ -77,6 +78,38 @@ export function renderDowngrade(d: DowngradeOutcome): string {
         <summary>Why this confidence level</summary>
         <ul class="reasons">${d.confidence.factors.map((f) => `<li class="flag">${esc(f)}</li>`).join('')}</ul>
       </details>
+    </div>
+    <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
+}
+
+const SEVERITY_CLASS: Record<string, string> = { HIGH: 'conf-LOW', MEDIUM: 'conf-MEDIUM', LOW: 'conf-HIGH' };
+
+export function renderCostDiagnosis(d: CostDiagnosis): string {
+  if (d.allClear) {
+    return `
+      <div class="result-card noai-card">
+        <p class="kicker">Cost leak</p>
+        <h2 class="mode-headline">No major leak found.</h2>
+        <p>${esc(d.allClear)}</p>
+      </div>
+      <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
+  }
+  return `
+    <div class="result-card">
+      <p class="kicker">Cost leak</p>
+      <h2 class="mode-headline">${d.findings.length === 1 ? '1 likely cost source' : `${d.findings.length} likely cost sources`}, ranked.</h2>
+      ${d.findings.map((f) => `
+        <div class="alt">
+          <span class="pill ${SEVERITY_CLASS[f.severity] ?? ''}">${esc(f.severity)}</span>
+          <span class="alt-name">${esc(f.title)}</span>
+          <ul class="reasons">
+            <li class="flag">${esc(f.evidence)}</li>
+            <li class="plus">${esc(f.action)}</li>
+          </ul>
+        </div>`).join('')}
+      ${d.cheaperArchitecture ? `
+      <h3 class="section">Cheaper architecture</h3>
+      <ol class="workflow">${d.cheaperArchitecture.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
     </div>
     <p class="hint"><button class="link" id="btn-again">Start over</button></p>`;
 }

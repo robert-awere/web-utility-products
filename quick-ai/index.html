@@ -97,6 +97,7 @@
         <button id="tab-router" aria-pressed="true">Task Router — what AI should I use?</button>
         <button id="tab-agent" aria-pressed="false">Agent or Chat? — does this need an agent?</button>
         <button id="tab-downgrade" aria-pressed="false">Model Downgrader — can I use something cheaper?</button>
+        <button id="tab-cost" aria-pressed="false">Cost Leak — why is my AI costing so much?</button>
       </nav>
       <textarea id="description" placeholder="Describe what you're trying to do…" aria-label="Task description"></textarea>
       <button class="primary" id="btn-start">Find my AI</button>
@@ -191,6 +192,110 @@
       </fieldset>
 
       <button class="primary" id="btn-route">Get recommendation</button>
+    </section>
+
+    <section id="step-cost" class="hidden" aria-live="polite">
+      <fieldset>
+        <legend>1 · Your setup</legend>
+        <div class="row">
+          <div>
+            <label for="qc-model">Model you use most</label>
+            <select id="qc-model"></select>
+          </div>
+          <div>
+            <label for="qc-category">What it mostly does</label>
+            <select id="qc-category"></select>
+          </div>
+        </div>
+        <label for="qc-complexity">How demanding is that work, honestly?</label>
+        <select id="qc-complexity">
+          <option value="trivial">Trivial — mechanical</option>
+          <option value="simple">Simple — routine</option>
+          <option value="moderate" selected>Moderate</option>
+          <option value="complex">Complex — deep reasoning</option>
+        </select>
+      </fieldset>
+      <fieldset>
+        <legend>2 · Shape of a typical call</legend>
+        <div class="row">
+          <div>
+            <label for="qc-input">Input per call</label>
+            <select id="qc-input">
+              <option value="small">Under ~1K tokens</option>
+              <option value="medium" selected>1K–10K tokens</option>
+              <option value="large">10K–100K tokens</option>
+              <option value="huge">Over 100K tokens</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-output">Output per call</label>
+            <select id="qc-output">
+              <option value="short">Short (&lt;500 tokens)</option>
+              <option value="medium" selected>Medium (500–2K)</option>
+              <option value="long">Long (&gt;2K)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="qc-sysprompt">System prompt size</label>
+            <select id="qc-sysprompt">
+              <option value="small" selected>Under ~1K tokens</option>
+              <option value="medium">1K–5K tokens</option>
+              <option value="large">Over 5K tokens</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-caching">Prompt caching enabled?</label>
+            <select id="qc-caching">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unknown" selected>Not sure</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="qc-repeated"> Most calls resend largely the same context (docs, instructions)</label>
+      </fieldset>
+      <fieldset>
+        <legend>3 · Architecture</legend>
+        <div class="row">
+          <div>
+            <label for="qc-sessions">Sessions</label>
+            <select id="qc-sessions">
+              <option value="single_shot" selected>Single-shot calls</option>
+              <option value="short">Short conversations</option>
+              <option value="long">Long conversations (20+ turns)</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-agents">Agents</label>
+            <select id="qc-agents">
+              <option value="none" selected>No agents</option>
+              <option value="single">One agent</option>
+              <option value="multi">Multiple agents</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="qc-toolcalls">Tool calls per run</label>
+            <select id="qc-toolcalls">
+              <option value="none" selected>None</option>
+              <option value="few">A few</option>
+              <option value="many">Many (10+)</option>
+            </select>
+          </div>
+          <div>
+            <label for="qc-rag">Retrieval (RAG)</label>
+            <select id="qc-rag">
+              <option value="none" selected>Not used</option>
+              <option value="chunks">Retrieves chunks</option>
+              <option value="whole_documents">Feeds whole documents</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+      <button class="primary" id="btn-diagnose">Find the leaks</button>
     </section>
 
     <section id="step-result" class="hidden" aria-live="polite"></section>

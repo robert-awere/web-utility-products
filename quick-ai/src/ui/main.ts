@@ -6,11 +6,12 @@ import { refreshFreshness } from '../domain/model';
 /** Freshness recomputed for today's date, so a stale deploy tells the truth. */
 const MODEL_REGISTRY = refreshFreshness(STATIC_REGISTRY, new Date().toISOString().slice(0, 10));
 import { defaultTaskProfile, type Modality, type TaskCategory, type TaskProfile } from '../domain/task';
+import { diagnoseCost, type UsageProfile } from '../engine/costleak';
 import { downgrade } from '../engine/downgrader';
 import { classifyInteraction } from '../engine/interaction';
 import { prefillFromDescription } from '../engine/prefill';
 import { route } from '../engine/router';
-import { esc, renderClassification, renderDowngrade, renderOutcome } from './render';
+import { esc, renderClassification, renderCostDiagnosis, renderDowngrade, renderOutcome } from './render';
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -43,12 +44,12 @@ function populateCategories(select: HTMLSelectElement, selected: TaskCategory) {
 }
 
 let prefill: Partial<TaskProfile> = {};
-type Tool = 'router' | 'agent' | 'downgrade';
+type Tool = 'router' | 'agent' | 'downgrade' | 'cost';
 let activeTool: Tool = 'router';
 
 function selectTool(tool: Tool) {
   activeTool = tool;
-  for (const t of ['router', 'agent', 'downgrade'] as const) {
+  for (const t of ['router', 'agent', 'downgrade', 'cost'] as const) {
     ($(`tab-${t}`) as HTMLButtonElement).setAttribute('aria-pressed', String(tool === t));
   }
   // Constraints (privacy/budget) influence model routing and the downgrader,
@@ -56,14 +57,20 @@ function selectTool(tool: Tool) {
   // can't change the recommendation.
   $('fieldset-constraints').classList.toggle('hidden', tool === 'agent');
   $('fieldset-current-model').classList.toggle('hidden', tool !== 'downgrade');
+  $('step-questions').classList.add('hidden');
+  $('step-cost').classList.add('hidden');
   $('step-result').classList.add('hidden');
 }
 
-function populateCurrentModels() {
-  const select = $('q-current-model') as HTMLSelectElement;
-  select.innerHTML = MODEL_REGISTRY.map(
+function modelOptions(): string {
+  return MODEL_REGISTRY.map(
     (m, i) => `<option value="${esc(m.id)}"${i === 0 ? ' selected' : ''}>${esc(m.model)} (${esc(m.provider)})</option>`,
   ).join('');
+}
+
+function populateCurrentModels() {
+  ($('q-current-model') as HTMLSelectElement).innerHTML = modelOptions();
+  ($('qc-model') as HTMLSelectElement).innerHTML = modelOptions();
 }
 
 function startQuestions() {
@@ -74,6 +81,18 @@ function startQuestions() {
   }
   const suggestion = prefillFromDescription(description);
   prefill = { ...suggestion.patch, description };
+
+  if (activeTool === 'cost') {
+    populateCategories($('qc-category') as HTMLSelectElement, suggestion.patch.category ?? 'other');
+    if (suggestion.patch.complexity && suggestion.patch.complexity !== 'frontier') {
+      ($('qc-complexity') as HTMLSelectElement).value = suggestion.patch.complexity;
+    }
+    $('step-cost').classList.remove('hidden');
+    $('step-questions').classList.add('hidden');
+    $('step-result').classList.add('hidden');
+    $('step-cost').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
 
   populateCategories($('q-category') as HTMLSelectElement, suggestion.patch.category ?? 'other');
   if (suggestion.patch.complexity) ($('q-complexity') as HTMLSelectElement).value = suggestion.patch.complexity;
@@ -159,15 +178,42 @@ function showResult() {
   }
   target.classList.remove('hidden');
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  attachAgain();
+}
+
+function attachAgain() {
   const again = document.getElementById('btn-again');
   if (again) {
     again.addEventListener('click', () => {
       $('step-result').classList.add('hidden');
       $('step-questions').classList.add('hidden');
+      $('step-cost').classList.add('hidden');
       ($('description') as HTMLTextAreaElement).focus();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+}
+
+function showCostResult() {
+  const usage: UsageProfile = {
+    currentModelId: ($('qc-model') as HTMLSelectElement).value,
+    taskCategory: ($('qc-category') as HTMLSelectElement).value as UsageProfile['taskCategory'],
+    taskComplexity: ($('qc-complexity') as HTMLSelectElement).value as UsageProfile['taskComplexity'],
+    inputSize: ($('qc-input') as HTMLSelectElement).value as UsageProfile['inputSize'],
+    outputSize: ($('qc-output') as HTMLSelectElement).value as UsageProfile['outputSize'],
+    systemPromptSize: ($('qc-sysprompt') as HTMLSelectElement).value as UsageProfile['systemPromptSize'],
+    repeatedContext: ($('qc-repeated') as HTMLInputElement).checked,
+    cachingEnabled: ($('qc-caching') as HTMLSelectElement).value as UsageProfile['cachingEnabled'],
+    sessions: ($('qc-sessions') as HTMLSelectElement).value as UsageProfile['sessions'],
+    agents: ($('qc-agents') as HTMLSelectElement).value as UsageProfile['agents'],
+    toolCalls: ($('qc-toolcalls') as HTMLSelectElement).value as UsageProfile['toolCalls'],
+    rag: ($('qc-rag') as HTMLSelectElement).value as UsageProfile['rag'],
+  };
+  const target = $('step-result');
+  target.innerHTML = renderCostDiagnosis(diagnoseCost(usage, MODEL_REGISTRY));
+  target.classList.remove('hidden');
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  attachAgain();
 }
 
 function dataFreshnessNote(): string {
@@ -184,6 +230,8 @@ $('btn-route').addEventListener('click', showResult);
 $('tab-router').addEventListener('click', () => selectTool('router'));
 $('tab-agent').addEventListener('click', () => selectTool('agent'));
 $('tab-downgrade').addEventListener('click', () => selectTool('downgrade'));
+$('tab-cost').addEventListener('click', () => selectTool('cost'));
+$('btn-diagnose').addEventListener('click', showCostResult);
 populateCurrentModels();
 ($('description') as HTMLTextAreaElement).addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') startQuestions();

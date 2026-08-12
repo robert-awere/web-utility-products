@@ -84,6 +84,23 @@ try {
   const result4 = await page.textContent('#step-result');
   check('downgrader suggests a cheaper switch', /switch to|cheaper/i.test(result4));
 
+  // Flow 5: Cost Leak — premium model + repeated context, no caching
+  await page.click('#btn-again');
+  await page.click('#tab-cost');
+  await page.fill('#description', 'Classify support tickets with an expensive model');
+  await page.click('#btn-start');
+  await page.waitForSelector('#step-cost:not(.hidden)');
+  await page.selectOption('#qc-model', 'claude-fable-5');
+  await page.selectOption('#qc-complexity', 'simple');
+  await page.check('#qc-repeated');
+  await page.selectOption('#qc-caching', 'no');
+  await page.click('#btn-diagnose');
+  await page.waitForSelector('#step-result:not(.hidden)');
+  const result5 = await page.textContent('#step-result');
+  check('cost leak finds the premium-model leak', /Premium model/i.test(result5));
+  check('cost leak finds the caching leak', /caching/i.test(result5));
+  check('cost leak proposes cheaper architecture', /Cheaper architecture/i.test(result5));
+
   check('no page errors', consoleErrors.length === 0);
   if (consoleErrors.length) console.log(consoleErrors.join('\n'));
 } finally {
