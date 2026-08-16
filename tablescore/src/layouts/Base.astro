@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  schema?: object | object[];
+}
+const { title, description, path, schema } = Astro.props;
+const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+---
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {schemas.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="/">TableScore</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/" aria-current={path === "/" ? "page" : undefined}>Home</a>
+        <a href="/hand-and-foot-score-keeper/" aria-current={path === "/hand-and-foot-score-keeper/" ? "page" : undefined}>Hand and Foot</a>
+        <a href="/printable/hand-and-foot-score-sheet/" aria-current={path === "/printable/hand-and-foot-score-sheet/" ? "page" : undefined}>Printable</a>
+        <a href="/about/" aria-current={path === "/about/" ? "page" : undefined}>About</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <nav aria-label="Footer">
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/printable/hand-and-foot-score-sheet/">Printable score sheet</a>
+        <a href="/hand-and-foot-score-sheet.pdf" download="hand-and-foot-score-sheet.pdf">Download PDF</a>
+      </nav>
+      <p class="fine">Scores stay in your browser. Nothing is sent to a server.</p>
+      <p class="fine">TableScore is not affiliated with any game publisher, card maker, or rules author. Hand and Foot is a traditional social card game. This site is a score keeper, not a place to play for money.</p>
+      <p class="fine">Working title: TableScore v0.2. Domain not chosen in this sandbox.</p>
+    </footer>
+  </body>
+</html>
