@@ -22,4 +22,6 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 - calculator.net (and google.com) are blocked by the build proxy — live incumbent comparison must happen from the owner's machine; the numeric-solver check above is the in-session substitute.
 - og-image as PNG of a gradient was 211KB; same frame as JPEG q82 is 44KB.
 
-**Open items for owner:** WHOIS/buy domain (canonical currently assumes autoloanpayment.io — flagged in index.html comment), Cloudflare Pages deploy, GSC + sitemap submit, affiliate URL for the "Compare current auto loan rates" block, AdSense units into the three `.ad-slot` divs. Sibling sites' footers not yet updated to link back here (do together with next interlink pass).
+**Deployed:** merged to main (PR #3) and live on Vercel (own project, Root Directory `sites/p2-auto-loan`, no build command).
+
+**Open items for owner:** WHOIS/buy domain (canonical currently assumes autoloanpayment.io — flagged in index.html comment; swap canonical/OG/robots/sitemap when bought), GSC + sitemap submit, affiliate URL for the "Compare current auto loan rates" block, AdSense units into the three `.ad-slot` divs. Sibling sites' footers not yet updated to link back here (do together with next interlink pass).

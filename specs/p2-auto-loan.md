@@ -49,7 +49,7 @@ WebApplication + FAQPage JSON-LD. Canonical, OG tags, og-image.
 - Affiliate fallback at launch: one "Compare current auto loan rates" outbound link block below result (owner supplies affiliate URL; placeholder `#` until then, clearly commented).
 
 ## Domain
-Candidate 1: autoloanpayment.io · Candidate 2: carpaymentcalc.io — owner WHOIS-checks and buys. Temp launch on *.pages.dev.
+Candidate 1: autoloanpayment.io · Candidate 2: carpaymentcalc.io — owner WHOIS-checks and buys. Temp launch on the Vercel project's *.vercel.app URL.
 
 ## Test cases (document in code comment, verify vs calculator.net)
 1. $30,000, $0 down, 0% tax, 6% APR, 60mo → M ≈ $579.98
@@ -59,4 +59,4 @@ Candidate 1: autoloanpayment.io · Candidate 2: carpaymentcalc.io — owner WHOI
 5. Extra $100/mo on case 1 → payoff month and interest saved both shrink; schedule sums reconcile with totals
 
 ## Definition of done
-All CLAUDE.md quality gates pass · 5 test cases verified · deployed to pages.dev · build-notes entry logged.
+All CLAUDE.md quality gates pass · 5 test cases verified · deployed to Vercel · build-notes entry logged.

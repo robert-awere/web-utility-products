@@ -29,8 +29,8 @@ Site slugs match spec IDs: `p2-auto-loan`, `p1-paycheck`, `s14-tdee`, etc.
 1. **Spec** — read `/specs/<slug>.md`. If missing or ambiguous, stop and ask; do not invent scope.
 2. **Build** — copy `/shared` boilerplate into `/sites/<slug>/`, implement calculator + content.
 3. **Validate** — all gates below pass.
-4. **Deploy (temp)** — push; Cloudflare Pages auto-deploys the folder to its `*.pages.dev` subdomain. Owner reviews live.
-5. **Domain** — OWNER-ONLY: WHOIS check, purchase, DNS. Never assume the domain in the spec is secured.
+4. **Deploy (temp)** — merge to `main`; Vercel auto-deploys. Each site is its own Vercel project importing this repo with Root Directory `sites/<slug>`, framework preset "Other", no build command (static files). Temp review URL is the project's `*.vercel.app` domain. Owner reviews live.
+5. **Domain** — OWNER-ONLY: WHOIS check, purchase, then attach it to the site's Vercel project (Settings → Domains) and set DNS per Vercel's instructions. Never assume the domain in the spec is secured.
 6. **Index** — OWNER-ONLY: GSC verification + sitemap submit. Generate the sitemap/robots; owner submits.
 7. **Monetize** — AdSense slots exist as empty, clearly-commented `<div class="ad-slot">` placeholders from day 1 (positions: below result, mid-explainer, footer). Owner inserts publisher code post-approval. Affiliate links (spec-defined) go live at launch so the site earns pre-approval.
 8. **Log** — append a build-notes entry: date, slug, Lighthouse scores, design signature used, anything to reuse or avoid.
