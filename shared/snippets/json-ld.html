@@ -1,0 +1,16 @@
+<!-- Paste into <head>. Validate at validator.schema.org before deploy.
+     Every FAQPage question must exist verbatim in the visible FAQ section. -->
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication",
+ "name":"{{SITE_NAME}}","url":"{{CANONICAL_URL}}","description":"{{META_DESCRIPTION}}",
+ "applicationCategory":"{{APPLICATION_CATEGORY}}","operatingSystem":"Any",
+ "browserRequirements":"Requires JavaScript","isAccessibleForFree":true,
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"{{Q1}}","acceptedAnswer":{"@type":"Answer","text":"{{A1}}"}}
+]}
+</script>
