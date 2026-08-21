@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{META_DESCRIPTION}}">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+<meta name="theme-color" content="{{THEME_COLOR}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{SITE_NAME}}">
+<meta property="og:title" content="{{OG_TITLE}}">
+<meta property="og:description" content="{{OG_DESCRIPTION}}">
+<meta property="og:url" content="{{CANONICAL_URL}}">
+<meta property="og:image" content="{{CANONICAL_URL}}assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<!-- JSON-LD: fill from snippets/json-ld.html. WebApplication + FAQPage minimum. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"{{SITE_NAME}}","url":"{{CANONICAL_URL}}","description":"{{META_DESCRIPTION}}","applicationCategory":"{{APPLICATION_CATEGORY}}","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}
+</script>
+
+<!-- AdSense loader: owner pastes the publisher snippet here post-approval. See snippets/ad-slots.html.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<!-- Analytics stub: disabled until the owner enables it. See snippets/analytics-stub.html. -->
+
+<style>
+/* ---- Base layer. Identity (palette, type, signature element) goes in the site
+   layer below — never ship a site wearing another site's look. ---- */
+:root{
+  color-scheme: light;
+  --ink:#141414; --muted:#5a5a5a; --paper:#ffffff; --surface:#ffffff;
+  --line:#dcdcdc; --brand:{{THEME_COLOR}}; --focus:#000000;
+  --radius:12px; --wrap:min(1060px, calc(100% - 32px));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+img,svg{max-width:100%}
+a{color:var(--brand)}
+h1,h2,h3{line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(1.75rem,5vw,2.75rem);margin:.2em 0 .3em}
+.wrap{width:var(--wrap);margin-inline:auto}
+main{padding:clamp(20px,4vw,44px) 0 48px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;z-index:20;padding:10px 14px;background:var(--surface);border:2px solid var(--brand);border-radius:8px}
+:where(a,button,summary,input,select,[tabindex]):focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+/* Ad slots: reserve height so ads never shift the layout (CLS). */
+.ad-slot{min-height:100px;margin:28px 0}
+.prose{max-width:68ch}
+.prose h2{margin-top:2em}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+/* ---- Site layer: palette, type pairing, one signature element. ---- */
+</style>
+</head>
+<body>
+<a class="skip" href="#tool">Skip to the calculator</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">{{SITE_NAME}}</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>{{H1}}</h1>
+  <p class="lede">{{LEDE}}</p>
+
+  <!-- TOOL: above the fold. Inputs compute on change; result is instant and prominent. -->
+  <section id="tool" aria-label="Calculator">
+    <form id="calc" novalidate>
+      <!-- inputs -->
+    </form>
+    <!-- RESULT: never put an ad between the inputs and this. -->
+    <div id="result" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- AD SLOT 1 — below the result card. Empty until the owner adds publisher code. -->
+  <div class="ad-slot" data-slot="below-result" aria-hidden="true"></div>
+
+  <!-- Affiliate block (spec-defined), live at launch so the site earns pre-approval. -->
+
+  <section class="prose">
+    <h2>How it works</h2>
+    <!-- 400–700 words: the formula, a worked example, assumptions and limits.
+         YMYL sites: cite the source, disclose assumptions, add the
+         "estimate, not advice" disclaimer. -->
+  </section>
+
+  <!-- AD SLOT 2 — mid-explainer. -->
+  <div class="ad-slot" data-slot="mid-explainer" aria-hidden="true"></div>
+
+  <section class="prose" id="faq">
+    <h2>FAQ</h2>
+    <!-- 4–6 questions, phrased verbatim as the spec's long-tail keywords.
+         Must match the FAQPage JSON-LD above, question for question. -->
+  </section>
+
+  <!-- AD SLOT 3 — above the footer. -->
+  <div class="ad-slot" data-slot="above-footer" aria-hidden="true"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Data year: {{DATA_YEAR}}. Estimates only.</p>
+    <!-- Interlink 2–3 sibling sites here — see snippets/footer-interlinks.html. -->
+  </div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------------------
+   Calculator. Vanilla JS, no dependencies, computes on input.
+   Pure math functions stay separate from DOM code so they can be unit-tested
+   headlessly against the incumbent named in the spec (>= 5 documented cases).
+   --------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+  var form = document.getElementById('calc');
+  var out  = document.getElementById('result');
+  if (!form || !out) return;
+
+  function compute(input) { /* pure: input object -> result object */ return {}; }
+
+  function render() { out.textContent = ''; }
+
+  form.addEventListener('input', render);
+  form.addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!-- ============================================================
+     AdSense placeholders. Ship these empty from day one.
+     Owner pastes publisher code post-approval; nothing else changes.
+
+     Positions (CLAUDE.md): below result · mid-explainer · above footer.
+     NEVER between the inputs and the result.
+     Each slot reserves height in CSS (.ad-slot{min-height:100px}) so
+     inserting an ad later does not move the page (protects CLS).
+     ============================================================ -->
+
+<!-- In <head>, once approved:
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<!-- 1. Below the result card -->
+<div class="ad-slot" data-slot="below-result" aria-hidden="true">
+  <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+</div>
+
+<!-- 2. Mid-explainer -->
+<div class="ad-slot" data-slot="mid-explainer" aria-hidden="true"></div>
+
+<!-- 3. Above the footer -->
+<div class="ad-slot" data-slot="above-footer" aria-hidden="true"></div>
+
+<!-- Root-level ads.txt, once the publisher ID exists:
+     google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0 -->

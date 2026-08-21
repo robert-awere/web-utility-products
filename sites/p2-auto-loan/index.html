@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auto Loan Calculator — Payment with Trade-In &amp; Tax (2026)</title>
+<meta name="description" content="Instant monthly car payment with trade-in, negative equity, state sales tax and fees built in. See total interest, payoff date and extra-payment savings.">
+<meta name="robots" content="index,follow">
+<!-- OWNER: canonical assumes domain candidate 1 (autoloanpayment.io). Update here,
+     in the OG tags, robots.txt and sitemap.xml if a different domain is bought. -->
+<link rel="canonical" href="https://autoloanpayment.io/">
+<meta name="theme-color" content="#101f38">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Auto Loan Payment">
+<meta property="og:title" content="Auto Loan Calculator — Payment with Trade-In &amp; Tax">
+<meta property="og:description" content="Instant car payment with trade-in, negative equity, state sales tax and fees. Free, no signup.">
+<meta property="og:url" content="https://autoloanpayment.io/">
+<meta property="og:image" content="https://autoloanpayment.io/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Auto Loan Calculator","url":"https://autoloanpayment.io/","description":"Free auto loan calculator with trade-in, negative equity rollover, state sales tax, fees and extra payments. Computes monthly payment, total interest, payoff date and a full amortization schedule in the browser.","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How does an auto loan calculator with trade in and tax work?","acceptedAnswer":{"@type":"Answer","text":"Enter the vehicle price, your trade-in value and your state. The calculator subtracts the trade-in where your state allows it, applies the state sales tax rate, adds fees, and finances the rest. The monthly payment uses the standard amortization formula lenders use."}},
+{"@type":"Question","name":"Can a car payment calculator with extra payments show my payoff date?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add an amount in the extra monthly payment field and the calculator recomputes the payoff date, shows how many months you cut from the loan, and how much interest you save. Extra payments go straight to principal."}},
+{"@type":"Question","name":"How does an auto loan calculator with negative equity work?","acceptedAnswer":{"@type":"Answer","text":"If you owe more on your trade-in than it is worth, the shortfall is added to the new loan. Enter the trade-in value and the amount still owed; the calculator rolls the difference into the amount financed and warns you it is happening."}},
+{"@type":"Question","name":"What does a 72 month car loan calculator show?","acceptedAnswer":{"@type":"Answer","text":"Pick the 72-month preset to see the lower monthly payment and the higher total interest a six-year term produces. Compare it against 48 or 60 months — the payment falls, but the total cost of the car rises."}},
+{"@type":"Question","name":"Is it better to put money down or trade in?","acceptedAnswer":{"@type":"Answer","text":"A dollar of down payment and a dollar of trade-in equity reduce the loan equally, but in most states the trade-in also cuts your sales tax, because tax applies to the price minus the trade-in. In those states trading in saves slightly more; in states with no trade-in credit they are equivalent."}}
+]}
+</script>
+
+<!-- AdSense loader — owner pastes the approved publisher snippet here.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<!-- Analytics stub — owner enables one script max (Plausible or GA4), no cookies.
+<script defer data-domain="autoloanpayment.io" src="https://plausible.io/js/script.js"></script>
+-->
+
+<style>
+/* Identity: "night dashboard". Deep indigo instrument cluster, amber needle
+   accent, tabular odometer digits, road center-line section dividers. */
+:root{
+  color-scheme: light;
+  --ink:#141c28; --muted:#4c5a6e; --paper:#f3f5f9; --card:#ffffff;
+  --line:#d6dbe4; --navy:#101f38; --navy-2:#1b3358; --amber:#f5a623; --amber-ink:#8a5300;
+  --blue:#17509e; --blue-hover:#0f4088; --danger:#a52f2f; --ok:#1d6b45;
+  --radius:14px; --wrap:min(1100px, calc(100% - 32px));
+  --shadow:0 18px 44px rgba(16,31,56,.12);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-text-size-adjust:100%}
+button,input,select{font:inherit;color:inherit}
+img,svg{max-width:100%}
+a{color:var(--blue)}
+h1,h2,h3{line-height:1.12;text-wrap:balance;letter-spacing:-.02em}
+h1{margin:.2em 0 .25em;font-size:clamp(1.9rem,6vw,3.1rem);font-weight:800}
+h2{margin-top:2.1em;font-size:clamp(1.25rem,3.4vw,1.6rem)}
+.wrap{width:var(--wrap);margin-inline:auto}
+main{padding:clamp(18px,4vw,40px) 0 48px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;z-index:20;padding:10px 14px;background:var(--card);border:2px solid var(--blue);border-radius:8px}
+:where(a,button,summary,input,select,[tabindex]):focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+.site-header{background:var(--navy);color:#fff}
+.header-inner{min-height:58px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:750;letter-spacing:-.01em;text-decoration:none}
+.brand svg{flex:none}
+
+.lede{margin:0 0 22px;max-width:62ch;color:var(--muted);font-size:clamp(1rem,2vw,1.12rem)}
+
+/* --- the tool ------------------------------------------------------------- */
+.calculator{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);border-radius:var(--radius);overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.form-panel{padding:clamp(18px,3.5vw,34px)}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.field label{display:block;margin-bottom:5px;font-size:.86rem;font-weight:700}
+.field input,.field select{width:100%;min-height:46px;padding:9px 12px;border:1px solid #b9c2d0;border-radius:9px;background:#fff}
+.field input:focus,.field select:focus{border-color:var(--blue)}
+.wide{grid-column:1/-1}
+.hint{margin:2px 0 0;color:var(--muted);font-size:.8rem}
+#state-note{min-height:2.2em}
+.data-year{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:20px;background:#e7ecf5;color:#33405a;font-size:.72rem;font-weight:750;letter-spacing:.04em;vertical-align:2px}
+fieldset{margin:0;padding:0;border:0;grid-column:1/-1}
+legend{padding:0;margin-bottom:5px;font-size:.86rem;font-weight:700}
+.term-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-grid;grid-auto-flow:column;padding:4px;border:1px solid var(--line);border-radius:10px;background:#eceff5}
+.seg label{position:relative}
+.seg input{position:absolute;inset:0;opacity:0;pointer-events:none}
+.seg span{display:grid;min-width:52px;min-height:38px;place-items:center;padding:0 8px;border-radius:7px;color:var(--muted);font-weight:700;cursor:pointer}
+.seg input:checked + span{background:var(--navy);color:#fff}
+.seg input:focus-visible + span{outline:3px solid var(--amber);outline-offset:2px}
+.term-custom{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.86rem;font-weight:700}
+.term-custom input{width:86px;min-height:44px;padding:8px 10px;border:1px solid #b9c2d0;border-radius:9px}
+
+/* instrument cluster */
+.result-panel{display:flex;flex-direction:column;justify-content:center;gap:0;padding:clamp(20px,3.5vw,34px);background:linear-gradient(160deg,var(--navy-2),var(--navy) 62%);color:#fff}
+.result-kicker{margin:0 0 2px;color:#9db4d6;font-size:.8rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+.payment{margin:0;font-size:clamp(2.9rem,9vw,4.6rem);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.needle{width:88px;height:4px;margin:12px 0 10px;border-radius:2px;background:var(--amber)}
+#payment-note{margin:0 0 18px;color:#c3d2e8;font-size:.95rem}
+.stats{display:grid;margin:0;border-top:1px solid rgba(255,255,255,.18)}
+.stats div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.18)}
+.stats dt{color:#9db4d6;font-size:.9rem}
+.stats dd{margin:0;font-weight:750;font-variant-numeric:tabular-nums;text-align:right}
+.callout{margin:14px 0 0;padding:10px 12px;border-radius:9px;font-size:.92rem}
+.callout.save{background:rgba(56,161,105,.18);border:1px solid rgba(120,220,170,.45)}
+.callout.warn{background:rgba(245,166,35,.14);border:1px solid rgba(245,166,35,.5);color:#ffd9a0}
+
+/* road center-line divider */
+.road{border:0;height:10px;margin:34px 0 0;border-radius:5px;background:var(--navy) repeating-linear-gradient(90deg,transparent 0 26px,var(--amber) 26px 54px) center/100% 3px no-repeat}
+
+/* schedule */
+.schedule-section h2{margin-top:1.6em}
+#schedule details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:10px;overflow:hidden}
+#schedule summary{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:48px;align-items:center;padding:6px 14px;cursor:pointer;font-weight:750}
+#schedule summary .yr-meta{color:var(--muted);font-weight:600;font-size:.88rem;font-variant-numeric:tabular-nums}
+.tbl-scroll{overflow-x:auto}
+#schedule table{width:100%;min-width:430px;border-collapse:collapse;font-size:.88rem;font-variant-numeric:tabular-nums}
+#schedule th,#schedule td{padding:7px 10px;text-align:right;border-top:1px solid var(--line)}
+#schedule th:first-child,#schedule td:first-child{text-align:left}
+#schedule thead th{background:#eef1f6;color:#33405a;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* affiliate + ads */
+.affiliate{margin:26px 0 0;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:10px;background:var(--card)}
+.affiliate p{margin:0 0 4px;font-weight:750}
+.affiliate span{color:var(--muted);font-size:.9rem}
+.ad-slot{min-height:100px;margin:28px 0}
+
+.prose{max-width:70ch}
+.prose p,.prose li{color:#26303f}
+.prose p.formula{padding:14px 16px;border-radius:10px;background:var(--navy);color:#dce6f5;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem}
+.example{padding:2px 18px 6px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.disclaimer{margin-top:30px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:#eef1f6;color:#33405a;font-size:.92rem}
+
+footer{margin-top:44px;background:var(--navy);color:#b9c8de;font-size:.9rem}
+footer .wrap{padding:26px 0;display:grid;gap:8px}
+footer a{color:#e8eefb}
+.siblings{display:flex;flex-wrap:wrap;gap:6px 18px}
+
+@media (max-width:820px){
+  .calculator{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr 1fr}
+}
+@media (max-width:430px){
+  .fields{grid-template-columns:1fr}
+  .seg span{min-width:44px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#tool">Skip to the calculator</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="#f5a623" stroke-width="3"/><path d="M16 18 L24 9" stroke="#f5a623" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="18" r="2.6" fill="#f5a623"/></svg>
+      Auto Loan Payment
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Auto loan calculator</h1>
+  <p class="lede">A car payment calculator that handles what the big ones skip: your trade-in, the loan you still owe on it, and your state's sales tax rules — computed instantly as you type.</p>
+
+  <section id="tool" aria-label="Auto loan calculator">
+    <div class="calculator">
+      <form id="calc" class="form-panel" novalidate>
+        <div class="fields">
+          <div class="field"><label for="price">Vehicle price ($)</label>
+            <input id="price" name="price" type="number" inputmode="decimal" min="0" step="100" value="32000"></div>
+          <div class="field"><label for="down">Down payment ($)</label>
+            <input id="down" name="down" type="number" inputmode="decimal" min="0" step="100" value="2000"></div>
+          <div class="field"><label for="trade">Trade-in value ($)</label>
+            <input id="trade" name="trade" type="number" inputmode="decimal" min="0" step="100" value="4000"></div>
+          <div class="field"><label for="payoff">Still owed on trade-in ($)</label>
+            <input id="payoff" name="payoff" type="number" inputmode="decimal" min="0" step="100" value="0"></div>
+          <div class="field"><label for="state">State <span class="data-year">2026 rates</span></label>
+            <select id="state" name="state"><option value="">No state / other</option></select></div>
+          <div class="field"><label for="rate">Sales tax rate (%)</label>
+            <input id="rate" name="rate" type="number" inputmode="decimal" min="0" max="25" step="0.01" value="6.25">
+          </div>
+          <p class="hint wide" id="state-note"></p>
+          <div class="field"><label for="fees">Fees — title, registration, doc ($)</label>
+            <input id="fees" name="fees" type="number" inputmode="decimal" min="0" step="10" value="0"></div>
+          <div class="field"><label for="apr">Interest rate — APR (%)</label>
+            <input id="apr" name="apr" type="number" inputmode="decimal" min="0" max="40" step="0.1" value="6.9"></div>
+          <fieldset>
+            <legend>Loan term (months)</legend>
+            <div class="term-row">
+              <div class="seg">
+                <label><input type="radio" name="term" value="36"><span>36</span></label>
+                <label><input type="radio" name="term" value="48"><span>48</span></label>
+                <label><input type="radio" name="term" value="60" checked><span>60</span></label>
+                <label><input type="radio" name="term" value="72"><span>72</span></label>
+                <label><input type="radio" name="term" value="84"><span>84</span></label>
+              </div>
+              <label class="term-custom" for="term-custom">or custom
+                <input id="term-custom" type="number" inputmode="numeric" min="12" max="96" step="1" placeholder="12–96"></label>
+            </div>
+          </fieldset>
+          <div class="field wide"><label for="extra">Extra payment per month ($, optional)</label>
+            <input id="extra" name="extra" type="number" inputmode="decimal" min="0" step="10" placeholder="0">
+            <p class="hint">Paid straight to principal — see the payoff date and interest saved move.</p></div>
+        </div>
+      </form>
+
+      <div class="result-panel" role="status" aria-live="polite">
+        <p class="result-kicker">Monthly payment</p>
+        <p class="payment" id="payment">—</p>
+        <div class="needle" aria-hidden="true"></div>
+        <p id="payment-note"></p>
+        <dl class="stats">
+          <div><dt>Amount financed</dt><dd id="stat-financed">—</dd></div>
+          <div><dt>Sales tax</dt><dd id="stat-tax">—</dd></div>
+          <div><dt>Total interest</dt><dd id="stat-interest">—</dd></div>
+          <div><dt>Total cost of loan</dt><dd id="stat-total">—</dd></div>
+          <div><dt>Paid off</dt><dd id="stat-payoff">—</dd></div>
+        </dl>
+        <p class="callout warn" id="negative-equity-note" hidden></p>
+        <p class="callout save" id="extra-savings" hidden></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule-section" id="schedule-wrap" hidden>
+    <h2>Amortization schedule</h2>
+    <div id="schedule"></div>
+  </section>
+
+  <!-- Affiliate fallback — live at launch. OWNER: replace href="#" with the
+       affiliate URL; the block is intentionally plain until then. -->
+  <aside class="affiliate">
+    <p><a href="#" rel="sponsored nofollow">Compare current auto loan rates →</a></p>
+    <span>See what APR lenders are offering before you take the dealer's financing.</span>
+  </aside>
+
+  <!-- AD SLOT 1 — below result. Owner inserts AdSense unit post-approval. -->
+  <div class="ad-slot" data-slot="below-result" aria-hidden="true"></div>
+
+  <hr class="road" aria-hidden="true">
+
+  <div class="prose">
+    <h2>How the payment formula works</h2>
+    <p>Every fixed-rate auto loan uses the same amortization formula, the one this calculator and every lender's system runs:</p>
+    <p class="formula">M = P × r(1+r)<sup>n</sup> / ((1+r)<sup>n</sup> − 1)</p>
+    <p><strong>P</strong> is the amount financed, <strong>r</strong> is your APR divided by 12, and <strong>n</strong> is the term in months. At 0% APR the payment is simply P ÷ n. The amount financed is where car loans get interesting — it's the vehicle price <em>plus</em> sales tax and fees, <em>minus</em> your down payment and trade-in value, <em>plus</em> anything you still owe on the trade-in.</p>
+
+    <div class="example">
+      <h3>Worked example</h3>
+      <p>A $32,000 car in Texas with a $4,000 trade-in and $2,000 down, financed for 60 months at 6.9% APR. Texas taxes the price minus the trade-in, so tax is 6.25% of $28,000 = $1,750. Amount financed: $32,000 + $1,750 − $2,000 − $4,000 = <strong>$27,750</strong>. The formula gives a monthly payment of <strong>$548.17</strong>, and over five years you pay <strong>$5,140.53</strong> in interest.</p>
+    </div>
+
+    <h2>Auto loan calculator with trade in and tax</h2>
+    <p>Most states charge sales tax on the vehicle price <em>minus</em> your trade-in allowance, which makes a trade-in worth more than its sticker value. But the rule isn't universal: California, Hawaii, Kentucky, Maryland, Michigan, Virginia and DC tax the full price with no trade-in credit, and Illinois caps the credit at $10,000. Pick your state above and the calculator applies the right treatment automatically — and tells you which rule it used. Rates shown are 2026 state-level rates; local county and city taxes can add more, so edit the rate field if you know your combined rate.</p>
+
+    <h2>Auto loan calculator with negative equity</h2>
+    <p>If you owe more on your current car than it's worth, the difference doesn't disappear — the dealer rolls it into the new loan. Enter your trade-in's value and the loan balance still on it: the calculator adds the shortfall to the amount financed and flags it clearly. Rolling $3,000 of negative equity into a 60-month loan at 7% costs about $560 in added interest on top of the $3,000 itself.</p>
+
+    <h2>Car payment calculator with extra payments</h2>
+    <p>The monthly payment is the number dealers negotiate with, but total interest is the number you actually pay. A longer term shrinks the payment while quietly growing the cost. Extra principal payments attack that directly: in the example above, an extra $100 a month pays the loan off ten months early. Use the extra-payment field and watch the payoff date and interest-saved figures update live.</p>
+
+    <h2>72 month car loan calculator</h2>
+    <p>Six- and seven-year loans (72 and 84 months) now make up a large share of new-car financing because they minimize the monthly payment. Select the 72 or 84 preset and compare total interest against 48 or 60 months: on a $30,000 loan at 7%, stretching from 60 to 72 months cuts the payment by about $83 but adds roughly $1,100 of interest — and keeps you underwater on the car longer.</p>
+
+    <h2>How much car can I afford</h2>
+    <p>A common rule of thumb is to keep all car costs — payment, insurance, fuel — under 15–20% of take-home pay. Work backwards: pick a payment you're comfortable with, then adjust the price field until the result matches. The <a href="https://www.consumerfinance.gov/consumer-tools/auto-loans/" rel="noopener">CFPB's auto loan guide</a> is a good deeper read before you shop.</p>
+
+    <!-- AD SLOT 2 — mid-explainer. -->
+    <div class="ad-slot" data-slot="mid-explainer" aria-hidden="true"></div>
+
+    <h2 id="faq-title">Frequently asked questions</h2>
+    <section aria-labelledby="faq-title">
+      <h3>How does an auto loan calculator with trade in and tax work?</h3>
+      <p>Enter the vehicle price, your trade-in value and your state. The calculator subtracts the trade-in where your state allows it, applies the state sales tax rate, adds fees, and finances the rest. The monthly payment uses the standard amortization formula lenders use.</p>
+      <h3>Can a car payment calculator with extra payments show my payoff date?</h3>
+      <p>Yes. Add an amount in the extra monthly payment field and the calculator recomputes the payoff date, shows how many months you cut from the loan, and how much interest you save. Extra payments go straight to principal.</p>
+      <h3>How does an auto loan calculator with negative equity work?</h3>
+      <p>If you owe more on your trade-in than it is worth, the shortfall is added to the new loan. Enter the trade-in value and the amount still owed; the calculator rolls the difference into the amount financed and warns you it is happening.</p>
+      <h3>What does a 72 month car loan calculator show?</h3>
+      <p>Pick the 72-month preset to see the lower monthly payment and the higher total interest a six-year term produces. Compare it against 48 or 60 months — the payment falls, but the total cost of the car rises.</p>
+      <h3>Is it better to put money down or trade in?</h3>
+      <p>A dollar of down payment and a dollar of trade-in equity reduce the loan equally, but in most states the trade-in also cuts your sales tax, because tax applies to the price minus the trade-in. In those states trading in saves slightly more; in states with no trade-in credit they are equivalent.</p>
+    </section>
+
+    <div class="disclaimer">
+      <strong>Assumptions and limitations.</strong> This is an estimate, not financial advice or a loan offer. The payment uses the standard fixed-rate amortization formula (M = P × r(1+r)ⁿ ⁄ ((1+r)ⁿ − 1)) with monthly compounding, the formula published in any consumer finance reference and used by calculator.net, Bankrate and lenders alike. Sales tax uses 2026 <em>state-level</em> rates only — county and city taxes, and special rules like Georgia's TAVT or vehicle-price tax tiers, can change the real figure, so confirm with your state's DMV or revenue department. Your actual APR depends on your credit; dealer fees vary. Nothing you type leaves your browser.
+    </div>
+  </div>
+
+  <!-- AD SLOT 3 — above footer. -->
+  <div class="ad-slot" data-slot="above-footer" aria-hidden="true"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="siblings" aria-label="More calculators">
+      <a href="https://projectquantity.com/">Paint calculator</a>
+      <a href="https://subscriptioncreepcalculator.com/">Subscription creep calculator</a>
+    </nav>
+    <p>2026 state tax rates · estimates only, not financial advice · nothing you enter leaves your browser.</p>
+  </div>
+</footer>
+
+<script src="calculator.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
