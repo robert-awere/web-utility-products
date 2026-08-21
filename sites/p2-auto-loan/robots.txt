@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://autoloanpayment.io/sitemap.xml
+Sitemap: https://autoloanpayment.com/sitemap.xml

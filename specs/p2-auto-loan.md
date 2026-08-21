@@ -49,7 +49,7 @@ WebApplication + FAQPage JSON-LD. Canonical, OG tags, og-image.
 - Affiliate fallback at launch: one "Compare current auto loan rates" outbound link block below result (owner supplies affiliate URL; placeholder `#` until then, clearly commented).
 
 ## Domain
-Candidate 1: autoloanpayment.io · Candidate 2: carpaymentcalc.io — owner WHOIS-checks and buys. Temp launch on the Vercel project's *.vercel.app URL.
+**SECURED (2026-08-21): autoloanpayment.com** — owner purchased the .com (registrar: Hostinger; better trust/recall for a mainstream US finance audience than the researched .io candidates). Original candidates: autoloanpayment.io · carpaymentcalc.io.
 
 ## Test cases (document in code comment, verify vs calculator.net)
 1. $30,000, $0 down, 0% tax, 6% APR, 60mo → M ≈ $579.98
