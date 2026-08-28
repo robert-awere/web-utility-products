@@ -1,5 +1,3 @@
-# CLAUDE.md — web-utility-products factory
-
 # CLAUDE.md — Claude-specific instructions
 
 This repository is:
