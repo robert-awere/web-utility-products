@@ -212,6 +212,14 @@ h1 {
   font-size: var(--text-2xl);
 }
 
+/* The hero headline is a long, keyword-led sentence, so it needs a wider
+   measure and a slightly smaller cap than the default 12ch display h1. */
+.hero-copy h1 {
+  max-width: 22ch;
+  font-size: clamp(2.1rem, 1.2rem + 2.8vw, 4rem);
+  line-height: 1.02;
+}
+
 h2 {
   font-size: var(--text-xl);
 }

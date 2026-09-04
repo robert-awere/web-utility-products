@@ -8,6 +8,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **Lighthouse (mobile, default Slow-4G simulation):** Performance 99 · SEO 100 · Accessibility 100 · Best Practices 100. LCP 1.3s, CLS 0, TBT 120ms; interactive 0.4s on regular 4G (10 Mbps / 40 ms RTT, 4× CPU). Page weight 48KB before ads.
 
+**2026-09-04 SEO heading update:** Rewrote the SourceBrief homepage around evaluation intent rather than definitional intent. New H1 is "GitHub Repo Analyzer — Understand and Vet Any Public Repo in Seconds", with intent-led H2 sections: "How to Understand a GitHub Repository Fast", "Is This GitHub Repo Safe?", "Is It Still Maintained?", "Setup Clues: What It Takes to Run This Project Locally", and "AI Prompts to Ask About This Repo". Title/description/OG metadata were realigned to the analyzer positioning, primary nav gained Safety and Setup anchors, and a `.hero-copy h1` rule was added because the default 12ch display measure wrapped the longer headline into six lines and pushed the scanner form below the fold. Source: the SEO keyword research brief, which found the evaluation-intent cluster winnable and the definitional cluster dominated by GitHub's own docs.
+
 **Design signature:** "night dashboard" — deep indigo instrument-cluster result panel, amber needle-tick under the hero payment, road center-line divider (`hr.road`, repeating amber dashes on navy), tabular-numeral odometer digits. System font stack only (zero font requests).
 
 **What worked, reuse:**

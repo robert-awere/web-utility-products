@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SourceBrief | GitHub Repo Info & Safety Brief</title>
+    <title>GitHub Repo Analyzer | Understand and Vet Any Public Repo</title>
     <meta
       id="meta-description"
       name="description"
-      content="Get GitHub repo info, descriptions, safety signals, setup steps, and AI prompts for public GitHub repositories before you read the code."
+      content="Free GitHub repo analyzer. Paste any public repo to see what it does, whether it is still maintained, setup effort, safety signals, and AI prompts to ask next."
     />
     <meta id="robots-meta" name="robots" content="index,follow" />
     <link id="canonical-link" rel="canonical" href="https://www.sourcebrief.io/" />
-    <meta id="og-title" property="og:title" content="SourceBrief | GitHub Repo Info & Safety Brief" />
+    <meta id="og-title" property="og:title" content="GitHub Repo Analyzer | Understand and Vet Any Public Repo" />
     <meta
       id="og-description"
       property="og:description"
-      content="Paste a GitHub repo name or URL and get a fast visual briefing before you read the code."
+      content="Paste any public GitHub repo and get a plain-English briefing: purpose, maintenance, setup effort, and safety signals."
     />
     <meta property="og:type" content="website" />
     <meta id="og-url" property="og:url" content="https://www.sourcebrief.io/" />
@@ -102,7 +102,9 @@
         <span>SourceBrief</span>
       </a>
       <nav aria-label="Primary">
-        <a href="#repo-info">Repo info</a>
+        <a href="#repo-info">Understand</a>
+        <a href="#repo-safety">Safety</a>
+        <a href="#setup-clues">Setup</a>
         <a href="#how-it-works">How it works</a>
         <a href="#example">Example</a>
         <a href="#faq">FAQ</a>
@@ -114,11 +116,12 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">GitHub repo info, faster</p>
-          <h1 id="hero-title">Get GitHub repo info before you read the code.</h1>
+          <p class="eyebrow">GitHub repo analyzer</p>
+          <h1 id="hero-title">GitHub Repo Analyzer &mdash; Understand and Vet Any Public Repo in Seconds</h1>
           <p class="hero-subtitle">
-            Use SourceBrief as a GitHub repository search companion: paste any public repo name or URL and see
-            the repo description, stack, setup clues, safety signals, and prompts worth asking next.
+            Paste any public repository name or URL and get a plain-English briefing: what the project actually is,
+            whether it still looks maintained, what it takes to run locally, the safety signals worth checking,
+            and the prompts to ask next.
           </p>
           <form class="repo-form" id="repo-form">
             <label class="sr-only" for="repo-input">GitHub repository name or URL</label>
@@ -316,8 +319,8 @@
 
       <section class="content-section muted-section" id="repo-info">
         <div>
-          <p class="eyebrow">GitHub repo guide</p>
-          <h2>What exactly is a GitHub repo?</h2>
+          <p class="eyebrow">Repo comprehension</p>
+          <h2>How to Understand a GitHub Repository Fast</h2>
         </div>
         <div class="intent-grid">
           <article>
@@ -371,6 +374,155 @@
           <article>
             <strong>Turn clues into decisions</strong>
             <p>It converts those signals into setup steps, a stack map, risks, opportunities, and prompts for deeper review.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section muted-section" id="repo-safety">
+        <div>
+          <p class="eyebrow">Safety signals</p>
+          <h2>Is This GitHub Repo Safe?</h2>
+        </div>
+        <div class="intent-grid">
+          <article>
+            <strong>No quick tool can prove a repo is safe.</strong>
+            <p>
+              SourceBrief does not run a security audit and does not execute repository code. It highlights the public
+              signals that usually decide whether a project deserves more caution before you install or run it.
+            </p>
+          </article>
+          <article>
+            <strong>Check the install path first.</strong>
+            <p>
+              Look for install scripts, post-install hooks, build steps, and anything that runs automatically. Code that
+              executes during setup is the part that affects your machine before you have read a single source file.
+            </p>
+          </article>
+          <article>
+            <strong>Read the dependency surface.</strong>
+            <p>
+              Manifest files show how much third-party code a project pulls in. A small, well-known dependency list is
+              easier to reason about than a deep tree of unfamiliar packages.
+            </p>
+          </article>
+          <article>
+            <strong>Weigh the license and the issues.</strong>
+            <p>
+              A missing license limits how you may use the code, and open issues often reveal the problems the README
+              leaves out. Treat both as part of the safety picture, not paperwork.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" id="repo-maintenance">
+        <div>
+          <p class="eyebrow">Maintenance signals</p>
+          <h2>Is It Still Maintained?</h2>
+        </div>
+        <div class="intent-grid">
+          <article>
+            <strong>Recent activity beats star count.</strong>
+            <p>
+              Stars measure past attention, not present upkeep. Recent commits, releases, and merged pull requests are a
+              far better indication that someone is still looking after the project.
+            </p>
+          </article>
+          <article>
+            <strong>Look at how issues are handled.</strong>
+            <p>
+              A repository where issues receive replies is being maintained. One where issues accumulate untouched for
+              long periods is usually drifting, whatever the README says.
+            </p>
+          </article>
+          <article>
+            <strong>Archived and abandoned are different.</strong>
+            <p>
+              An archived repository is explicitly frozen and honest about it. A quietly inactive one can still look
+              current, which makes it the riskier dependency of the two.
+            </p>
+          </article>
+          <article>
+            <strong>Match upkeep to your use case.</strong>
+            <p>
+              An unmaintained project can still be excellent for reading and learning. The maintenance bar rises sharply
+              once you plan to depend on it in something you ship.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section muted-section" id="setup-clues">
+        <div>
+          <p class="eyebrow">Setup effort</p>
+          <h2>Setup Clues: What It Takes to Run This Project Locally</h2>
+        </div>
+        <div class="intent-grid">
+          <article>
+            <strong>Manifests reveal the toolchain.</strong>
+            <p>
+              Files such as <code>package.json</code>, <code>requirements.txt</code>, <code>pyproject.toml</code>,
+              <code>go.mod</code>, or <code>Cargo.toml</code> tell you which runtime and package manager you need before
+              you clone anything.
+            </p>
+          </article>
+          <article>
+            <strong>Containers change the effort.</strong>
+            <p>
+              A Dockerfile or compose file often means a repeatable local setup. Their absence usually means you will be
+              matching versions and services by hand.
+            </p>
+          </article>
+          <article>
+            <strong>Environment files hint at prerequisites.</strong>
+            <p>
+              Example environment files, config samples, and migration folders indicate external requirements such as
+              databases, API keys, or services you must supply yourself.
+            </p>
+          </article>
+          <article>
+            <strong>Tests and CI show it can build.</strong>
+            <p>
+              A test suite and a CI workflow are evidence that the project builds somewhere other than the author's
+              laptop, which is the best predictor that it will build on yours.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" id="ai-prompts">
+        <div>
+          <p class="eyebrow">AI-assisted review</p>
+          <h2>AI Prompts to Ask About This Repo</h2>
+        </div>
+        <div class="intent-grid">
+          <article>
+            <strong>Start with orientation.</strong>
+            <p>
+              Ask an assistant to explain what the project does, who it is for, and which directory holds the entry
+              point. Orientation questions are the fastest way out of an unfamiliar file tree.
+            </p>
+          </article>
+          <article>
+            <strong>Then trace one real path.</strong>
+            <p>
+              Ask it to walk a single request, command, or feature from entry point to output. One traced path teaches
+              more about a codebase than a summary of every folder.
+            </p>
+          </article>
+          <article>
+            <strong>Ask what would break.</strong>
+            <p>
+              Ask which parts are most fragile, least tested, or hardest to change. The answer usually points at the
+              same places experienced reviewers would look first.
+            </p>
+          </article>
+          <article>
+            <strong>Always verify against the source.</strong>
+            <p>
+              Assistants can be confidently wrong about unfamiliar repositories. Treat every answer as a lead to confirm
+              in the actual files, not as a finding.
+            </p>
           </article>
         </div>
       </section>
