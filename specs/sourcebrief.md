@@ -24,9 +24,11 @@ Understand any GitHub repo before you read the code.
 - Generate a repo summary, verdict, decision scorecard, setup guidance, architecture map, complexity view, risks, opportunities, AI prompt board, and evidence panel.
 - Present the utility as free and public, with no paid-tier UI.
 
-## Approved stack exception
+## Stack
 
-PROJECT-RULES.md defaults utilities to static HTML, vanilla JavaScript, and CSS. For this utility, the owner explicitly approved importing the existing React/Express SourceBrief app.
+Static HTML, vanilla JavaScript, and CSS.
+
+SourceBrief was initially imported as a React/Express app with explicit owner approval, then converted to the repository-standard static utility model to reduce dependency risk, simplify deployment, and align with the broader micro-utility portfolio.
 
 ## Monetization direction
 
@@ -36,16 +38,16 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 
 - Public GitHub API only.
 - No GitHub App private repo support.
-- No persistent public repo result pages yet.
+- Shareable URLs use a `?repo=owner/repo` query parameter, but there are no pre-rendered public repo result pages yet.
 - No AdSense code or publisher credentials.
 - No analytics or tracking.
+- Browser-side GitHub API calls are subject to unauthenticated GitHub rate limits.
 
 ## Next planned work
 
-1. Rework homepage copy for the free public utility model.
-2. Add shareable result URLs.
-3. Create SEO-friendly repo briefing pages.
-4. Add related repo discovery.
-5. Add lightweight feedback capture.
-6. Add AdSense-ready layout zones.
-7. Add SEO safeguards.
+1. Add SEO-friendly repo briefing pages or a static generation strategy for popular repositories.
+2. Add related repo discovery.
+3. Add lightweight feedback capture.
+4. Add AdSense-ready layout zones without interrupting input/result flow.
+5. Add stronger SEO safeguards and canonical URL strategy once a production domain is confirmed.
+6. Consider an optional GitHub token flow only if rate limits become a real user problem.

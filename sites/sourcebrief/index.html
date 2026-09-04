@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SourceBrief | Visual GitHub Repo Briefing</title>
+    <meta
+      name="description"
+      content="Turn any public GitHub repository into a visual briefing with setup hints, risks, stack signals, repo prompts, and practical next steps."
+    />
+    <meta property="og:title" content="SourceBrief | Visual GitHub Repo Briefing" />
+    <meta
+      property="og:description"
+      content="Paste a GitHub repo and get a fast visual briefing before you read the code."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/og-image.svg" />
+    <meta name="theme-color" content="#111827" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SourceBrief",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "description": "A free utility for turning public GitHub repositories into visual repo briefings.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="SourceBrief home">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M8 11.5 20 5l12 6.5v17L20 35 8 28.5z" fill="none" stroke="currentColor" stroke-width="2.4" />
+          <path d="M14 15h12M14 20h9M14 25h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+        <span>SourceBrief</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#how-it-works">How it works</a>
+        <a href="#example">Example</a>
+        <a href="#faq">FAQ</a>
+        <span class="pill">Free utility</span>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Public GitHub repo intelligence</p>
+          <h1 id="hero-title">Understand a repo before you read the code.</h1>
+          <p class="hero-subtitle">
+            Paste a GitHub repository and get a visual source brief: what it is, how to run it, where the risk is,
+            and which prompts will help you explore it faster.
+          </p>
+          <form class="repo-form" id="repo-form">
+            <label class="sr-only" for="repo-input">GitHub repository URL or owner/repo</label>
+            <input
+              id="repo-input"
+              name="repo"
+              autocomplete="off"
+              placeholder="vercel/next.js or https://github.com/vercel/next.js"
+              required
+            />
+            <button type="submit">Brief this repo</button>
+          </form>
+          <p class="form-help" id="form-help">No login required. Public repositories only. GitHub API rate limits may apply.</p>
+        </div>
+        <aside class="hero-card" aria-label="Example briefing summary">
+          <div class="window-bar"><span></span><span></span><span></span></div>
+          <div class="mini-report">
+            <div>
+              <small>Verdict</small>
+              <strong>Good to study</strong>
+            </div>
+            <div>
+              <small>Stack</small>
+              <strong>React · API · Tests</strong>
+            </div>
+            <div>
+              <small>Watchouts</small>
+              <strong>Docs · deps · CI</strong>
+            </div>
+          </div>
+          <svg class="signal-map" viewBox="0 0 420 220" role="img" aria-label="Stylised repo briefing visualization">
+            <defs>
+              <linearGradient id="lineGradient" x1="0" x2="1">
+                <stop offset="0%" stop-color="#2563eb" />
+                <stop offset="100%" stop-color="#10b981" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="105" r="34" />
+            <circle cx="205" cy="58" r="42" />
+            <circle cx="205" cy="162" r="42" />
+            <circle cx="345" cy="110" r="38" />
+            <path d="M103 96 C138 76 154 65 164 62M103 116 C138 139 154 153 164 158M247 68 C285 81 304 93 309 100M247 153 C285 139 302 128 309 119" />
+            <text x="70" y="110">repo</text>
+            <text x="205" y="63">stack</text>
+            <text x="205" y="167">risk</text>
+            <text x="345" y="115">brief</text>
+          </svg>
+        </aside>
+      </section>
+
+      <section class="status-panel hidden" id="status-panel" aria-live="polite">
+        <div class="spinner"></div>
+        <div>
+          <h2>Reading the public repo signals</h2>
+          <p id="status-message">Fetching metadata, files, manifests, and README clues.</p>
+        </div>
+      </section>
+
+      <section class="results hidden" id="results" aria-labelledby="results-title">
+        <div class="results-header">
+          <div>
+            <button class="text-button" id="new-scan" type="button">← New scan</button>
+            <p class="eyebrow" id="result-source">Live GitHub data</p>
+            <h2 id="results-title"></h2>
+            <p id="result-headline"></p>
+          </div>
+          <a class="secondary-button" id="github-link" target="_blank" rel="noreferrer noopener">View on GitHub</a>
+        </div>
+
+        <div class="metric-grid" id="metric-grid"></div>
+
+        <div class="result-grid">
+          <article class="panel span-2">
+            <p class="panel-kicker">Executive summary</p>
+            <h3>What this repo appears to be</h3>
+            <p id="summary-purpose"></p>
+            <div class="two-col">
+              <div><strong>Audience</strong><span id="summary-audience"></span></div>
+              <div><strong>Pitch</strong><span id="summary-pitch"></span></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Repo verdict</p>
+            <h3 id="verdict-label"></h3>
+            <p id="verdict-rationale"></p>
+            <ul class="compact-list" id="verdict-list"></ul>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Decision scorecard</p>
+            <div id="scorecard"></div>
+          </article>
+
+          <article class="panel span-2">
+            <p class="panel-kicker">How to use this repo</p>
+            <div class="steps" id="how-to-use"></div>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Detected stack</p>
+            <div class="chips" id="tech-stack"></div>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Dependency signal</p>
+            <div id="dependency-summary"></div>
+          </article>
+
+          <article class="panel span-2">
+            <p class="panel-kicker">Architecture map</p>
+            <div class="viz-wrap" id="architecture-map"></div>
+          </article>
+
+          <article class="panel span-2">
+            <p class="panel-kicker">Complexity by folder</p>
+            <div class="treemap" id="complexity-map"></div>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Risks</p>
+            <div id="risks"></div>
+          </article>
+
+          <article class="panel">
+            <p class="panel-kicker">Opportunities</p>
+            <div id="opportunities"></div>
+          </article>
+
+          <article class="panel span-2">
+            <p class="panel-kicker">Prompt board</p>
+            <div class="prompt-grid" id="prompt-board"></div>
+          </article>
+
+          <article class="panel span-2">
+            <p class="panel-kicker">Evidence</p>
+            <div class="evidence-grid" id="evidence"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" id="how-it-works">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>A thin scanner, not a magic oracle.</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <strong>Reads public signals</strong>
+            <p>SourceBrief checks public GitHub metadata, the repository tree, README files, manifests, and language data.</p>
+          </article>
+          <article>
+            <strong>Turns clues into decisions</strong>
+            <p>It converts those signals into setup steps, a stack map, risks, opportunities, and prompts you can use with an AI coding assistant.</p>
+          </article>
+          <article>
+            <strong>Stays honest</strong>
+            <p>It labels inferred guidance clearly. It does not clone private code, bypass GitHub, or pretend it has read every source file deeply.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section muted-section" id="example">
+        <div>
+          <p class="eyebrow">Why it exists</p>
+          <h2>For builders deciding what to study, fork, or avoid.</h2>
+        </div>
+        <p>
+          GitHub repos often hide their true shape behind a long README and a dense file tree. SourceBrief gives you a first-pass map so you can decide
+          whether a repo is worth deeper inspection, useful for learning, safe to adopt, or promising enough to fork.
+        </p>
+      </section>
+
+      <section class="content-section" id="faq">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2>Useful limits to know.</h2>
+        </div>
+        <details>
+          <summary>Does SourceBrief work with private repos?</summary>
+          <p>No. This static version only uses the public GitHub API from your browser.</p>
+        </details>
+        <details>
+          <summary>Is this a security audit?</summary>
+          <p>No. It highlights visible risk signals, but it is not a substitute for code review, dependency scanning, or threat modelling.</p>
+        </details>
+        <details>
+          <summary>Why make it static?</summary>
+          <p>A static utility is faster, cheaper to host, easier to deploy, and safer to reuse across a portfolio of small AdSense-supported tools.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© <span id="year"></span> SourceBrief</span>
+      <span>Free public GitHub repo briefing utility</span>
+    </footer>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

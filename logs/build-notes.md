@@ -34,6 +34,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **Validation:** Imported existing React/Express SourceBrief app into `sites/sourcebrief/` after owner approval for a stack exception. Ran `npm ci` and `npm run build` from `sites/sourcebrief`; production build passed. npm reported 9 dependency audit findings (4 low, 1 moderate, 4 high); no automatic dependency fixes were applied.
 
+**2026-09-04 static cleanup update:** Converted SourceBrief to the repository-standard static utility model: `index.html`, `styles.css`, `app.js`, `robots.txt`, `sitemap.xml`, and SVG assets only. Removed React, Express, Vite, Tailwind, TypeScript, shadcn UI, package manifests, lockfile, server files, and build scripts from `sites/sourcebrief/`. `node --check app.js` passed. There is no remaining npm manifest or lockfile, so the previous npm audit surface has been removed rather than patched.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
@@ -42,10 +44,9 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 - Pricing/SaaS UI was removed for the pivot toward a free public micro-utility and future AdSense-backed repo explainer library.
 
 **Known limitations:**
-- This site currently uses a React/Express build, explicitly approved for this utility, while the repository default remains static HTML + vanilla JS.
-- Public GitHub API rate limits still apply.
-- No persistent shareable `/source/owner/repo` pages yet.
-- No sitemap/robots generated for SourceBrief yet.
+- Public GitHub API rate limits still apply because the static site calls GitHub directly from the browser.
+- Shareable URLs currently use `?repo=owner/repo`; there are no persistent pre-rendered `/source/owner/repo` pages yet.
 - No AdSense placeholders or publisher credentials.
+- No analytics or feedback capture.
 
-**Next planned work:** rework homepage copy for the free utility model, add shareable result URLs, create SEO-friendly repo briefing pages, add related repos, add feedback capture, add AdSense-ready layout zones, and add SEO safeguards.
+**Next planned work:** create SEO-friendly repo briefing pages or a static generation strategy, add related repo discovery, add feedback capture, add AdSense-ready layout zones, and confirm canonical domain before production indexing.

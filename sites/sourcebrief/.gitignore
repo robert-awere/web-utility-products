@@ -1,16 +1,11 @@
+# SourceBrief is intentionally static: no npm install, build output, server runtime,
+# database, or local environment files should be committed.
 node_modules/
 dist/
 .vite/
-
-# SQLite database files — never commit; exposes demo data at rest
-data.db
-data.db-shm
-data.db-wal
-data.db-journal
-
+data.db*
 .env
 .env.*
 !.env.example
-
 *.log
 .DS_Store
