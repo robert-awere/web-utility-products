@@ -1,0 +1,20 @@
+{
+  "name": "tablescore",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "TableScore v0.2 — Hand and Foot score keeper (Astro static site)",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "test": "node --test src/engine/hand-and-foot.test.js src/engine/storage.test.js",
+    "pdf": "python3 scripts/generate-score-sheet-pdf.py"
+  },
+  "dependencies": {
+    "astro": "^5.12.9"
+  },
+  "devDependencies": {
+    "lighthouse": "^12.6.1"
+  }
+}

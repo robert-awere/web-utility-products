@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="TableScore">
+  <rect width="32" height="32" rx="6" fill="#6b2418"/>
+  <rect x="6" y="7" width="20" height="18" rx="2" fill="#fffdf8"/>
+  <path d="M9 12h14M9 16h10M9 20h12" stroke="#1b1814" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
