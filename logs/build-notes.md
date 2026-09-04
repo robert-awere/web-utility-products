@@ -52,6 +52,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 SEO safeguards update:** Added an explicit robots meta tag and a curated indexability allowlist for repo pages. The homepage and sitemap-listed examples remain `index,follow`; arbitrary generated repo pages become `noindex,follow` after the client-side repo brief loads. Also disallowed legacy `?repo=` URLs in `robots.txt` and documented that `sitemap.xml` must remain curated/manual until a generator policy is chosen.
 
+**2026-09-04 trust pages update:** Added static About, Privacy, Terms, and Contact pages for SourceBrief, linked from the site footer and sitemap. The pages clarify that the tool uses public GitHub repo data only, does not require accounts or private repo access, has inactive ad placeholders only, and routes feedback through public GitHub issues.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**

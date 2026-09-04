@@ -35,6 +35,7 @@ Get GitHub repo info before you read the code.
 - Capture lightweight visitor feedback through a prefilled public GitHub issue flow with copy fallback, without cookies, tracking, or background submission.
 - Reserve non-live AdSense-ready layout zones below the primary repo value, without inserting publisher credentials, live ad scripts, or tracking code.
 - Apply SEO safeguards: only curated sitemap repo pages are marked `index,follow`; arbitrary generated repo pages are marked `noindex,follow`; legacy `?repo=` URLs are discouraged in `robots.txt`.
+- Provide static About, Privacy, Terms, and Contact pages so visitors and advertising reviewers can understand the utility, data handling, limitations, and support route.
 
 ## Stack
 
@@ -54,6 +55,7 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 - AdSense layout zones are placeholders only. No AdSense code, publisher credentials, live ad requests, or tracking scripts are present.
 - No analytics or tracking.
 - Feedback capture requires the visitor to choose whether to submit a public GitHub issue; SourceBrief does not store feedback itself.
+- The contact route is currently a public GitHub issue flow; visitors are warned not to submit secrets, private repo names, credentials, or confidential information.
 - Related repo discovery is best-effort and depends on the public GitHub search API, so it may be unavailable under rate limits or weak repo metadata.
 - Browser-side GitHub API calls are subject to unauthenticated GitHub rate limits.
 - Sitemap updates are static/manual for now. The current safeguard is a curated allowlist matching `sitemap.xml`; before final launch, SourceBrief still needs an explicit expansion policy or generator script.
