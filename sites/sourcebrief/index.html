@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SourceBrief | Visual GitHub Repo Briefing</title>
+    <title>SourceBrief | GitHub Repo Info & Safety Brief</title>
     <meta
       name="description"
-      content="Turn any public GitHub repository into a visual briefing with setup hints, risks, stack signals, repo prompts, and practical next steps."
+      content="Get GitHub repo info, descriptions, safety signals, setup steps, and AI prompts for public GitHub repositories before you read the code."
     />
     <link rel="canonical" href="https://www.sourcebrief.io/" />
-    <meta property="og:title" content="SourceBrief | Visual GitHub Repo Briefing" />
+    <meta property="og:title" content="SourceBrief | GitHub Repo Info & Safety Brief" />
     <meta
       property="og:description"
-      content="Paste a GitHub repo and get a fast visual briefing before you read the code."
+      content="Paste a GitHub repo name or URL and get a fast visual briefing before you read the code."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.sourcebrief.io/" />
@@ -31,12 +31,60 @@
         "name": "SourceBrief",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
-        "description": "A free utility for turning public GitHub repositories into visual repo briefings.",
+        "description": "A free utility for getting GitHub repo info, descriptions, setup clues, safety signals, and visual repo briefings.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What exactly is a GitHub repo?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A GitHub repo is a repository: a project folder hosted on GitHub that usually contains source code, documentation, issues, releases, and version history."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is repository name in GitHub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The repository name is the project part of the owner/repo address. In facebook/react, facebook is the owner and react is the repository name."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I get GitHub repo info?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paste a public GitHub repository URL or owner/repo value into SourceBrief to see metadata, the repo description, languages, setup clues, visible risk signals, and suggested prompts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a GitHub repo safe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A public GitHub repo is not automatically safe. Check the license, maintenance activity, dependencies, install scripts, open issues, tests, and security notes before running or adopting it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are a lot of people leaving GitHub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Some developers look at GitHub alternatives for privacy, pricing, self-hosting, open-source governance, workflow preference, or platform-dependence reasons. GitHub still hosts many important public repositories, so careful repo evaluation remains useful."
+            }
+          }
+        ]
       }
     </script>
   </head>
@@ -50,6 +98,7 @@
         <span>SourceBrief</span>
       </a>
       <nav aria-label="Primary">
+        <a href="#repo-info">Repo info</a>
         <a href="#how-it-works">How it works</a>
         <a href="#example">Example</a>
         <a href="#faq">FAQ</a>
@@ -61,14 +110,14 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Public GitHub repo intelligence</p>
-          <h1 id="hero-title">Understand a repo before you read the code.</h1>
+          <p class="eyebrow">GitHub repo info, faster</p>
+          <h1 id="hero-title">Get GitHub repo info before you read the code.</h1>
           <p class="hero-subtitle">
-            Paste a GitHub repository and get a visual source brief: what it is, how to run it, where the risk is,
-            and which prompts will help you explore it faster.
+            Use SourceBrief as a GitHub repository search companion: paste any public repo name or URL and see
+            the repo description, stack, setup clues, safety signals, and prompts worth asking next.
           </p>
           <form class="repo-form" id="repo-form">
-            <label class="sr-only" for="repo-input">GitHub repository URL or owner/repo</label>
+            <label class="sr-only" for="repo-input">GitHub repository name or URL</label>
             <input
               id="repo-input"
               name="repo"
@@ -76,7 +125,7 @@
               placeholder="vercel/next.js or https://github.com/vercel/next.js"
               required
             />
-            <button type="submit">Brief this repo</button>
+            <button type="submit">Get repo info</button>
           </form>
           <p class="form-help" id="form-help">No login required. Public repositories only. GitHub API rate limits may apply.</p>
         </div>
@@ -207,23 +256,63 @@
         </div>
       </section>
 
+      <section class="content-section muted-section" id="repo-info">
+        <div>
+          <p class="eyebrow">GitHub repo guide</p>
+          <h2>What exactly is a GitHub repo?</h2>
+        </div>
+        <div class="intent-grid">
+          <article>
+            <strong>A repository is the project container.</strong>
+            <p>
+              A GitHub repo, short for repository, is where a project keeps its code, README, license, issues,
+              releases, history, and setup instructions. If you are asking “what is repository name in GitHub?”,
+              it is the second half of the familiar <code>owner/repo</code> format, such as <code>facebook/react</code>.
+            </p>
+          </article>
+          <article>
+            <strong>GitHub repo info is scattered.</strong>
+            <p>
+              A useful GitHub repo description tells you what the project does, but it rarely tells the full story.
+              SourceBrief combines public metadata, languages, README clues, file structure, manifests, and activity
+              signals into one visual briefing.
+            </p>
+          </article>
+          <article>
+            <strong>Use it after GitHub repository search.</strong>
+            <p>
+              GitHub repository search helps you find GitHub repos. SourceBrief helps you decide what to do next:
+              study it, fork it, install it carefully, ask better AI prompts, or skip it before you lose an hour.
+            </p>
+          </article>
+          <article>
+            <strong>Safety still needs judgement.</strong>
+            <p>
+              No quick scanner can prove a GitHub repo is safe. Treat SourceBrief as a first-pass risk map that points
+              you toward the license, dependencies, install scripts, tests, CI, open issues, and maintenance signals
+              you should check before running code.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section class="content-section" id="how-it-works">
         <div>
           <p class="eyebrow">How it works</p>
-          <h2>A thin scanner, not a magic oracle.</h2>
+          <h2>How to get GitHub repo info with SourceBrief.</h2>
         </div>
         <div class="feature-grid">
           <article>
-            <strong>Reads public signals</strong>
-            <p>SourceBrief checks public GitHub metadata, the repository tree, README files, manifests, and language data.</p>
+            <strong>Paste a repo name or URL</strong>
+            <p>Enter a public GitHub repository as <code>owner/repo</code> or paste the full GitHub URL.</p>
           </article>
           <article>
-            <strong>Turns clues into decisions</strong>
-            <p>It converts those signals into setup steps, a stack map, risks, opportunities, and prompts you can use with an AI coding assistant.</p>
+            <strong>Read public signals</strong>
+            <p>SourceBrief checks GitHub metadata, the repository tree, README files, manifests, and language data.</p>
           </article>
           <article>
-            <strong>Stays honest</strong>
-            <p>It labels inferred guidance clearly. It does not clone private code, bypass GitHub, or pretend it has read every source file deeply.</p>
+            <strong>Turn clues into decisions</strong>
+            <p>It converts those signals into setup steps, a stack map, risks, opportunities, and prompts for deeper review.</p>
           </article>
         </div>
       </section>
@@ -234,16 +323,56 @@
           <h2>For builders deciding what to study, fork, or avoid.</h2>
         </div>
         <p>
-          GitHub repos often hide their true shape behind a long README and a dense file tree. SourceBrief gives you a first-pass map so you can decide
-          whether a repo is worth deeper inspection, useful for learning, safe to adopt, or promising enough to fork.
+          Many GitHub repos hide their true shape behind a long README, a thin GitHub repo description, or a dense
+          file tree. SourceBrief gives builders, students, testers, and AI-assisted developers a first-pass map so
+          they can decide whether a repo is worth deeper inspection, useful for learning, safe enough to evaluate,
+          or promising enough to fork.
         </p>
       </section>
 
       <section class="content-section" id="faq">
         <div>
           <p class="eyebrow">FAQ</p>
-          <h2>Useful limits to know.</h2>
+          <h2>Useful answers before you trust a repo.</h2>
         </div>
+        <details>
+          <summary>What exactly is a GitHub repo?</summary>
+          <p>
+            A GitHub repo is a repository: a project folder hosted on GitHub that can include source code,
+            documentation, releases, issues, pull requests, and the full version history for the project.
+          </p>
+        </details>
+        <details>
+          <summary>What is repository name in GitHub?</summary>
+          <p>
+            The repository name is the project part of the GitHub address. In <code>vercel/next.js</code>,
+            <code>vercel</code> is the owner and <code>next.js</code> is the repository name.
+          </p>
+        </details>
+        <details>
+          <summary>How do I get GitHub repo info?</summary>
+          <p>
+            Paste a public GitHub repository URL or <code>owner/repo</code> value into SourceBrief. It returns the
+            visible GitHub repo info that matters first: description, languages, setup hints, files, activity,
+            safety signals, and suggested investigation prompts.
+          </p>
+        </details>
+        <details>
+          <summary>Is a GitHub repo safe?</summary>
+          <p>
+            Not automatically. Public GitHub repos can be excellent, abandoned, experimental, misconfigured, or risky.
+            Before running code, inspect dependency files, install scripts, permissions, issues, release history, CI,
+            tests, and the project license.
+          </p>
+        </details>
+        <details>
+          <summary>Why are a lot of people leaving GitHub?</summary>
+          <p>
+            Some developers look at GitHub alternatives for privacy, pricing, self-hosting, open-source governance,
+            workflow preference, or platform-dependence reasons. That does not make GitHub irrelevant; it means good
+            repo evaluation is useful wherever code is hosted.
+          </p>
+        </details>
         <details>
           <summary>Does SourceBrief work with private repos?</summary>
           <p>No. This static version only uses the public GitHub API from your browser.</p>

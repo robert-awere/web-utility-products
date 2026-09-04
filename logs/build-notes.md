@@ -38,6 +38,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 domain SEO update:** Production domain confirmed as `https://www.sourcebrief.io/` with apex redirecting to `www`. Canonical URL, Open Graph URL, robots sitemap pointer, and sitemap `<loc>` were updated to the production `www` URL.
 
+**2026-09-04 homepage SEO copy update:** Reworked the SourceBrief homepage around practical repo-intent queries: GitHub repo info, GitHub repo description, GitHub repository search, repository-name format, how to get repo info, whether a GitHub repo is safe, and why some developers evaluate GitHub alternatives. Added visible explainer content and FAQPage JSON-LD while keeping the scanner above the fold.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**

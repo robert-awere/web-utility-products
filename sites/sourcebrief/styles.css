@@ -401,6 +401,7 @@ small {
 .metric-grid,
 .result-grid,
 .feature-grid,
+.intent-grid,
 .prompt-grid,
 .evidence-grid {
   display: grid;
@@ -571,6 +572,30 @@ code {
   cursor: pointer;
 }
 
+.intent-grid {
+  grid-template-columns: 1fr;
+}
+
+.intent-grid article,
+.feature-grid article {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: var(--space-5);
+}
+
+.intent-grid strong,
+.feature-grid strong {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.intent-grid p,
+.feature-grid p,
+details p {
+  color: var(--muted);
+}
+
 .content-section {
   display: grid;
   gap: var(--space-6);
@@ -634,6 +659,7 @@ summary {
 
   .two-col,
   .feature-grid,
+  .intent-grid,
   .prompt-grid,
   .evidence-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

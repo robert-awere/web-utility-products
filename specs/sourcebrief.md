@@ -18,7 +18,7 @@ SourceBrief is a free GitHub repository briefing utility. A user enters a public
 
 ## Positioning
 
-Understand any GitHub repo before you read the code.
+Get GitHub repo info before you read the code.
 
 ## Core features
 
@@ -27,6 +27,7 @@ Understand any GitHub repo before you read the code.
 - Fall back to clearly labelled demo data if the public API is unavailable or rate-limited.
 - Generate a repo summary, verdict, decision scorecard, setup guidance, architecture map, complexity view, risks, opportunities, AI prompt board, and evidence panel.
 - Present the utility as free and public, with no paid-tier UI.
+- Explain core search-intent questions on the homepage, including what a GitHub repo is, what a repository name means, how to get GitHub repo info, and whether a repo is safe enough to evaluate.
 
 ## Stack
 
@@ -53,5 +54,5 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 2. Add related repo discovery.
 3. Add lightweight feedback capture.
 4. Add AdSense-ready layout zones without interrupting input/result flow.
-5. Add stronger SEO safeguards and canonical URL strategy once a production domain is confirmed.
+5. Add stronger result-page SEO safeguards and canonical/noindex strategy for query-driven pages.
 6. Consider an optional GitHub token flow only if rate limits become a real user problem.
