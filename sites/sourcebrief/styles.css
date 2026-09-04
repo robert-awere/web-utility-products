@@ -262,6 +262,11 @@ h3 {
   cursor: pointer;
 }
 
+.ghost-button {
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  color: var(--text);
+}
+
 .repo-form button:hover,
 .secondary-button:hover,
 .text-button:hover {
@@ -390,6 +395,12 @@ small {
 .results-header p {
   max-width: 68ch;
   color: var(--muted);
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .text-button {
@@ -643,6 +654,10 @@ summary {
   .results-header {
     flex-direction: row;
     align-items: flex-start;
+  }
+
+  .result-actions {
+    justify-content: flex-end;
   }
 
   .metric-grid {

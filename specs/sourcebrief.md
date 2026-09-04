@@ -28,6 +28,7 @@ Get GitHub repo info before you read the code.
 - Generate a repo summary, verdict, decision scorecard, setup guidance, architecture map, complexity view, risks, opportunities, AI prompt board, and evidence panel.
 - Present the utility as free and public, with no paid-tier UI.
 - Explain core search-intent questions on the homepage, including what a GitHub repo is, what a repository name means, how to get GitHub repo info, and whether a repo is safe enough to evaluate.
+- Generate shareable result URLs with a `?repo=owner/repo` query parameter. Opening one of these URLs automatically re-runs the public repo briefing in the browser.
 
 ## Stack
 
@@ -43,7 +44,7 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 
 - Public GitHub API only.
 - No GitHub App private repo support.
-- Shareable URLs use a `?repo=owner/repo` query parameter, but there are no pre-rendered public repo result pages yet.
+- Shareable result URLs use a `?repo=owner/repo` query parameter and auto-run in the browser. They are not pre-rendered public repo result pages yet.
 - No AdSense code or publisher credentials.
 - No analytics or tracking.
 - Browser-side GitHub API calls are subject to unauthenticated GitHub rate limits.

@@ -16,6 +16,7 @@ const els = {
   title: document.querySelector('#results-title'),
   headline: document.querySelector('#result-headline'),
   githubLink: document.querySelector('#github-link'),
+  shareLink: document.querySelector('#share-link'),
   metricGrid: document.querySelector('#metric-grid'),
   purpose: document.querySelector('#summary-purpose'),
   audience: document.querySelector('#summary-audience'),
@@ -44,18 +45,51 @@ document.querySelector('[data-theme-toggle]').addEventListener('click', () => {
 });
 
 els.newScan.addEventListener('click', () => {
-  els.results.classList.add('hidden');
-  els.status.classList.add('hidden');
-  document.querySelector('.hero').classList.remove('hidden');
-  els.input.focus();
+  showHome({ focusInput: true, clearUrl: true });
 });
 
 els.form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const parsed = parseRepoInput(els.input.value);
+  await runScan(els.input.value, { writeUrl: true, scrollToResults: true });
+});
+
+els.shareLink.addEventListener('click', async () => {
+  try {
+    await copyText(location.href);
+    els.shareLink.textContent = 'Result link copied';
+    setTimeout(() => {
+      els.shareLink.textContent = 'Copy result link';
+    }, 1400);
+  } catch {
+    els.shareLink.textContent = 'Copy failed';
+    setTimeout(() => {
+      els.shareLink.textContent = 'Copy result link';
+    }, 1400);
+  }
+});
+
+window.addEventListener('popstate', () => {
+  const repo = getRepoParam();
+  if (repo) {
+    els.input.value = repo;
+    runScan(repo, { writeUrl: false, scrollToResults: true });
+    return;
+  }
+  showHome({ focusInput: false, clearUrl: false });
+});
+
+const initialRepo = getRepoParam();
+if (initialRepo) {
+  els.input.value = initialRepo;
+  runScan(initialRepo, { writeUrl: false, scrollToResults: true });
+}
+
+async function runScan(input, options = {}) {
+  const { writeUrl = false, scrollToResults = false } = options;
+  const parsed = parseRepoInput(input);
   if (!parsed) {
     setHelp('Enter a public GitHub repo URL or owner/repo, for example vercel/next.js.', true);
-    return;
+    return false;
   }
 
   setHelp('Reading public GitHub signals. No private data is requested.', false);
@@ -66,24 +100,33 @@ els.form.addEventListener('submit', async (event) => {
   try {
     const analysis = await analyzeRepo(parsed.owner, parsed.repo);
     renderAnalysis(analysis);
-    updateUrl(parsed.owner, parsed.repo);
+    if (writeUrl) updateUrl(parsed.owner, parsed.repo);
+    if (scrollToResults) els.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
   } catch (error) {
     setHelp(error.message || 'Unable to analyze this repo. Try another public repository.', true);
     document.querySelector('.hero').classList.remove('hidden');
+    return false;
   } finally {
     els.status.classList.add('hidden');
   }
-});
-
-const params = new URLSearchParams(location.search);
-const initialRepo = params.get('repo');
-if (initialRepo) {
-  els.input.value = initialRepo;
 }
 
 function setHelp(message, isError) {
   els.help.textContent = message;
   els.help.classList.toggle('error', Boolean(isError));
+}
+
+function showHome({ focusInput = false, clearUrl = false } = {}) {
+  els.results.classList.add('hidden');
+  els.status.classList.add('hidden');
+  document.querySelector('.hero').classList.remove('hidden');
+  if (clearUrl) clearRepoUrl();
+  if (focusInput) els.input.focus();
+}
+
+function getRepoParam() {
+  return new URLSearchParams(location.search).get('repo');
 }
 
 function parseRepoInput(input) {
@@ -440,8 +483,12 @@ function renderAnalysis(data) {
 
   document.querySelectorAll('[data-copy]').forEach((button) => {
     button.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(button.dataset.copy);
-      button.textContent = 'Copied';
+      try {
+        await copyText(button.dataset.copy);
+        button.textContent = 'Copied';
+      } catch {
+        button.textContent = 'Copy failed';
+      }
       setTimeout(() => { button.textContent = 'Copy prompt'; }, 1200);
     });
   });
@@ -485,7 +532,29 @@ function renderArchitecture(data) {
 function updateUrl(owner, repo) {
   const url = new URL(location.href);
   url.searchParams.set('repo', `${owner}/${repo}`);
-  history.replaceState({}, '', url);
+  history.pushState({ repo: `${owner}/${repo}` }, '', url);
+}
+
+function clearRepoUrl() {
+  const url = new URL(location.href);
+  url.searchParams.delete('repo');
+  history.pushState({}, '', url);
+}
+
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.setAttribute('readonly', '');
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-9999px';
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand('copy');
+  textArea.remove();
 }
 
 function formatNumber(number) {

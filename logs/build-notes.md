@@ -40,6 +40,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 homepage SEO copy update:** Reworked the SourceBrief homepage around practical repo-intent queries: GitHub repo info, GitHub repo description, GitHub repository search, repository-name format, how to get repo info, whether a GitHub repo is safe, and why some developers evaluate GitHub alternatives. Added visible explainer content and FAQPage JSON-LD while keeping the scanner above the fold.
 
+**2026-09-04 shareable result URL update:** Completed the shareable-result MVP. Successful scans now push a `?repo=owner/repo` URL, copied result links can be opened directly by another user, direct `?repo=` visits auto-run the public repo briefing, browser back/forward is handled, and the result header includes a copy-link action.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
@@ -49,7 +51,7 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **Known limitations:**
 - Public GitHub API rate limits still apply because the static site calls GitHub directly from the browser.
-- Shareable URLs currently use `?repo=owner/repo`; there are no persistent pre-rendered `/source/owner/repo` pages yet.
+- Shareable URLs use `?repo=owner/repo` and auto-run client-side; there are no persistent pre-rendered `/source/owner/repo` pages yet.
 - No AdSense placeholders or publisher credentials.
 - No analytics or feedback capture.
 
