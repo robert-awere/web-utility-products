@@ -33,6 +33,7 @@ Get GitHub repo info before you read the code.
 - Update repo-specific title, description, canonical URL, Open Graph URL, and structured data after a successful briefing.
 - Show related public GitHub repos as follow-on SourceBrief scans so visitors can compare nearby projects.
 - Capture lightweight visitor feedback through a prefilled public GitHub issue flow with copy fallback, without cookies, tracking, or background submission.
+- Reserve non-live AdSense-ready layout zones below the primary repo value, without inserting publisher credentials, live ad scripts, or tracking code.
 
 ## Stack
 
@@ -49,7 +50,7 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 - Public GitHub API only.
 - No GitHub App private repo support.
 - Shareable result URLs use `/repo/{owner}/{repo}/` and auto-run in the browser. They are structured for SEO but are not fully pre-rendered static repo pages yet.
-- No AdSense code or publisher credentials.
+- AdSense layout zones are placeholders only. No AdSense code, publisher credentials, live ad requests, or tracking scripts are present.
 - No analytics or tracking.
 - Feedback capture requires the visitor to choose whether to submit a public GitHub issue; SourceBrief does not store feedback itself.
 - Related repo discovery is best-effort and depends on the public GitHub search API, so it may be unavailable under rate limits or weak repo metadata.
@@ -59,6 +60,5 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 ## Next planned work
 
 1. Add a static generation strategy for curated popular repositories if SEO traction justifies it.
-2. Add AdSense-ready layout zones without interrupting input/result flow.
-3. Add stronger index/noindex safeguards for arbitrary user-generated repo pages.
-4. Consider an optional GitHub token flow only if rate limits become a real user problem.
+2. Add stronger index/noindex safeguards for arbitrary user-generated repo pages.
+3. Consider an optional GitHub token flow only if rate limits become a real user problem.

@@ -48,6 +48,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 related repos update:** Added a related repositories panel to each SourceBrief result. It uses public GitHub search signals from topics, language, repo name, and description, excludes the currently scanned repo, and links related items to SourceBrief `/repo/{owner}/{repo}/` pages first so visitors can continue comparing repos inside the utility.
 
+**2026-09-04 AdSense placeholder update:** Added inactive, AdSense-ready layout zones without inserting Google scripts, publisher credentials, tracking code, or live ad requests. Placements sit after the generated related-repo value and below the educational example section, preserving an ad-free scanner and primary result flow.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
@@ -58,9 +60,9 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 **Known limitations:**
 - Public GitHub API rate limits still apply because the static site calls GitHub directly from the browser.
 - Shareable URLs use `/repo/{owner}/{repo}/` and auto-run client-side; there are no fully pre-rendered static repo pages yet.
-- No AdSense placeholders or publisher credentials.
+- AdSense zones are placeholders only; no publisher credentials, live ad script, or ad request is present.
 - Feedback capture opens a prefilled public GitHub issue; SourceBrief does not store feedback itself.
 - Related repo discovery is best-effort and can be unavailable when GitHub search is rate-limited or the scanned repo has weak metadata.
 - Sitemap updates are currently static/manual. Before final launch, choose either curated sitemap entries or a generator script; do not automatically index every user-generated repo page.
 
-**Next planned work:** add AdSense-ready layout zones, add index/noindex safeguards for arbitrary user-generated repo pages, and consider a static generation strategy for curated popular repositories.
+**Next planned work:** add index/noindex safeguards for arbitrary user-generated repo pages, and consider a static generation strategy for curated popular repositories.

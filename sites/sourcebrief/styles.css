@@ -289,6 +289,7 @@ h3 {
 .panel,
 .status-panel,
 .content-section,
+.ad-slot,
 details {
   border: 1px solid var(--border);
   border-radius: var(--radius-2xl);
@@ -502,6 +503,42 @@ small {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
+}
+
+.ad-slot {
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  min-height: 7.5rem;
+  padding: var(--space-5);
+  text-align: center;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface-2) 88%, transparent), color-mix(in srgb, var(--surface) 94%, transparent)),
+    repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in srgb, var(--border) 38%, transparent) 12px 13px);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.ad-slot span {
+  color: var(--faint);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ad-slot strong {
+  max-width: 42rem;
+}
+
+.ad-slot p {
+  max-width: 48rem;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.ad-slot--content {
+  width: min(1180px, calc(100% - 2rem));
+  margin: var(--space-8) auto;
 }
 
 .feedback-panel {
