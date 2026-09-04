@@ -1,6 +1,11 @@
 const GITHUB_API = 'https://api.github.com';
 const HOME_URL = 'https://www.sourcebrief.io/';
 const FEEDBACK_ISSUE_URL = 'https://github.com/robert-awere/web-utility-products/issues/new';
+const INDEXABLE_REPOS = new Set([
+  'facebook/react',
+  'vercel/next.js',
+  'microsoft/vscode',
+]);
 
 const state = {
   theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
@@ -9,6 +14,7 @@ const state = {
 
 const meta = {
   description: document.querySelector('#meta-description'),
+  robots: document.querySelector('#robots-meta'),
   canonical: document.querySelector('#canonical-link'),
   ogTitle: document.querySelector('#og-title'),
   ogDescription: document.querySelector('#og-description'),
@@ -18,6 +24,7 @@ const meta = {
 const homeMeta = {
   title: document.title,
   description: meta.description?.content || '',
+  robots: meta.robots?.content || 'index,follow',
   canonical: meta.canonical?.href || HOME_URL,
   ogTitle: meta.ogTitle?.content || document.title,
   ogDescription: meta.ogDescription?.content || '',
@@ -728,6 +735,7 @@ function buildRepoUrl(owner, repo) {
 function updateRepoMeta(data) {
   const slug = `${data.owner}/${data.repo}`;
   const canonical = buildRepoUrl(data.owner, data.repo).href;
+  const robots = isIndexableRepo(data.owner, data.repo) ? 'index,follow' : 'noindex,follow';
   const language = primaryLanguage(data.languages, data.meta.language);
   const baseDescription = data.meta.description || data.summary.headline || 'Public GitHub repository briefing';
   const title = truncateText(`${slug} GitHub Repo Brief | SourceBrief`, 60);
@@ -738,6 +746,7 @@ function updateRepoMeta(data) {
 
   document.title = title;
   setMeta(meta.description, 'content', description);
+  setMeta(meta.robots, 'content', robots);
   setMeta(meta.canonical, 'href', canonical);
   setMeta(meta.ogTitle, 'content', title);
   setMeta(meta.ogDescription, 'content', description);
@@ -765,11 +774,16 @@ function updateRepoMeta(data) {
 function restoreHomeMeta() {
   document.title = homeMeta.title;
   setMeta(meta.description, 'content', homeMeta.description);
+  setMeta(meta.robots, 'content', homeMeta.robots);
   setMeta(meta.canonical, 'href', homeMeta.canonical);
   setMeta(meta.ogTitle, 'content', homeMeta.ogTitle);
   setMeta(meta.ogDescription, 'content', homeMeta.ogDescription);
   setMeta(meta.ogUrl, 'content', homeMeta.ogUrl);
   document.querySelector('#repo-brief-jsonld')?.remove();
+}
+
+function isIndexableRepo(owner, repo) {
+  return INDEXABLE_REPOS.has(`${owner}/${repo}`.toLowerCase());
 }
 
 function setMeta(element, attribute, value) {

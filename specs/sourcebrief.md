@@ -34,6 +34,7 @@ Get GitHub repo info before you read the code.
 - Show related public GitHub repos as follow-on SourceBrief scans so visitors can compare nearby projects.
 - Capture lightweight visitor feedback through a prefilled public GitHub issue flow with copy fallback, without cookies, tracking, or background submission.
 - Reserve non-live AdSense-ready layout zones below the primary repo value, without inserting publisher credentials, live ad scripts, or tracking code.
+- Apply SEO safeguards: only curated sitemap repo pages are marked `index,follow`; arbitrary generated repo pages are marked `noindex,follow`; legacy `?repo=` URLs are discouraged in `robots.txt`.
 
 ## Stack
 
@@ -55,10 +56,9 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 - Feedback capture requires the visitor to choose whether to submit a public GitHub issue; SourceBrief does not store feedback itself.
 - Related repo discovery is best-effort and depends on the public GitHub search API, so it may be unavailable under rate limits or weak repo metadata.
 - Browser-side GitHub API calls are subject to unauthenticated GitHub rate limits.
-- Sitemap updates are static/manual for now. Before final launch, SourceBrief needs an explicit sitemap policy that uses curated repo pages or a generation script rather than automatically indexing every user-generated repo URL.
+- Sitemap updates are static/manual for now. The current safeguard is a curated allowlist matching `sitemap.xml`; before final launch, SourceBrief still needs an explicit expansion policy or generator script.
 
 ## Next planned work
 
 1. Add a static generation strategy for curated popular repositories if SEO traction justifies it.
-2. Add stronger index/noindex safeguards for arbitrary user-generated repo pages.
-3. Consider an optional GitHub token flow only if rate limits become a real user problem.
+2. Consider an optional GitHub token flow only if rate limits become a real user problem.

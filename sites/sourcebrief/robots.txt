@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /*?repo=
 
 Sitemap: https://www.sourcebrief.io/sitemap.xml

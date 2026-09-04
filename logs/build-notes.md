@@ -50,6 +50,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 AdSense placeholder update:** Added inactive, AdSense-ready layout zones without inserting Google scripts, publisher credentials, tracking code, or live ad requests. Placements sit after the generated related-repo value and below the educational example section, preserving an ad-free scanner and primary result flow.
 
+**2026-09-04 SEO safeguards update:** Added an explicit robots meta tag and a curated indexability allowlist for repo pages. The homepage and sitemap-listed examples remain `index,follow`; arbitrary generated repo pages become `noindex,follow` after the client-side repo brief loads. Also disallowed legacy `?repo=` URLs in `robots.txt` and documented that `sitemap.xml` must remain curated/manual until a generator policy is chosen.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
@@ -63,6 +65,6 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 - AdSense zones are placeholders only; no publisher credentials, live ad script, or ad request is present.
 - Feedback capture opens a prefilled public GitHub issue; SourceBrief does not store feedback itself.
 - Related repo discovery is best-effort and can be unavailable when GitHub search is rate-limited or the scanned repo has weak metadata.
-- Sitemap updates are currently static/manual. Before final launch, choose either curated sitemap entries or a generator script; do not automatically index every user-generated repo page.
+- Sitemap updates are currently static/manual and tied to the curated indexability allowlist. Before final launch, choose either curated sitemap entries or a generator script; do not automatically index every user-generated repo page.
 
-**Next planned work:** add index/noindex safeguards for arbitrary user-generated repo pages, and consider a static generation strategy for curated popular repositories.
+**Next planned work:** consider a static generation strategy for curated popular repositories and decide whether an optional GitHub token flow is needed if rate limits become a real user problem.
