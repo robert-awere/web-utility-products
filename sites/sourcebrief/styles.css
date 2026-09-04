@@ -82,7 +82,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -446,7 +447,8 @@ small {
 .compact-list,
 .step p,
 .prompt-card p,
-.evidence-item p {
+.evidence-item p,
+.feedback-form textarea {
   color: var(--muted);
 }
 
@@ -475,6 +477,78 @@ small {
 .compact-list {
   margin-top: var(--space-4);
   padding-left: var(--space-5);
+}
+
+.feedback-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary-2) 12%, transparent), transparent 42%);
+}
+
+.feedback-panel > * {
+  position: relative;
+}
+
+.feedback-form {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.feedback-tone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  border: 0;
+}
+
+.feedback-tone label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.feedback-tone label:has(input:checked) {
+  border-color: color-mix(in srgb, var(--primary-2) 65%, var(--border));
+  background: color-mix(in srgb, var(--primary-2) 14%, var(--surface));
+  color: var(--text);
+}
+
+.feedback-tone input {
+  accent-color: var(--primary-2);
+}
+
+.feedback-label {
+  font-weight: 700;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  min-height: 7rem;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  padding: var(--space-4);
+}
+
+.feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .score-row {

@@ -1,8 +1,10 @@
 const GITHUB_API = 'https://api.github.com';
 const HOME_URL = 'https://www.sourcebrief.io/';
+const FEEDBACK_ISSUE_URL = 'https://github.com/robert-awere/web-utility-products/issues/new';
 
 const state = {
   theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+  currentAnalysis: null,
 };
 
 const meta = {
@@ -52,6 +54,12 @@ const els = {
   opportunities: document.querySelector('#opportunities'),
   promptBoard: document.querySelector('#prompt-board'),
   evidence: document.querySelector('#evidence'),
+  feedbackForm: document.querySelector('#feedback-form'),
+  feedbackTone: document.querySelectorAll('input[name="tone"]'),
+  feedbackMessage: document.querySelector('#feedback-message'),
+  feedbackIssueLink: document.querySelector('#feedback-issue-link'),
+  feedbackCopy: document.querySelector('#feedback-copy'),
+  feedbackStatus: document.querySelector('#feedback-status'),
 };
 
 document.documentElement.setAttribute('data-theme', state.theme);
@@ -84,6 +92,25 @@ els.shareLink.addEventListener('click', async () => {
       els.shareLink.textContent = 'Copy result link';
     }, 1400);
   }
+});
+
+els.feedbackForm.addEventListener('input', updateFeedbackIssueLink);
+els.feedbackForm.addEventListener('change', updateFeedbackIssueLink);
+
+els.feedbackCopy.addEventListener('click', async () => {
+  try {
+    await copyText(buildFeedbackBody());
+    els.feedbackStatus.textContent = 'Feedback copied. Paste it wherever you prefer.';
+    els.feedbackCopy.textContent = 'Copied';
+  } catch {
+    els.feedbackStatus.textContent = 'Copy failed. You can still open the prefilled GitHub issue.';
+    els.feedbackCopy.textContent = 'Copy failed';
+  }
+
+  setTimeout(() => {
+    els.feedbackCopy.textContent = 'Copy feedback';
+    updateFeedbackIssueLink();
+  }, 1400);
 });
 
 window.addEventListener('popstate', () => {
@@ -136,6 +163,7 @@ function setHelp(message, isError) {
 }
 
 function showHome({ focusInput = false, clearUrl = false } = {}) {
+  state.currentAnalysis = null;
   els.results.classList.add('hidden');
   els.status.classList.add('hidden');
   document.querySelector('.hero').classList.remove('hidden');
@@ -454,6 +482,7 @@ function buildEvidence({ meta, paths, hasReadme, packageJson, hasTests, hasCI, h
 }
 
 function renderAnalysis(data) {
+  state.currentAnalysis = data;
   els.results.classList.remove('hidden');
   els.resultSource.textContent = data.source;
   els.title.textContent = `${data.owner}/${data.repo}`;
@@ -515,6 +544,8 @@ function renderAnalysis(data) {
       <button type="button" data-copy="${escapeAttr(prompt)}">Copy prompt</button>
     </div>`).join('');
   els.evidence.innerHTML = data.evidence.map(([label, path, note]) => `<div class="evidence-item"><strong>${escapeHtml(label)}</strong><p>${escapeHtml(path)}</p><p>${escapeHtml(note)}</p></div>`).join('');
+  resetFeedback();
+  updateFeedbackIssueLink();
 
   document.querySelectorAll('[data-copy]').forEach((button) => {
     button.addEventListener('click', async () => {
@@ -527,6 +558,53 @@ function renderAnalysis(data) {
       setTimeout(() => { button.textContent = 'Copy prompt'; }, 1200);
     });
   });
+}
+
+function selectedFeedbackTone() {
+  return document.querySelector('input[name="tone"]:checked')?.value || 'Useful';
+}
+
+function resetFeedback() {
+  els.feedbackMessage.value = '';
+  const usefulOption = document.querySelector('input[name="tone"][value="Useful"]');
+  if (usefulOption) usefulOption.checked = true;
+  els.feedbackStatus.textContent = 'Opens a prefilled public GitHub issue. You choose whether to submit it.';
+}
+
+function buildFeedbackBody() {
+  const data = state.currentAnalysis;
+  const slug = data ? `${data.owner}/${data.repo}` : 'unknown repo';
+  const message = els.feedbackMessage.value.trim() || '(No extra notes provided.)';
+
+  return [
+    `Repo: ${slug}`,
+    `SourceBrief URL: ${location.href}`,
+    `GitHub URL: ${data?.url || 'n/a'}`,
+    `Feedback type: ${selectedFeedbackTone()}`,
+    '',
+    'Feedback:',
+    message,
+    '',
+    'Context:',
+    `Verdict: ${data?.verdict?.label || 'n/a'}`,
+    `Headline: ${data?.summary?.headline || 'n/a'}`,
+  ].join('\n');
+}
+
+function buildFeedbackIssueUrl() {
+  const data = state.currentAnalysis;
+  const slug = data ? `${data.owner}/${data.repo}` : 'SourceBrief result';
+  const url = new URL(FEEDBACK_ISSUE_URL);
+  url.searchParams.set('title', `[SourceBrief feedback] ${selectedFeedbackTone()}: ${slug}`);
+  url.searchParams.set('body', buildFeedbackBody());
+  return url.href;
+}
+
+function updateFeedbackIssueLink() {
+  els.feedbackIssueLink.href = buildFeedbackIssueUrl();
+  if (!els.feedbackStatus.textContent.includes('copied')) {
+    els.feedbackStatus.textContent = 'Opens a prefilled public GitHub issue. You choose whether to submit it.';
+  }
 }
 
 function renderArchitecture(data) {
