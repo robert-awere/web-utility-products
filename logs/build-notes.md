@@ -27,3 +27,25 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 **Domain:** autoloanpayment.com purchased 2026-08-21 (Hostinger); canonical/OG/robots/sitemap swapped to .com.
 
 **Open items for owner:** attach autoloanpayment.com in the Vercel project (Settings → Domains) + Hostinger DNS, GSC + sitemap submit, affiliate URL for the "Compare current auto loan rates" block, AdSense units into the three `.ad-slot` divs. Sibling sites' footers not yet updated to link back here (do together with next interlink pass).
+
+---
+
+## 2026-09-04 — sourcebrief
+
+**Validation:** Imported existing React/Express SourceBrief app into `sites/sourcebrief/` after owner approval for a stack exception. Ran `npm ci` and `npm run build` from `sites/sourcebrief`; production build passed. npm reported 9 dependency audit findings (4 low, 1 moderate, 4 high); no automatic dependency fixes were applied.
+
+**Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
+
+**What worked, reuse:**
+- Public GitHub REST API integration gives live metadata, README, repository tree and manifest-derived stack signals without requiring authentication.
+- The repo verdict and scorecard make the tool more decision-oriented than a generic repository summarizer.
+- Pricing/SaaS UI was removed for the pivot toward a free public micro-utility and future AdSense-backed repo explainer library.
+
+**Known limitations:**
+- This site currently uses a React/Express build, explicitly approved for this utility, while the repository default remains static HTML + vanilla JS.
+- Public GitHub API rate limits still apply.
+- No persistent shareable `/source/owner/repo` pages yet.
+- No sitemap/robots generated for SourceBrief yet.
+- No AdSense placeholders or publisher credentials.
+
+**Next planned work:** rework homepage copy for the free utility model, add shareable result URLs, create SEO-friendly repo briefing pages, add related repos, add feedback capture, add AdSense-ready layout zones, and add SEO safeguards.
