@@ -8,6 +8,10 @@ sourcebrief
 
 sites/sourcebrief/
 
+## Production URL
+
+https://www.sourcebrief.io/
+
 ## Purpose
 
 SourceBrief is a free GitHub repository briefing utility. A user enters a public GitHub repository URL or `owner/repo` value and receives a visual, decision-oriented briefing before reading the code.

@@ -36,6 +36,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 static cleanup update:** Converted SourceBrief to the repository-standard static utility model: `index.html`, `styles.css`, `app.js`, `robots.txt`, `sitemap.xml`, and SVG assets only. Removed React, Express, Vite, Tailwind, TypeScript, shadcn UI, package manifests, lockfile, server files, and build scripts from `sites/sourcebrief/`. `node --check app.js` passed. There is no remaining npm manifest or lockfile, so the previous npm audit surface has been removed rather than patched.
 
+**2026-09-04 domain SEO update:** Production domain confirmed as `https://www.sourcebrief.io/` with apex redirecting to `www`. Canonical URL, Open Graph URL, robots sitemap pointer, and sitemap `<loc>` were updated to the production `www` URL.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
