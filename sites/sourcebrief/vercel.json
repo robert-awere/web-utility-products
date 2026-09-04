@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/repo/:owner/:repo/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/repo/:owner/:repo",
+      "destination": "/index.html"
+    }
+  ]
+}

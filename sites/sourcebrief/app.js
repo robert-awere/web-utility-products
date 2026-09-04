@@ -1,7 +1,25 @@
 const GITHUB_API = 'https://api.github.com';
+const HOME_URL = 'https://www.sourcebrief.io/';
 
 const state = {
   theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+};
+
+const meta = {
+  description: document.querySelector('#meta-description'),
+  canonical: document.querySelector('#canonical-link'),
+  ogTitle: document.querySelector('#og-title'),
+  ogDescription: document.querySelector('#og-description'),
+  ogUrl: document.querySelector('#og-url'),
+};
+
+const homeMeta = {
+  title: document.title,
+  description: meta.description?.content || '',
+  canonical: meta.canonical?.href || HOME_URL,
+  ogTitle: meta.ogTitle?.content || document.title,
+  ogDescription: meta.ogDescription?.content || '',
+  ogUrl: meta.ogUrl?.content || HOME_URL,
 };
 
 const els = {
@@ -69,23 +87,23 @@ els.shareLink.addEventListener('click', async () => {
 });
 
 window.addEventListener('popstate', () => {
-  const repo = getRepoParam();
+  const repo = getRepoFromUrl();
   if (repo) {
-    els.input.value = repo;
-    runScan(repo, { writeUrl: false, scrollToResults: true });
+    els.input.value = repo.value;
+    runScan(repo.value, { writeUrl: false, scrollToResults: true });
     return;
   }
   showHome({ focusInput: false, clearUrl: false });
 });
 
-const initialRepo = getRepoParam();
+const initialRepo = getRepoFromUrl();
 if (initialRepo) {
-  els.input.value = initialRepo;
-  runScan(initialRepo, { writeUrl: false, scrollToResults: true });
+  els.input.value = initialRepo.value;
+  runScan(initialRepo.value, { writeUrl: true, replaceUrl: true, scrollToResults: true });
 }
 
 async function runScan(input, options = {}) {
-  const { writeUrl = false, scrollToResults = false } = options;
+  const { writeUrl = false, replaceUrl = false, scrollToResults = false } = options;
   const parsed = parseRepoInput(input);
   if (!parsed) {
     setHelp('Enter a public GitHub repo URL or owner/repo, for example vercel/next.js.', true);
@@ -100,7 +118,7 @@ async function runScan(input, options = {}) {
   try {
     const analysis = await analyzeRepo(parsed.owner, parsed.repo);
     renderAnalysis(analysis);
-    if (writeUrl) updateUrl(parsed.owner, parsed.repo);
+    if (writeUrl) updateUrl(parsed.owner, parsed.repo, { replace: replaceUrl });
     if (scrollToResults) els.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return true;
   } catch (error) {
@@ -121,12 +139,28 @@ function showHome({ focusInput = false, clearUrl = false } = {}) {
   els.results.classList.add('hidden');
   els.status.classList.add('hidden');
   document.querySelector('.hero').classList.remove('hidden');
+  restoreHomeMeta();
   if (clearUrl) clearRepoUrl();
   if (focusInput) els.input.focus();
 }
 
-function getRepoParam() {
-  return new URLSearchParams(location.search).get('repo');
+function getRepoFromUrl() {
+  const pathRepo = parseRepoPath(location.pathname);
+  if (pathRepo) return { value: `${pathRepo.owner}/${pathRepo.repo}`, source: 'path' };
+
+  const queryRepo = new URLSearchParams(location.search).get('repo');
+  const parsedQuery = parseRepoInput(queryRepo);
+  return parsedQuery ? { value: `${parsedQuery.owner}/${parsedQuery.repo}`, source: 'query' } : null;
+}
+
+function parseRepoPath(pathname) {
+  const parts = pathname.replace(/^\/+|\/+$/g, '').split('/');
+  if (parts.length !== 3 || parts[0] !== 'repo') return null;
+  try {
+    return parseRepoInput(`${decodeURIComponent(parts[1])}/${decodeURIComponent(parts[2])}`);
+  } catch {
+    return null;
+  }
 }
 
 function parseRepoInput(input) {
@@ -425,6 +459,7 @@ function renderAnalysis(data) {
   els.title.textContent = `${data.owner}/${data.repo}`;
   els.headline.textContent = data.summary.headline;
   els.githubLink.href = data.url;
+  updateRepoMeta(data);
   els.purpose.textContent = data.summary.purpose;
   els.audience.textContent = data.summary.audience;
   els.pitch.textContent = data.summary.pitch;
@@ -529,16 +564,86 @@ function renderArchitecture(data) {
   </svg>`;
 }
 
-function updateUrl(owner, repo) {
-  const url = new URL(location.href);
-  url.searchParams.set('repo', `${owner}/${repo}`);
-  history.pushState({ repo: `${owner}/${repo}` }, '', url);
+function updateUrl(owner, repo, options = {}) {
+  const url = buildRepoUrl(owner, repo);
+  const method = options.replace ? 'replaceState' : 'pushState';
+  history[method]({ repo: `${owner}/${repo}` }, '', url);
 }
 
 function clearRepoUrl() {
-  const url = new URL(location.href);
-  url.searchParams.delete('repo');
-  history.pushState({}, '', url);
+  history.pushState({}, '', new URL('/', location.origin));
+  restoreHomeMeta();
+}
+
+function buildRepoUrl(owner, repo) {
+  return new URL(`/repo/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/`, location.origin);
+}
+
+function updateRepoMeta(data) {
+  const slug = `${data.owner}/${data.repo}`;
+  const canonical = buildRepoUrl(data.owner, data.repo).href;
+  const language = primaryLanguage(data.languages, data.meta.language);
+  const baseDescription = data.meta.description || data.summary.headline || 'Public GitHub repository briefing';
+  const title = truncateText(`${slug} GitHub Repo Brief | SourceBrief`, 60);
+  const description = truncateText(
+    `GitHub repo briefing for ${slug}: ${baseDescription} See stack, setup clues, safety signals, risks, and AI prompts.`,
+    155,
+  );
+
+  document.title = title;
+  setMeta(meta.description, 'content', description);
+  setMeta(meta.canonical, 'href', canonical);
+  setMeta(meta.ogTitle, 'content', title);
+  setMeta(meta.ogDescription, 'content', description);
+  setMeta(meta.ogUrl, 'content', canonical);
+  upsertRepoJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: `${slug} GitHub Repo Brief`,
+    description,
+    url: canonical,
+    about: {
+      '@type': 'SoftwareSourceCode',
+      name: slug,
+      codeRepository: data.url,
+      programmingLanguage: language,
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'SourceBrief',
+      url: HOME_URL,
+    },
+  });
+}
+
+function restoreHomeMeta() {
+  document.title = homeMeta.title;
+  setMeta(meta.description, 'content', homeMeta.description);
+  setMeta(meta.canonical, 'href', homeMeta.canonical);
+  setMeta(meta.ogTitle, 'content', homeMeta.ogTitle);
+  setMeta(meta.ogDescription, 'content', homeMeta.ogDescription);
+  setMeta(meta.ogUrl, 'content', homeMeta.ogUrl);
+  document.querySelector('#repo-brief-jsonld')?.remove();
+}
+
+function setMeta(element, attribute, value) {
+  if (element) element.setAttribute(attribute, value);
+}
+
+function upsertRepoJsonLd(data) {
+  let script = document.querySelector('#repo-brief-jsonld');
+  if (!script) {
+    script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'repo-brief-jsonld';
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify(data);
+}
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
 }
 
 async function copyText(text) {

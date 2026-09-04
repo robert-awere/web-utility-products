@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SourceBrief | GitHub Repo Info & Safety Brief</title>
     <meta
+      id="meta-description"
       name="description"
       content="Get GitHub repo info, descriptions, safety signals, setup steps, and AI prompts for public GitHub repositories before you read the code."
     />
-    <link rel="canonical" href="https://www.sourcebrief.io/" />
-    <meta property="og:title" content="SourceBrief | GitHub Repo Info & Safety Brief" />
+    <link id="canonical-link" rel="canonical" href="https://www.sourcebrief.io/" />
+    <meta id="og-title" property="og:title" content="SourceBrief | GitHub Repo Info & Safety Brief" />
     <meta
+      id="og-description"
       property="og:description"
       content="Paste a GitHub repo name or URL and get a fast visual briefing before you read the code."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.sourcebrief.io/" />
+    <meta id="og-url" property="og:url" content="https://www.sourcebrief.io/" />
     <meta property="og:image" content="/assets/og-image.svg" />
     <meta name="theme-color" content="#111827" />
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -23,7 +25,7 @@
       href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -90,7 +92,7 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="./" aria-label="SourceBrief home">
+      <a class="brand" href="/" aria-label="SourceBrief home">
         <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
           <path d="M8 11.5 20 5l12 6.5v17L20 35 8 28.5z" fill="none" stroke="currentColor" stroke-width="2.4" />
           <path d="M14 15h12M14 20h9M14 25h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
@@ -331,6 +333,20 @@
           they can decide whether a repo is worth deeper inspection, useful for learning, safe enough to evaluate,
           or promising enough to fork.
         </p>
+        <div class="example-link-grid" aria-label="Example SEO repo briefing pages">
+          <a href="/repo/facebook/react/">
+            <strong>facebook/react</strong>
+            <span>React library repo brief</span>
+          </a>
+          <a href="/repo/vercel/next.js/">
+            <strong>vercel/next.js</strong>
+            <span>Next.js framework repo brief</span>
+          </a>
+          <a href="/repo/microsoft/vscode/">
+            <strong>microsoft/vscode</strong>
+            <span>VS Code editor repo brief</span>
+          </a>
+        </div>
       </section>
 
       <section class="content-section" id="faq">
@@ -396,6 +412,6 @@
       <span>Free public GitHub repo briefing utility</span>
     </footer>
 
-    <script src="./app.js" defer></script>
+    <script src="/app.js" defer></script>
   </body>
 </html>

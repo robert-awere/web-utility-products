@@ -607,6 +607,30 @@ details p {
   color: var(--muted);
 }
 
+.example-link-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.example-link-grid a {
+  display: grid;
+  gap: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: var(--space-4);
+}
+
+.example-link-grid a:hover {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  transform: translateY(-1px);
+}
+
+.example-link-grid span {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
 .content-section {
   display: grid;
   gap: var(--space-6);
@@ -673,6 +697,7 @@ summary {
   }
 
   .two-col,
+  .example-link-grid,
   .feature-grid,
   .intent-grid,
   .prompt-grid,

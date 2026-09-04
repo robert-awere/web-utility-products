@@ -42,6 +42,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **2026-09-04 shareable result URL update:** Completed the shareable-result MVP. Successful scans now push a `?repo=owner/repo` URL, copied result links can be opened directly by another user, direct `?repo=` visits auto-run the public repo briefing, browser back/forward is handled, and the result header includes a copy-link action.
 
+**2026-09-04 SEO repo page structure update:** Added clean `/repo/{owner}/{repo}/` route structure for SourceBrief repo briefings, while preserving legacy `?repo=owner/repo` links as fallbacks. Added Vercel rewrites for static direct links, repo-specific dynamic metadata/TechArticle JSON-LD after successful scans, homepage example repo links, and curated sitemap seed URLs for `facebook/react`, `vercel/next.js`, and `microsoft/vscode`.
+
 **Design signature:** dark developer-utility interface with teal action accents, visual repo briefing hero, verdict-first dashboard, scorecard, setup guidance, architecture map, module map, risk heatmap, prompt board and evidence panel.
 
 **What worked, reuse:**
@@ -51,8 +53,8 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 **Known limitations:**
 - Public GitHub API rate limits still apply because the static site calls GitHub directly from the browser.
-- Shareable URLs use `?repo=owner/repo` and auto-run client-side; there are no persistent pre-rendered `/source/owner/repo` pages yet.
+- Shareable URLs use `/repo/{owner}/{repo}/` and auto-run client-side; there are no fully pre-rendered static repo pages yet.
 - No AdSense placeholders or publisher credentials.
 - No analytics or feedback capture.
 
-**Next planned work:** create SEO-friendly repo briefing pages or a static generation strategy, add related repo discovery, add feedback capture, add AdSense-ready layout zones, and confirm canonical domain before production indexing.
+**Next planned work:** add related repo discovery, add feedback capture, add AdSense-ready layout zones, add index/noindex safeguards for arbitrary user-generated repo pages, and consider a static generation strategy for curated popular repositories.

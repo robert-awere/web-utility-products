@@ -4,4 +4,16 @@
     <loc>https://www.sourcebrief.io/</loc>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.sourcebrief.io/repo/facebook/react/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sourcebrief.io/repo/vercel/next.js/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sourcebrief.io/repo/microsoft/vscode/</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>

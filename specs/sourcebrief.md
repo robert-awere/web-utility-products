@@ -28,7 +28,9 @@ Get GitHub repo info before you read the code.
 - Generate a repo summary, verdict, decision scorecard, setup guidance, architecture map, complexity view, risks, opportunities, AI prompt board, and evidence panel.
 - Present the utility as free and public, with no paid-tier UI.
 - Explain core search-intent questions on the homepage, including what a GitHub repo is, what a repository name means, how to get GitHub repo info, and whether a repo is safe enough to evaluate.
-- Generate shareable result URLs with a `?repo=owner/repo` query parameter. Opening one of these URLs automatically re-runs the public repo briefing in the browser.
+- Generate clean shareable result URLs at `/repo/{owner}/{repo}/`. Opening one of these URLs automatically re-runs the public repo briefing in the browser.
+- Preserve legacy `?repo=owner/repo` links as fallbacks and canonicalize successful scans to the clean `/repo/.../` structure.
+- Update repo-specific title, description, canonical URL, Open Graph URL, and structured data after a successful briefing.
 
 ## Stack
 
@@ -44,16 +46,16 @@ SourceBrief is being repositioned away from subscription SaaS and toward a free 
 
 - Public GitHub API only.
 - No GitHub App private repo support.
-- Shareable result URLs use a `?repo=owner/repo` query parameter and auto-run in the browser. They are not pre-rendered public repo result pages yet.
+- Shareable result URLs use `/repo/{owner}/{repo}/` and auto-run in the browser. They are structured for SEO but are not fully pre-rendered static repo pages yet.
 - No AdSense code or publisher credentials.
 - No analytics or tracking.
 - Browser-side GitHub API calls are subject to unauthenticated GitHub rate limits.
 
 ## Next planned work
 
-1. Add SEO-friendly repo briefing pages or a static generation strategy for popular repositories.
+1. Add a static generation strategy for curated popular repositories if SEO traction justifies it.
 2. Add related repo discovery.
 3. Add lightweight feedback capture.
 4. Add AdSense-ready layout zones without interrupting input/result flow.
-5. Add stronger result-page SEO safeguards and canonical/noindex strategy for query-driven pages.
+5. Add stronger index/noindex safeguards for arbitrary user-generated repo pages.
 6. Consider an optional GitHub token flow only if rate limits become a real user problem.
