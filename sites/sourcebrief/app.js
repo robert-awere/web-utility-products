@@ -54,6 +54,7 @@ const els = {
   opportunities: document.querySelector('#opportunities'),
   promptBoard: document.querySelector('#prompt-board'),
   evidence: document.querySelector('#evidence'),
+  relatedRepos: document.querySelector('#related-repos'),
   feedbackForm: document.querySelector('#feedback-form'),
   feedbackTone: document.querySelectorAll('input[name="tone"]'),
   feedbackMessage: document.querySelector('#feedback-message'),
@@ -274,6 +275,8 @@ async function analyzeRepo(owner, repo) {
   const verdict = buildVerdict(scorecard, risks);
   const complexity = buildComplexity(paths);
   const howToUse = buildHowToUse({ owner, repo, packageJson, paths, hasReadme, hasTests, stack });
+  els.statusMessage.textContent = 'Finding related public repositories.';
+  const relatedRepos = await findRelatedRepos({ owner, repo, meta, languages }).catch(() => []);
 
   return {
     owner,
@@ -290,6 +293,7 @@ async function analyzeRepo(owner, repo) {
     verdict,
     complexity,
     howToUse,
+    relatedRepos,
     prompts: buildPrompts(owner, repo, primaryLanguage(languages, meta.language)),
     evidence: buildEvidence({ meta, paths, hasReadme, packageJson, hasTests, hasCI, hasLicense }),
     summary: buildSummary(meta, stack, hasReadme),
@@ -303,6 +307,61 @@ function parseJson(text) {
   } catch {
     return null;
   }
+}
+
+async function findRelatedRepos({ owner, repo, meta, languages }) {
+  const language = primaryLanguage(languages, meta.language);
+  const topics = Array.isArray(meta.topics) ? meta.topics : [];
+  const topicTerms = topics.slice(0, 2).map((topic) => githubQualifier('topic', topic)).filter(Boolean);
+  const keywordTerms = extractRepoKeywords(`${repo} ${meta.description || ''}`).slice(0, topicTerms.length ? 1 : 3);
+  const languageTerm = language && language !== 'Unknown' ? githubQualifier('language', language) : '';
+  const queryParts = [
+    ...topicTerms,
+    languageTerm,
+    ...keywordTerms,
+    'stars:>50',
+  ].filter(Boolean);
+  const fallbackQuery = [repo, languageTerm, 'stars:>50'].filter(Boolean);
+  const params = new URLSearchParams({
+    q: (queryParts.length >= 2 ? queryParts : fallbackQuery).join(' '),
+    sort: 'stars',
+    order: 'desc',
+    per_page: '8',
+  });
+  const result = await gh(`/search/repositories?${params.toString()}`);
+  return (result.items || [])
+    .filter((item) => item?.full_name && item.owner?.login)
+    .filter((item) => item.owner.login.toLowerCase() !== owner.toLowerCase() || item.name.toLowerCase() !== repo.toLowerCase())
+    .slice(0, 4)
+    .map((item) => ({
+      owner: item.owner.login,
+      repo: item.name,
+      fullName: item.full_name,
+      description: item.description || 'No public description available.',
+      stars: item.stargazers_count || 0,
+      language: item.language || 'Unknown',
+      url: item.html_url,
+      briefUrl: buildRepoUrl(item.owner.login, item.name).pathname,
+    }));
+}
+
+function githubQualifier(name, value) {
+  const cleaned = String(value || '').trim().replace(/[^\w.+#-]/g, '');
+  return cleaned ? `${name}:${cleaned}` : '';
+}
+
+function extractRepoKeywords(text) {
+  const stopWords = new Set(['about', 'after', 'also', 'from', 'into', 'like', 'that', 'this', 'with', 'your', 'github', 'repo', 'repository', 'project', 'tool', 'library']);
+  const seen = new Set();
+  return String(text || '')
+    .toLowerCase()
+    .match(/[a-z][a-z0-9-]{3,}/g)
+    ?.filter((word) => !stopWords.has(word))
+    .filter((word) => {
+      if (seen.has(word)) return false;
+      seen.add(word);
+      return true;
+    }) || [];
 }
 
 function primaryLanguage(languages, fallback) {
@@ -544,6 +603,7 @@ function renderAnalysis(data) {
       <button type="button" data-copy="${escapeAttr(prompt)}">Copy prompt</button>
     </div>`).join('');
   els.evidence.innerHTML = data.evidence.map(([label, path, note]) => `<div class="evidence-item"><strong>${escapeHtml(label)}</strong><p>${escapeHtml(path)}</p><p>${escapeHtml(note)}</p></div>`).join('');
+  els.relatedRepos.innerHTML = renderRelatedRepos(data.relatedRepos);
   resetFeedback();
   updateFeedbackIssueLink();
 
@@ -558,6 +618,14 @@ function renderAnalysis(data) {
       setTimeout(() => { button.textContent = 'Copy prompt'; }, 1200);
     });
   });
+}
+
+function renderRelatedRepos(repos) {
+  if (!repos.length) {
+    return '<p class="muted">No strong related repo signal was available from the public GitHub search API. Try scanning a repo with clearer topics, language, or description.</p>';
+  }
+
+  return repos.map((repo) => `\n    <article class="related-card">\n      <div>\n        <small>${escapeHtml(repo.language)} · ${formatNumber(repo.stars)} stars</small>\n        <strong>${escapeHtml(repo.fullName)}</strong>\n        <p>${escapeHtml(repo.description)}</p>\n      </div>\n      <div class="related-actions">\n        <a class="secondary-button" href="${escapeAttr(repo.briefUrl)}">Brief this repo</a>\n        <a class="text-button" href="${escapeAttr(repo.url)}" target="_blank" rel="noreferrer noopener">GitHub</a>\n      </div>\n    </article>`).join('');
 }
 
 function selectedFeedbackTone() {
