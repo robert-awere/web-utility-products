@@ -888,6 +888,40 @@ summary {
   padding: 0.08rem 0.35rem;
 }
 
+.guide-index {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+}
+
+.guide-index article {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  padding: var(--space-5);
+}
+
+.guide-index h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.guide-index h3 a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.guide-index h3 a:hover {
+  color: var(--primary);
+}
+
+.guide-index p {
+  margin: 0;
+}
+
 .section-followup {
   margin-top: var(--space-5);
   color: var(--muted);
