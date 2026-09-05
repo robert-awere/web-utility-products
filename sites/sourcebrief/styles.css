@@ -888,6 +888,14 @@ summary {
   padding: 0.08rem 0.35rem;
 }
 
+/* Inline links inside FAQ answers inherit the muted answer colour, which makes
+   them indistinguishable from body text. */
+details p a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .guide-index {
   display: grid;
   gap: var(--space-4);

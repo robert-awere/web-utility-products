@@ -50,42 +50,58 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What exactly is a GitHub repo?",
+            "name": "How do I know if a GitHub repo is safe?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A GitHub repo is a repository: a project folder hosted on GitHub that usually contains source code, documentation, issues, releases, and version history."
+              "text": "No tool can prove a repository is safe. Check what runs during install, how large and current the dependency list is, whether the project is actively maintained, and whether the licence permits your use. Read the code that actually executes before you run it."
             }
           },
           {
             "@type": "Question",
-            "name": "What is repository name in GitHub?",
+            "name": "How can I tell if a GitHub project is still maintained?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The repository name is the project part of the owner/repo address. In facebook/react, facebook is the owner and react is the repository name."
+              "text": "Look at the date of the last meaningful commit, whether releases are still being tagged, and whether maintainers reply to issues and pull requests. Ignore the star count: it measures attention the project once received, not whether anyone is looking after it now."
             }
           },
           {
             "@type": "Question",
-            "name": "How do I get GitHub repo info?",
+            "name": "How do I understand a GitHub repository quickly?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Paste a public GitHub repository URL or owner/repo value into SourceBrief to see metadata, the repo description, languages, setup clues, visible risk signals, and suggested prompts."
+              "text": "Read in order: the README for what it claims to do, the manifest for what it is built on, the top-level folders for the shape of the project, the entry point for where execution starts, and the tests for the behaviour that matters."
             }
           },
           {
             "@type": "Question",
-            "name": "Is a GitHub repo safe?",
+            "name": "What does SourceBrief actually check?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A public GitHub repo is not automatically safe. Check the license, maintenance activity, dependencies, install scripts, open issues, tests, and security notes before running or adopting it."
+              "text": "It reads public GitHub signals: the description and languages, README clues, file structure, dependency manifests, setup files, and activity indicators. It combines them into one briefing so you can decide where to look first."
             }
           },
           {
             "@type": "Question",
-            "name": "Why are a lot of people leaving GitHub?",
+            "name": "What is a GitHub repo?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Some developers look at GitHub alternatives for privacy, pricing, self-hosting, open-source governance, workflow preference, or platform-dependence reasons. GitHub still hosts many important public repositories, so careful repo evaluation remains useful."
+              "text": "A repository is the project container on GitHub. It holds the source code, README, licence, issues, releases, and full version history. In the owner/repo format, such as vercel/next.js, the second half is the repository name."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does SourceBrief work with private repos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It only uses the public GitHub API from your browser, so private repositories are not accessible."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this a security audit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. SourceBrief highlights visible risk signals and never executes repository code. It is not a substitute for code review, dependency scanning, or threat modelling."
             }
           }
         ]
@@ -575,54 +591,46 @@
           <h2>Useful answers before you trust a repo.</h2>
         </div>
         <details>
-          <summary>What exactly is a GitHub repo?</summary>
+          <summary>How do I know if a GitHub repo is safe?</summary>
           <p>
-            A GitHub repo is a repository: a project folder hosted on GitHub that can include source code,
-            documentation, releases, issues, pull requests, and the full version history for the project.
+            No tool can prove a repository is safe. Check what runs during install, how large and current the dependency list is, whether the project is actively maintained, and whether the licence permits your use. Read the code that actually executes before you run it. The <a href="/guides/github-repo-safety-checklist/">repo safety checklist</a> walks through each check.
           </p>
         </details>
         <details>
-          <summary>What is repository name in GitHub?</summary>
+          <summary>How can I tell if a GitHub project is still maintained?</summary>
           <p>
-            The repository name is the project part of the GitHub address. In <code>vercel/next.js</code>,
-            <code>vercel</code> is the owner and <code>next.js</code> is the repository name.
+            Look at the date of the last meaningful commit, whether releases are still being tagged, and whether maintainers reply to issues and pull requests. Ignore the star count: it measures attention the project once received, not whether anyone is looking after it now.
           </p>
         </details>
         <details>
-          <summary>How do I get GitHub repo info?</summary>
+          <summary>How do I understand a GitHub repository quickly?</summary>
           <p>
-            Paste a public GitHub repository URL or <code>owner/repo</code> value into SourceBrief. It returns the
-            visible GitHub repo info that matters first: description, languages, setup hints, files, activity,
-            safety signals, and suggested investigation prompts.
+            Read in order: the README for what it claims to do, the manifest for what it is built on, the top-level folders for the shape of the project, the entry point for where execution starts, and the tests for the behaviour that matters. The guide on <a href="/guides/understand-github-repository/">understanding a repository fast</a> covers the full reading order.
           </p>
         </details>
         <details>
-          <summary>Is a GitHub repo safe?</summary>
+          <summary>What does SourceBrief actually check?</summary>
           <p>
-            Not automatically. Public GitHub repos can be excellent, abandoned, experimental, misconfigured, or risky.
-            Before running code, inspect dependency files, install scripts, permissions, issues, release history, CI,
-            tests, and the project license.
+            It reads public GitHub signals: the description and languages, README clues, file structure, dependency manifests, setup files, and activity indicators. It combines them into one briefing so you can decide where to look first.
           </p>
         </details>
         <details>
-          <summary>Why are a lot of people leaving GitHub?</summary>
+          <summary>What is a GitHub repo?</summary>
           <p>
-            Some developers look at GitHub alternatives for privacy, pricing, self-hosting, open-source governance,
-            workflow preference, or platform-dependence reasons. That does not make GitHub irrelevant; it means good
-            repo evaluation is useful wherever code is hosted.
+            A repository is the project container on GitHub. It holds the source code, README, licence, issues, releases, and full version history. In the <code>owner/repo</code> format, such as <code>vercel/next.js</code>, the second half is the repository name.
           </p>
         </details>
         <details>
           <summary>Does SourceBrief work with private repos?</summary>
-          <p>No. This static version only uses the public GitHub API from your browser.</p>
+          <p>
+            No. It only uses the public GitHub API from your browser, so private repositories are not accessible.
+          </p>
         </details>
         <details>
           <summary>Is this a security audit?</summary>
-          <p>No. It highlights visible risk signals, but it is not a substitute for code review, dependency scanning, or threat modelling.</p>
-        </details>
-        <details>
-          <summary>Why make it static?</summary>
-          <p>A static utility is faster, cheaper to host, easier to deploy, and safer to reuse across a portfolio of small AdSense-supported tools.</p>
+          <p>
+            No. SourceBrief highlights visible risk signals and never executes repository code. It is not a substitute for code review, dependency scanning, or threat modelling.
+          </p>
         </details>
       </section>
     </main>
