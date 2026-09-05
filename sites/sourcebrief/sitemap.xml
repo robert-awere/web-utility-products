@@ -14,6 +14,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.sourcebrief.io/guides/ai-prompts-understand-codebase/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.sourcebrief.io/guides/github-repo-safety-checklist/</loc>
     <priority>0.8</priority>
   </url>

@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Prompts to Understand a Codebase</title>
+    <meta
+      name="description"
+      content="Prompts that get useful answers about an unfamiliar repository, in the order to ask them, plus how to spot when an assistant is inventing the answer."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://www.sourcebrief.io/guides/ai-prompts-understand-codebase/" />
+    <meta property="og:title" content="AI Prompts to Understand a Codebase" />
+    <meta
+      property="og:description"
+      content="A sequence of prompts for making sense of an unfamiliar repository, and how to verify the answers you get back."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.sourcebrief.io/guides/ai-prompts-understand-codebase/" />
+    <meta property="og:image" content="https://www.sourcebrief.io/assets/og-image.svg" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "AI Prompts to Understand a Codebase",
+        "description": "A sequence of prompts for making sense of an unfamiliar repository, and how to verify the answers you get back.",
+        "datePublished": "2026-09-05",
+        "dateModified": "2026-09-05",
+        "author": {
+          "@type": "Organization",
+          "name": "SourceBrief"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "SourceBrief"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://www.sourcebrief.io/guides/ai-prompts-understand-codebase/"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.sourcebrief.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://www.sourcebrief.io/guides/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "AI prompts to understand a codebase",
+            "item": "https://www.sourcebrief.io/guides/ai-prompts-understand-codebase/"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What should I ask an AI about an unfamiliar codebase?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ask in sequence rather than all at once: what the project does and where execution starts, then a trace of one real operation end to end, then the conventions a change would need to follow, then which parts are fragile. Each answer gives you the vocabulary to ask the next question well."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can AI accurately explain a GitHub repository?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It can explain code it has actually read, and it will confidently invent the rest. An assistant without repository access is describing what a project with that name and description usually looks like. Treat every answer as a lead to confirm in the files, and ask for file paths and line references so confirming is quick."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I give an AI assistant enough context about a repository?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Give it the README, the dependency manifest, the top-level directory listing, and the entry-point file. Those four cover purpose, stack, structure, and starting point in very few tokens. Add specific files as the questions get more specific, rather than pasting large amounts of code at the start."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="SourceBrief home">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M8 11.5 20 5l12 6.5v17L20 35 8 28.5z" fill="none" stroke="currentColor" stroke-width="2.4" />
+          <path d="M14 15h12M14 20h9M14 25h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+        <span>SourceBrief</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/guides/">Guides</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/contact/">Contact</a>
+        <span class="pill">Free utility</span>
+      </nav>
+    </header>
+
+    <main class="legal-page">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/guides/">Guides</a>
+        <span aria-hidden="true">/</span>
+        <span>AI prompts for a codebase</span>
+      </nav>
+
+      <section class="legal-hero" aria-labelledby="guide-title">
+        <p class="eyebrow">Guide</p>
+        <h1 id="guide-title">AI Prompts to Understand a Codebase</h1>
+        <p>
+          An assistant is very good at explaining code it can see and very good at inventing code it cannot. The
+          difference between a useful session and a misleading one is mostly a matter of what you give it, what order
+          you ask in, and how you check the answer.
+        </p>
+      </section>
+
+      <section class="legal-content content-section">
+        <h2>Give it something to read first</h2>
+        <p>
+          If your assistant has no access to the repository, it is not reading your project. It is describing what a
+          project with that name, language, and description usually looks like. That produces answers which are
+          structurally plausible and specifically wrong &mdash; the hardest kind to catch.
+        </p>
+        <p>Four files cover purpose, stack, structure, and starting point in very few tokens:</p>
+        <ul>
+          <li>The <strong>README</strong>, for what the project claims to do</li>
+          <li>The <strong>dependency manifest</strong>, for what it is actually built on</li>
+          <li>The <strong>top-level directory listing</strong>, for the shape of the project</li>
+          <li>The <strong>entry-point file</strong>, for where execution begins</li>
+        </ul>
+        <p>
+          Add more as questions get specific. Pasting large amounts of code up front is the most common mistake: it
+          fills the context window with material the assistant has no reason to prioritise, and the answers get vaguer
+          rather than sharper.
+        </p>
+
+        <h2>1. Orientation</h2>
+        <p>
+          Start wide. You are trying to establish the vocabulary of the project so that your later questions can be
+          precise.
+        </p>
+        <p class="prompt-block">
+          Here are the README, dependency manifest, and top-level directory listing for a project I have not seen
+          before. In plain terms: what does it do, who is it for, what is it built on, and where does execution start?
+          Then list the three files you would read first to understand its core logic, and say why each one.
+        </p>
+        <p>
+          The last part matters more than the summary. A reading list forces the assistant to commit to a structural
+          claim you can immediately check, and it hands you your next set of files.
+        </p>
+
+        <h2>2. Trace one real path</h2>
+        <p>
+          This is the highest-value prompt in the sequence. A summary of every folder teaches you very little; one
+          operation followed end to end teaches you the project's conventions, its layering, and where its real
+          complexity sits.
+        </p>
+        <p class="prompt-block">
+          Trace what happens when [a user submits the form / the CLI runs with the default command / a request hits the
+          main endpoint], from entry point to output. Name every file and function involved in order, and tell me where
+          the important decisions are made. If you cannot see a step in the files I gave you, say so instead of filling
+          the gap.
+        </p>
+        <p>
+          That final sentence changes the quality of the answer noticeably. Without an explicit exit, the natural
+          behaviour is to produce a complete-looking chain and quietly invent the missing links.
+        </p>
+
+        <h2>3. Conventions before code</h2>
+        <p>
+          Before changing anything, find out what the project expects of you. Most rejected pull requests fail on
+          convention rather than logic.
+        </p>
+        <p class="prompt-block">
+          Based on these files, what are this project's conventions? Cover naming, file organisation, error handling,
+          logging, configuration, and how tests are structured. Point to a specific example of each. Where the codebase
+          is inconsistent, say which pattern appears to be the current one.
+        </p>
+        <p>
+          The inconsistency question is the useful one. Nearly every codebase of any age contains two or three
+          generations of style, and knowing which is current tells you which parts are actively maintained.
+        </p>
+
+        <h2>4. Fragility and risk</h2>
+        <p>
+          Ask what would break. The answers tend to point at the same places an experienced reviewer would look first.
+        </p>
+        <p class="prompt-block">
+          Which parts of this codebase would be riskiest to change, and why? Consider: code with no test coverage,
+          functions with many callers, implicit assumptions about input, shared mutable state, and anything doing
+          hand-rolled work that a library usually handles. Rank them and explain the failure mode for each.
+        </p>
+        <p>
+          Giving the assistant the categories to consider produces far better output than asking whether the code is
+          good. Open quality questions invite flattery; specific failure modes invite analysis.
+        </p>
+
+        <h2>5. Planning a change</h2>
+        <p>Ask for the plan before any code. It is much cheaper to reject a wrong plan than a wrong implementation.</p>
+        <p class="prompt-block">
+          I want to add [feature] to this project. Before writing any code: list the files you would change and the
+          files you would create, describe the approach in a few sentences, name what could break, and tell me what you
+          would need to see that I have not shown you. Do not write the implementation yet.
+        </p>
+        <p>
+          The request to name missing context is the part that earns its place. It surfaces the assistant's blind spots
+          while they are still cheap, and the list is usually a good guide to what you should have read yourself.
+        </p>
+
+        <h2>6. Running it locally</h2>
+        <p>
+          Setup instructions rot faster than any other part of a README, because they are written once by someone whose
+          machine was already configured.
+        </p>
+        <p class="prompt-block">
+          From the manifest, configuration files, CI workflow, and any container files here, work out how to run this
+          project locally: the runtime versions, the install command, required environment variables and services, and
+          the command to start it. Where the README and the CI configuration disagree, trust the CI and tell me where
+          they diverge.
+        </p>
+        <p>
+          Preferring CI over the README is deliberate. The CI workflow is executable and runs constantly, so it is the
+          one description of the project that cannot silently go stale.
+        </p>
+
+        <h2>Prompts that waste your time</h2>
+        <ul>
+          <li>
+            <strong>&ldquo;Explain this repository.&rdquo;</strong> Too broad to be checkable. You will get a fluent
+            paragraph that would fit hundreds of projects.
+          </li>
+          <li>
+            <strong>&ldquo;Is this code good?&rdquo;</strong> Invites agreement rather than analysis. Ask what would
+            break instead.
+          </li>
+          <li>
+            <strong>&ldquo;Find the bugs.&rdquo;</strong> Without runtime context this mostly produces a list of
+            theoretical edge cases, each plausible and unranked.
+          </li>
+          <li>
+            <strong>&ldquo;Is this repository safe?&rdquo;</strong> An assistant cannot verify what a dependency does at
+            install time, and a confident yes is worse than no answer at all. That question needs
+            <a href="/guides/github-repo-safety-checklist/">its own checklist</a>.
+          </li>
+        </ul>
+
+        <h2>How to tell when the answer is invented</h2>
+        <p>
+          Fabrications are fluent, so read for structure rather than tone. The reliable signals are specific and easy to
+          check:
+        </p>
+        <ul>
+          <li>
+            <strong>File paths you have not provided.</strong> If it cites a file you never gave it and cannot confirm
+            exists, the surrounding explanation is guesswork.
+          </li>
+          <li>
+            <strong>Suspiciously conventional structure.</strong> Descriptions matching the framework's tutorial layout
+            more closely than your actual tree usually mean it fell back on the common case.
+          </li>
+          <li>
+            <strong>No uncertainty anywhere.</strong> A genuine reading of a partial codebase produces hedges. Total
+            confidence across an entire unfamiliar project is itself the warning.
+          </li>
+          <li>
+            <strong>Answers that do not change when the question narrows.</strong> Ask for the line number. Invented
+            claims tend to dissolve or shift under that pressure.
+          </li>
+        </ul>
+        <p>
+          The cheapest habit is to ask for file paths and line references throughout, which makes verification a
+          five-second check rather than a judgement call.
+        </p>
+
+        <h2>When the repository is too big for the context window</h2>
+        <p>
+          Large projects will not fit, and stuffing the window degrades the answers rather than improving them. Work in
+          layers instead: establish the map first from the README, manifest, and directory listing, then load only the
+          subsystem you actually care about.
+        </p>
+        <p>
+          Ask the assistant which files it needs to answer a specific question and provide those, rather than deciding
+          in advance. It is reasonably good at naming what it is missing, and it keeps each session narrow enough that
+          the answers stay concrete.
+        </p>
+
+        <h2>Common questions</h2>
+        <details>
+          <summary>What should I ask an AI about an unfamiliar codebase?</summary>
+          <p>
+            Ask in sequence rather than all at once: what the project does and where execution starts, then a trace of
+            one real operation end to end, then the conventions a change would need to follow, then which parts are
+            fragile. Each answer gives you the vocabulary to ask the next question well.
+          </p>
+        </details>
+        <details>
+          <summary>Can AI accurately explain a GitHub repository?</summary>
+          <p>
+            It can explain code it has actually read, and it will confidently invent the rest. An assistant without
+            repository access is describing what a project with that name and description usually looks like. Treat
+            every answer as a lead to confirm in the files, and ask for file paths and line references so confirming is
+            quick.
+          </p>
+        </details>
+        <details>
+          <summary>How do I give an AI assistant enough context about a repository?</summary>
+          <p>
+            Give it the README, the dependency manifest, the top-level directory listing, and the entry-point file.
+            Those four cover purpose, stack, structure, and starting point in very few tokens. Add specific files as the
+            questions get more specific, rather than pasting large amounts of code at the start.
+          </p>
+        </details>
+
+        <p class="legal-note">
+          These prompts work best once you already know roughly what you are looking at. If the project is completely
+          unfamiliar, start with the
+          <a href="/guides/understand-github-repository/">reading order for an unfamiliar repository</a> and come back
+          to the assistant with better questions.
+        </p>
+
+        <p>
+          <a class="secondary-button" href="/">Get a briefing and prompt set for any public repo</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 SourceBrief</span>
+      <div class="footer-links">
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <span>Free public GitHub repo briefing utility</span>
+    </footer>
+  </body>
+</html>

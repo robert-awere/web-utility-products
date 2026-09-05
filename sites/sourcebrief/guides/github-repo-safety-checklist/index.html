@@ -314,6 +314,32 @@
           <li>Run it in a container or throwaway environment the first time.</li>
         </ul>
 
+        <h2>Common questions</h2>
+        <details>
+          <summary>How do I know if a GitHub repo is safe?</summary>
+          <p>
+            There is no single check that proves a repository is safe. Review what runs during install, how large and
+            current the dependency list is, whether the project is actively maintained, whether the licence permits your
+            use, and whether the code does anything unexpected with the network, the filesystem, or credentials.
+          </p>
+        </details>
+        <details>
+          <summary>Are popular GitHub repos safe by default?</summary>
+          <p>
+            No. Star counts measure past attention, not current safety or upkeep. A widely starred project can be
+            unmaintained, and a small project can be well run. Judge current activity and the code itself rather than
+            popularity.
+          </p>
+        </details>
+        <details>
+          <summary>Is it safe to download code from GitHub?</summary>
+          <p>
+            Downloading and reading source code is low risk. Risk appears when you install, build, or run it, because
+            those steps can execute code from the project and its dependencies on your machine. Review the install path
+            before running anything.
+          </p>
+        </details>
+
         <p class="legal-note">
           SourceBrief can speed up the first pass by surfacing these public signals in one place, but it does not run a
           security audit and does not execute repository code. Treat it as a way to decide where to look, and keep the

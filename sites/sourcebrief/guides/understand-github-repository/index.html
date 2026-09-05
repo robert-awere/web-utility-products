@@ -253,10 +253,36 @@
           project deserves that deeper investment.
         </p>
 
+        <h2>Common questions</h2>
+        <details>
+          <summary>How do you understand a GitHub repository quickly?</summary>
+          <p>
+            Read in this order: the repository description and README to learn what it claims to do, the manifest to see
+            what it is built on, the top-level folders to find the shape of the project, the entry point to see where
+            execution starts, and the tests to see what behaviour the maintainers consider important.
+          </p>
+        </details>
+        <details>
+          <summary>Where should I start reading code in an unfamiliar project?</summary>
+          <p>
+            Start at the entry point named in the manifest or README, not at the top of the file list alphabetically.
+            Follow one realistic path through the code, such as a single command or request, rather than trying to read
+            every file.
+          </p>
+        </details>
+        <details>
+          <summary>What files tell you the most about a repository?</summary>
+          <p>
+            The README, the package manifest, the CI configuration, the test directory, and the top-level folder names.
+            Together they tell you the purpose, the stack, the quality bar, and the structure of the project.
+          </p>
+        </details>
+
         <p class="legal-note">
           If you are also trying to decide whether a project is safe to install or depend on, that is a different set of
           checks. See the
-          <a href="/guides/github-repo-safety-checklist/">GitHub repo safety checklist</a>.
+          <a href="/guides/github-repo-safety-checklist/">GitHub repo safety checklist</a>. To carry on with an
+          assistant, see the <a href="/guides/ai-prompts-understand-codebase/">AI prompts for understanding a codebase</a>.
         </p>
 
         <p>

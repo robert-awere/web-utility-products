@@ -55,6 +55,28 @@
   --shadow: 0 20px 70px rgb(0 0 0 / 0.36);
 }
 
+/* The dark palette above is applied by a JS toggle that only the homepage loads,
+   so every other page was stuck in light mode regardless of system preference.
+   This honours the OS setting wherever no explicit theme has been chosen, and
+   yields to [data-theme] as soon as the toggle sets one. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0e1117;
+    --surface: #151922;
+    --surface-2: #1e2530;
+    --text: #eef2f8;
+    --muted: #a2acbc;
+    --faint: #697487;
+    --border: #2b3442;
+    --primary: #75a7ff;
+    --primary-2: #57d7b7;
+    --warning: #ffbd5a;
+    --danger: #ff7b72;
+    --success: #7ee2bd;
+    --shadow: 0 20px 70px rgb(0 0 0 / 0.36);
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -886,6 +908,19 @@ summary {
   background: var(--surface-2);
   color: var(--text);
   padding: 0.08rem 0.35rem;
+}
+
+/* Copyable prompt text in guides: set apart from surrounding prose so a reader
+   can see where the prompt starts and stops before selecting it. */
+.prompt-block {
+  border-left: 3px solid var(--primary);
+  background: var(--surface);
+  border-radius: var(--radius-md, 10px);
+  padding: var(--space-4) var(--space-5);
+  margin: var(--space-4) 0;
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--text);
 }
 
 /* Inline links inside FAQ answers inherit the muted answer colour, which makes
