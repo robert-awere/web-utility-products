@@ -888,6 +888,48 @@ summary {
   padding: 0.08rem 0.35rem;
 }
 
+.section-followup {
+  margin-top: var(--space-5);
+  color: var(--muted);
+}
+
+.section-followup a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* The global `nav a { display: none }` mobile rule would hide breadcrumb links,
+   and `nav { display: inline-flex }` shrink-wraps the row, so the breadcrumb
+   opts out of both explicitly. */
+.breadcrumb {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.breadcrumb a {
+  display: inline;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary);
+}
+
+.legal-content .secondary-button {
+  display: inline-flex;
+  margin-top: var(--space-2);
+}
+
 .legal-note {
   border-left: 3px solid var(--primary);
   padding: var(--space-4);

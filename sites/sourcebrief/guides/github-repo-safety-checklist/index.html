@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Tell if a GitHub Repo Is Safe: A Practical Checklist</title>
+    <meta
+      name="description"
+      content="A practical checklist for deciding if a public GitHub repo is safe to install, run, or depend on: install scripts, dependencies, maintenance, and licence."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://www.sourcebrief.io/guides/github-repo-safety-checklist/" />
+    <meta property="og:title" content="How to Tell if a GitHub Repo Is Safe: A Practical Checklist" />
+    <meta
+      property="og:description"
+      content="What to check before you install, run, or depend on a public GitHub repository, and which signals actually mean something."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.sourcebrief.io/guides/github-repo-safety-checklist/" />
+    <meta property="og:image" content="https://www.sourcebrief.io/assets/og-image.svg" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How to Tell if a GitHub Repo Is Safe: A Practical Checklist",
+        "description": "A practical checklist for deciding whether a public GitHub repo is safe to install, run, or depend on.",
+        "datePublished": "2026-09-05",
+        "dateModified": "2026-09-05",
+        "author": {
+          "@type": "Organization",
+          "name": "SourceBrief"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "SourceBrief"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://www.sourcebrief.io/guides/github-repo-safety-checklist/"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.sourcebrief.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "How to tell if a GitHub repo is safe",
+            "item": "https://www.sourcebrief.io/guides/github-repo-safety-checklist/"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I know if a GitHub repo is safe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "There is no single check that proves a repository is safe. Review what runs during install, how large and current the dependency list is, whether the project is actively maintained, whether the licence permits your use, and whether the code does anything unexpected with the network, the filesystem, or credentials."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are popular GitHub repos safe by default?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Star counts measure past attention, not current safety or upkeep. A widely starred project can be unmaintained, and a small project can be well run. Judge current activity and the code itself rather than popularity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safe to download code from GitHub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Downloading and reading source code is low risk. Risk appears when you install, build, or run it, because those steps can execute code from the project and its dependencies on your machine. Review the install path before running anything."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="SourceBrief home">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M8 11.5 20 5l12 6.5v17L20 35 8 28.5z" fill="none" stroke="currentColor" stroke-width="2.4" />
+          <path d="M14 15h12M14 20h9M14 25h12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+        <span>SourceBrief</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/#repo-safety">Safety</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/contact/">Contact</a>
+        <span class="pill">Free utility</span>
+      </nav>
+    </header>
+
+    <main class="legal-page">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Repo safety checklist</span>
+      </nav>
+
+      <section class="legal-hero" aria-labelledby="guide-title">
+        <p class="eyebrow">Guide</p>
+        <h1 id="guide-title">How to Tell if a GitHub Repo Is Safe: A Practical Checklist</h1>
+        <p>
+          Nobody reads every line of an unfamiliar project before using it. What experienced developers actually do is
+          check a short list of signals that reliably separate a project worth trusting from one worth avoiding. This
+          guide is that list, in the order it is worth working through.
+        </p>
+      </section>
+
+      <section class="legal-content content-section">
+        <h2>First, decide what you are actually about to do</h2>
+        <p>
+          The honest answer to &ldquo;is this repo safe?&rdquo; depends entirely on what you plan to do with it. The risk
+          is very different across these three cases:
+        </p>
+        <ul>
+          <li><strong>Reading the code.</strong> Essentially no risk. Browsing source on GitHub executes nothing.</li>
+          <li>
+            <strong>Running or installing it.</strong> Real risk. Install steps, build scripts, and the project&rsquo;s
+            dependencies can execute code on your machine with your user&rsquo;s permissions.
+          </li>
+          <li>
+            <strong>Depending on it in something you ship.</strong> Ongoing risk. You inherit not just today&rsquo;s code
+            but every future update, plus whatever its own dependencies pull in.
+          </li>
+        </ul>
+        <p>
+          Set your bar accordingly. A quick experiment in a throwaway container deserves less scrutiny than a package
+          that will sit in your production build for two years.
+        </p>
+
+        <h2>1. Check what runs during install</h2>
+        <p>
+          This is the highest-value check and the one most people skip. Many ecosystems allow a package to execute
+          scripts automatically during installation, which means code can run before you have read a single source file.
+          In the npm ecosystem these are lifecycle scripts such as <code>preinstall</code>, <code>install</code>, and
+          <code>postinstall</code>, documented in the
+          <a href="https://docs.npmjs.com/cli/v10/using-npm/scripts" rel="nofollow noopener" target="_blank">npm scripts reference</a>.
+        </p>
+        <p>Open the manifest and look at the scripts section before you install anything. Ask:</p>
+        <ul>
+          <li>Is there an install or postinstall hook at all? Most libraries do not need one.</li>
+          <li>Does it download or execute something from a remote URL?</li>
+          <li>Does it run a shell script, a binary, or an obfuscated one-liner?</li>
+          <li>Does the hook make sense for what the project claims to do?</li>
+        </ul>
+        <p>
+          A native-code library compiling a binding during install is normal. A CSS theme fetching a script from an
+          unfamiliar domain during install is not.
+        </p>
+
+        <h2>2. Read the dependency surface</h2>
+        <p>
+          You are not just trusting this project. You are trusting everything it depends on, and everything those
+          projects depend on. A small dependency list made of well-known packages is far easier to reason about than a
+          deep tree of unfamiliar ones.
+        </p>
+        <ul>
+          <li>Open the manifest and count the direct runtime dependencies.</li>
+          <li>Recognise the names. Unfamiliar packages doing security-sensitive work deserve a closer look.</li>
+          <li>
+            Watch for names that look like typos of popular packages. Typosquatting is a common way malicious code gets
+            installed.
+          </li>
+          <li>Check whether a lockfile is committed, which tells you the project pins what it builds against.</li>
+        </ul>
+        <p>
+          If the repository has
+          <a
+            href="https://docs.github.com/en/code-security/dependabot/dependabot-alerts/about-dependabot-alerts"
+            rel="nofollow noopener"
+            target="_blank"
+            >Dependabot alerts</a
+          >
+          enabled and visible, that is a positive signal that the maintainers are tracking known vulnerable
+          dependencies.
+        </p>
+
+        <h2>3. Confirm somebody is still maintaining it</h2>
+        <p>
+          An unmaintained project is not automatically dangerous, but nobody is going to fix its next security problem.
+          That matters enormously if you plan to depend on it.
+        </p>
+        <ul>
+          <li><strong>Recent commits.</strong> When did meaningful work last land, not just a README tweak?</li>
+          <li><strong>Releases.</strong> Is there a tagged release history, or has nothing shipped in years?</li>
+          <li><strong>Issue behaviour.</strong> Do maintainers reply, or do issues sit untouched?</li>
+          <li>
+            <strong>Archived status.</strong> GitHub lets maintainers
+            <a
+              href="https://docs.github.com/en/repositories/archiving-a-github-repository/archiving-repositories"
+              rel="nofollow noopener"
+              target="_blank"
+              >archive a repository</a
+            >, marking it read-only. An archived project is at least honest about being finished; a quietly inactive one
+            is the more misleading of the two.
+          </li>
+        </ul>
+        <p>
+          Ignore the star count here. Stars measure attention the project received at some point, not whether anyone is
+          looking after it now.
+        </p>
+
+        <h2>4. Check the licence before you rely on it</h2>
+        <p>
+          A licence is a usage question rather than a malware question, but getting it wrong can be the more expensive
+          mistake. Code published without a licence is not automatically free to use: as
+          <a href="https://choosealicense.com/no-permission/" rel="nofollow noopener" target="_blank">Choose a License</a>
+          explains, default copyright rules mean nobody has permission to use, copy, or modify it.
+        </p>
+        <ul>
+          <li>Is there a <code>LICENSE</code> file, and does it match what the README claims?</li>
+          <li>Does the licence permit commercial use if that is your plan?</li>
+          <li>Does it impose obligations, such as sharing your own source, that conflict with how you intend to ship?</li>
+        </ul>
+
+        <h2>5. Look for deliberate security practice</h2>
+        <p>Well-run projects leave visible evidence that security is something they think about:</p>
+        <ul>
+          <li>
+            A <code>SECURITY.md</code> file or published
+            <a
+              href="https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories"
+              rel="nofollow noopener"
+              target="_blank"
+              >security advisories</a
+            >, showing there is a way to report problems responsibly.
+          </li>
+          <li>A test suite, and CI that actually runs it on pull requests.</li>
+          <li>Code review visible in the pull request history rather than everything pushed straight to the main branch.</li>
+          <li>
+            For a deeper automated view, the
+            <a href="https://openssf.org/projects/scorecard/" rel="nofollow noopener" target="_blank">OpenSSF Scorecard</a>
+            project scores repositories against a set of security heuristics.
+          </li>
+        </ul>
+
+        <h2>6. Sanity-check the account behind it</h2>
+        <p>
+          Accounts are cheap to create, so treat this as weak supporting evidence rather than proof. Still, a brand new
+          account with no other activity, publishing a package that impersonates a well-known tool, is a meaningful
+          warning. Look at account age, other repositories, and whether the project is referenced anywhere outside its
+          own README.
+        </p>
+
+        <h2>Red flags worth stopping on</h2>
+        <p>Any one of these justifies slowing down and looking harder:</p>
+        <ul>
+          <li>Install-time scripts that fetch and execute remote code.</li>
+          <li>Obfuscated, minified, or base64-encoded source in a project that has no reason to ship it.</li>
+          <li>A name that closely imitates a popular package.</li>
+          <li>Binaries committed to the repository with no build process that explains them.</li>
+          <li>Code that reads environment variables, tokens, or SSH keys without a functional reason.</li>
+          <li>A README promising far more than the code plausibly implements.</li>
+          <li>Disabled issues combined with no contact route, so problems cannot be reported.</li>
+        </ul>
+
+        <h2>What a quick check cannot prove</h2>
+        <p>
+          Every check above raises or lowers your confidence. None of them proves a repository is safe, and it is worth
+          being clear about the limits:
+        </p>
+        <ul>
+          <li>Clean metadata does not mean clean code. Malicious logic can hide in a project that looks tidy.</li>
+          <li>
+            Today&rsquo;s safe version does not guarantee tomorrow&rsquo;s. Maintainer accounts get compromised and
+            ownership changes hands.
+          </li>
+          <li>Signals are heuristics, not verdicts. They tell you where to look, not what is true.</li>
+        </ul>
+        <p>
+          When the stakes are high, there is no substitute for reading the code that runs, pinning exact versions, and
+          testing in an isolated environment first.
+        </p>
+
+        <h2>The short version</h2>
+        <p>If you only have two minutes, do these five things:</p>
+        <ul>
+          <li>Read the install and build scripts in the manifest.</li>
+          <li>Skim the direct dependencies for unfamiliar or typosquatted names.</li>
+          <li>Check the date of the last real commit and whether issues get answers.</li>
+          <li>Confirm a licence exists and permits your use.</li>
+          <li>Run it in a container or throwaway environment the first time.</li>
+        </ul>
+
+        <p class="legal-note">
+          SourceBrief can speed up the first pass by surfacing these public signals in one place, but it does not run a
+          security audit and does not execute repository code. Treat it as a way to decide where to look, and keep the
+          judgement yourself.
+        </p>
+
+        <p>
+          <a class="secondary-button" href="/">Check a repository with SourceBrief</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 SourceBrief</span>
+      <div class="footer-links">
+        <a href="/about/">About</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <span>Free public GitHub repo briefing utility</span>
+    </footer>
+  </body>
+</html>
