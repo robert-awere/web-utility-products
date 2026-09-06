@@ -1,0 +1,64 @@
+---
+import Base from "../../layouts/Base.astro";
+
+const lines = [
+  "Natural / clean piles (Whitnack 500)",
+  "Mixed / dirty piles (Whitnack 300)",
+  "Wild piles (Whitnack 1,500)",
+  "Red threes on the table",
+  "Red threes still in hand or foot",
+  "Melded card points",
+  "Leftover card points (subtract)",
+  "Going out (100, one side only)",
+  "Deal total",
+];
+const deals = ["Deal 1", "Deal 2", "Deal 3", "Deal 4"];
+const sides = ["Side A", "Side B", "Side C", "Side D"];
+---
+<Base
+  title="Printable Hand and Foot score sheet — TableScore"
+  description="A traditional four-deal Hand and Foot score sheet. Download the PDF, or print this page."
+  path="/printable/hand-and-foot-score-sheet/"
+>
+  <h1>Hand and Foot score sheet</h1>
+  <p class="sub">Download a real PDF, or print this page. Bonuses shown are Whitnack / Pagat (retrieved 16 August 2026).</p>
+  <div class="print-actions">
+    <a class="btn btn-primary" href="/hand-and-foot-score-sheet.pdf" download="hand-and-foot-score-sheet.pdf">Download PDF score sheet</a>
+    <button class="btn btn-ghost" type="button" onclick="window.print()">Print this page</button>
+    <a class="btn btn-ghost" href="/hand-and-foot-score-keeper/">Back to the score keeper</a>
+  </div>
+
+  <div class="sheet">
+    <h2>Hand and Foot</h2>
+    <p>Date ______________ &nbsp; Variant: Whitnack / Simpson / Saskatchewan &nbsp; Location ______________</p>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"> </th>
+          {sides.map((s) => <th scope="col">{s}<br /><span style="font-weight:500">Name</span></th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {deals.map((deal) => (
+          <>
+            <tr>
+              <th scope="row" colspan="5">{deal} — first meld min {deal === "Deal 1" ? 50 : deal === "Deal 2" ? 90 : deal === "Deal 3" ? 120 : 150}</th>
+            </tr>
+            {lines.map((line) => (
+              <tr>
+                <th scope="row">{line}</th>
+                {sides.map(() => <td> </td>)}
+              </tr>
+            ))}
+          </>
+        ))}
+        <tr>
+          <th scope="row">Game total</th>
+          {sides.map(() => <td> </td>)}
+        </tr>
+      </tbody>
+    </table>
+    <p>Card values (Pagat / Whitnack): joker 50 · two or ace 20 · 8–K 10 · 4–7 5 · black 3 5. Red threes are a separate line.</p>
+    <p>Need more than four sides? Print a second copy. For the interactive keeper use the <a href="/hand-and-foot-score-keeper/">Hand and Foot Score Keeper</a>.</p>
+  </div>
+</Base>

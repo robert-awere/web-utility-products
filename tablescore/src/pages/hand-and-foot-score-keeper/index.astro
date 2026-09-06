@@ -1,0 +1,115 @@
+---
+import Base from "../../layouts/Base.astro";
+
+const faq = [
+  {
+    q: "How many deals are in a game of Hand and Foot?",
+    a: "On Pagat, Bill Whitnack’s partnership rules say a complete game consists of four deals. This keeper defaults to four and lets you change the length. There is no running point target in that text.",
+  },
+  {
+    q: "Do red threes count for you or against you?",
+    a: "It depends on the variant. Whitnack (the default) scores each red three +100 if it is face up with your melds and −100 if it is still in the hand or foot. Steve Simpson’s individual rules on the same Pagat page count every red three as −500.",
+  },
+  {
+    q: "What is the difference between a clean pile and a dirty pile?",
+    a: "A clean (natural) pile is seven cards of one rank with no wilds. A dirty (mixed) pile is seven cards that include wilds. Whitnack pays 500 for clean and 300 for dirty, on top of the cards inside. Simpson pays 300 and 100.",
+  },
+  {
+    q: "What do I need before I can go out?",
+    a: "Whitnack requires two dirty piles, two clean piles, and one wild pile, plus partner foot-play and permission at the table. Simpson requires one clean and one dirty pile. Saskatchewan requires one clean, one dirty, and one wild canasta. The keeper warns if the pile counts do not match the selected variant. It does not ask your partner for you.",
+  },
+  {
+    q: "What if the stock runs out and nobody goes out?",
+    a: "Pagat is explicit: both sides still score their piles and card points, and nobody receives the going-out bonus. Leave “Went out” unchecked.",
+  },
+  {
+    q: "How do I score a partnership?",
+    a: "Enter one name per side — for example “Ada & Ben.” Melds belong to the partnership in Whitnack’s write-up, so one column per side matches the pad.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const appSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Hand and Foot Score Keeper",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description:
+    "Browser score keeper for Hand and Foot. Structured pile, red-three, and card-point entry. Scores stay on the device.",
+  url: "/hand-and-foot-score-keeper/",
+};
+---
+<Base
+  title="Hand and Foot Score Keeper — TableScore"
+  description="Keep Hand and Foot score in the browser. Natural and mixed piles, red threes, going out, four deals. Scores stay on your device."
+  path="/hand-and-foot-score-keeper/"
+  schema={[appSchema, faqSchema]}
+>
+  <h1>Hand and Foot Score Keeper</h1>
+  <p class="sub">Enter piles, red threes, and card counts. The engine totals the deal. Four deals, unless you change it.</p>
+
+  <div class="tool-shell" id="tool">
+    <div id="scorekeeper"></div>
+  </div>
+
+  <aside class="ad-slot" data-slot="A" aria-hidden="true">Reserved ad slot A — empty in this sandbox</aside>
+
+  <article class="explainer" aria-labelledby="explain-h">
+    <h2 id="explain-h">How Hand and Foot is scored</h2>
+    <p>Hand and Foot is scored when a deal ends, not while people are drawing. The numbers in this keeper come from John McLeod’s Hand and Foot page on <a href="https://www.pagat.com/rummy/handfoot.html">Pagat</a>, retrieved 16 August 2026. The partnership write-up there was contributed by Bill Whitnack. Pagat calls that write-up the most usual version, so it is the default here. A complete game is four deals. After the fourth deal, the highest total wins. Whitnack does not set a running point target such as “play until someone reaches 5,000.”</p>
+    <p>Two kinds of numbers go on the pad: the point values of individual cards, and bonuses for completed piles and for going out.</p>
+    <p>Card values are fixed. Jokers are 50. Twos and aces are 20. Eights through kings are 10. Fours through sevens are 5. Black threes are 5. A card counts for you if it sits in a meld and against you if it is still in your hand or your unplayed foot when the deal ends. Ordinary threes are not melded. Black threes are discarded to block the next player from taking the pile; if you still hold them at the end they cost 5 each. Red threes are laid face up as soon as you find them in the hand, the foot, or the stock. Under Whitnack they are +100 each when they sit with your melds, and −100 each when they do not. The usual way a red three goes negative is an opponent going out before you have picked up a foot that still holds one.</p>
+    <p>Pile bonuses sit on top of the cards inside the pile. A completed seven-card meld is a pile. Many American tables say “canasta.” A clean pile — seven natural cards of one rank, no wilds — is 500. A dirty pile — seven cards that include one or two wilds — is 300. A wild pile of seven twos and jokers is 1,500. Whitnack also limits wilds in a mixed meld: at most one wild in a three-, four-, or five-card meld, and at most two in a six- or seven-card meld, and you must have at least twice as many natural cards as wilds.</p>
+    <p>Going out is 100 points, and only the side that goes out receives it. If the stock runs out and a player needs to draw, the deal ends with no going-out bonus. Both sides still score their piles and their card points. Going out is gated. Whitnack requires two dirty piles, two clean piles, and one wild pile; your partner must already have played from the foot; and you must ask permission. This tool does not police permission or foot play — those are table facts — but it will warn if a going-out claim does not meet the pile requirement of the selected variant.</p>
+    <p>The first meld of each deal has a rising card-point minimum: 50, then 90, then 120, then 150. Red threes do not count toward that minimum, and neither does the pile bonus. Seven sixes are 35 points and do not open a 50-point deal. The keeper prints the threshold on the deal header so the table can check it; it does not reconstruct the first meld after the fact.</p>
+    <p>Three published variants on the same Pagat page change the arithmetic. Whitnack partnership is the default. Steve Simpson’s individual game pays 300 for a clean pile and 100 for a dirty pile, has no wild-pile bonus, needs only one clean and one dirty pile to go out, and counts every red three as −500, laid down or not. Saskatchewan (Dave Petrie) keeps Whitnack’s bonus table in this engine — Pagat does not republish the pile bonuses in that section — but requires only one clean, one dirty, and one wild canasta to go out, and allows cards to be added after a pile reaches seven.</p>
+    <p>Enter piles, red threes, melded cards, leftover cards, and who went out. The engine applies the variant. For a partnership, type one name per side. The tool does not deal, draw, or play the hand.</p>
+  </article>
+
+  <section class="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Questions at the table</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </section>
+
+  <aside class="ad-slot" data-slot="B" aria-hidden="true">Reserved ad slot B — empty in this sandbox</aside>
+
+  <nav aria-label="Related pages">
+    <h2>Related</h2>
+    <p>
+      <a href="/">Home</a> ·
+      <a href="/hand-and-foot-score-sheet.pdf" download="hand-and-foot-score-sheet.pdf">Download Hand and Foot score sheet (PDF)</a> ·
+      <a href="/printable/hand-and-foot-score-sheet/">Printable Hand and Foot score sheet</a> ·
+      <a href="/about/">About</a> ·
+      <a href="/privacy/">Privacy</a> ·
+      <a href="/contact/">Contact</a>
+    </p>
+    <p class="muted">This version lists only Hand and Foot. The PRD asks for 3–5 sibling game links; those pages do not exist and are not stubbed.</p>
+  </nav>
+</Base>
+
+<script>
+  import { mountScorekeeper } from "../../client/scorekeeper.js";
+  import { scoreRound, recomputeGame, getVariant } from "../../engine/hand-and-foot.js";
+  const root = document.getElementById("scorekeeper");
+  if (root) mountScorekeeper(root);
+  window.__TABLESCORE = { scoreRound, recomputeGame, getVariant, version: "0.2" };
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  }
+</script>

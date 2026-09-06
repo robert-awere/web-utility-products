@@ -1,0 +1,9 @@
+TableScore v0.2 - FR-10 offline evidence (headless browser / CDP)
+Date: 2026-08-16T20:26:59.831Z
+URL: http://127.0.0.1:4322/hand-and-foot-score-keeper/
+Method: first load, wait for service worker, Network.emulateNetworkConditions(offline), reload, call scoreRound.
+SW: {"supported":true,"active":true,"scope":"http://127.0.0.1:4322/"}
+After offline reload: {"hasEngine":true,"version":"0.2","total":500,"title":"Hand and Foot Score Keeper","toolPresent":true}
+PASS: true
+Expected: page still serves; scoreRound(1 clean pile, Whitnack) === 500.
+No PWA install prompt. No beforeinstallprompt handler. No manifest install UI.

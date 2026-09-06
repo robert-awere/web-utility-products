@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: FR-5 seed, persist, reload restores exact mid-game state
+ok 1 - FR-5 seed, persist, reload restores exact mid-game state
+  ---
+  duration_ms: 3.385098
+  ...
+# Subtest: FR-5 resume window expires after 24 hours
+ok 2 - FR-5 resume window expires after 24 hours
+  ---
+  duration_ms: 0.248952
+  ...
+# Subtest: clearGame removes only the game key
+ok 3 - clearGame removes only the game key
+  ---
+  duration_ms: 0.356939
+  ...
+# Subtest: scoreRound still agrees after a storage round-trip
+ok 4 - scoreRound still agrees after a storage round-trip
+  ---
+  duration_ms: 0.23798
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 143.778773

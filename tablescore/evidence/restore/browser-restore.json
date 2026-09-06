@@ -1,0 +1,25 @@
+{
+  "before": {
+    "hasResume": true,
+    "banner": "\n          Resume game? A Hand and Foot game was saved in this browser within the last 24 hours.\n          \n            Resume game\n            Discard it\n          \n        "
+  },
+  "after": {
+    "names": [
+      "Ada",
+      "Ben"
+    ],
+    "bar": "\n        Whitnack partnership · Leader: Ada\n        Wake lock off\n      ",
+    "totals": [
+      {
+        "name": "Ada",
+        "total": 1475
+      },
+      {
+        "name": "Ben",
+        "total": 440
+      }
+    ],
+    "roundsPlayed": 1
+  },
+  "restoreOk": true
+}
