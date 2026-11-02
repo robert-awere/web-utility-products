@@ -30,7 +30,7 @@ OWNER APPROVAL REQUIRED: this is a third-party network dependency, and Cloudflar
 4. Upload: parallel POSTs that ramp in size, with live progress through XHR `upload.onprogress`. Same aggregation and cap.
 5. Loaded latency: pings run during download and upload. Bufferbloat grade comes from the latency increase under load: A+ <5ms, A <30, B <60, C <200, D <400, F otherwise.
 
-The whole test should finish in about 20–25s. The UI states roughly how much data the test uses.
+The whole test should finish in about 12–25s. The UI states roughly how much data the test uses.
 
 ## Viral / differentiating features
 

@@ -85,7 +85,7 @@
       "name": "How much data does a speed test use?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 100 to 200 MB on a 100 Mbps connection and up to about 1 to 2 GB on a gigabit connection."
+        "text": "It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 50 to 100 MB on a 100 Mbps connection and up to about 700 MB on a gigabit connection."
       }
     },
     {
@@ -153,7 +153,7 @@
       <button type="button" class="btn btn-primary" id="btn-again">Start test</button>
       <button type="button" class="btn btn-ghost" id="btn-stop" hidden>Stop test</button>
     </div>
-    <p class="data-note" id="data-note">Uses roughly 20–200&nbsp;MB of data, depending on your speed.</p>
+    <p class="data-note" id="data-note">Uses roughly 10–700&nbsp;MB of data, depending on your speed.</p>
     <p class="err" id="err" role="alert" hidden></p>
     <div class="sr-only" id="live" aria-live="polite" aria-atomic="true"></div>
   </section>
@@ -293,7 +293,7 @@
   <p>If wired tests stay well below your plan, restart the modem and router, then contact your provider.</p>
 
   <h2 id="how-it-measures">How SpeedFlex measures your speed</h2>
-  <p>SpeedFlex has no test server of its own. Your browser connects to Cloudflare's global edge network, usually to a nearby data centre. It measures idle latency first, then downloads using up to six parallel streams with growing request sizes, then uploads the same way, pinging throughout to measure loaded latency. Throughput is sampled in short rolling windows, and the reported speed is the 90th percentile of the stable windows, so a slow start or a single hiccup does not drag the figure down. The full test takes about 20–25 seconds. Data use scales with your speed: roughly 100–200 MB on a 100 Mbps connection and up to around 1–2 GB on a gigabit line, so take care on metered or mobile data.</p>
+  <p>SpeedFlex has no test server of its own. Your browser connects to Cloudflare's global edge network, usually to a nearby data centre. It measures idle latency first, then downloads using up to six parallel streams with growing request sizes, then uploads the same way, pinging throughout to measure loaded latency. Throughput is sampled in short rolling windows, and the reported speed is the 90th percentile of the stable windows, so a slow start or a single hiccup does not drag the figure down. The full test usually takes about 12–15 seconds. Data use scales with your speed: roughly 50–100 MB on a 100 Mbps connection and up to around 700 MB on a gigabit line, so take care on metered or mobile data.</p>
 
   <h2 id="worked-example">Worked example</h2>
   <p>Say a test shows 240 Mbps download, 22 Mbps upload, 18 ms ping, and ping rising by 12 ms under load.</p>
@@ -329,7 +329,7 @@
   </details>
   <details>
     <summary>How much data does a speed test use?</summary>
-    <p>It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 100 to 200 MB on a 100 Mbps connection and up to about 1 to 2 GB on a gigabit connection.</p>
+    <p>It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 50 to 100 MB on a 100 Mbps connection and up to about 700 MB on a gigabit connection.</p>
   </details>
   <details>
     <summary>Does SpeedFlex store my results?</summary>
