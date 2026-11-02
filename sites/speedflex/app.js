@@ -225,7 +225,13 @@
       if (myRun !== runId) return;
       running = false;
       setRunningUI(false);
-      finish(res || {});
+      res = res || {};
+      // The engine never rejects on network failure: every phase just comes back null.
+      if (!num(res.downloadMbps) && !num(res.uploadMbps) && !num(res.idleLatencyMs)) {
+        showError('The test could not reach the server. Check your connection and select “Test again”.');
+        return;
+      }
+      finish(res);
     }, function (err) {
       if (myRun !== runId) return;
       running = false;
@@ -375,13 +381,14 @@
       $('c-20').textContent = fmtDuration(20e9 * 8 / (r.d * 1e6));
     } else {
       $('c-4k').textContent = $('c-50').textContent = $('c-20').textContent = '—';
+      $('c-4k-n').textContent = '25 Mbps each';
     }
     var lim = [r.d, r.u].filter(num);
     if (lim.length) {
       var c = Math.floor(Math.min.apply(null, lim) / 3.8);
       $('c-calls').textContent = String(c);
       $('c-calls-n').textContent = (r.u != null && r.d != null && r.u < r.d) ? 'Limited by your upload (≈3.8 Mbps each)' : '≈3.8 Mbps up and down per call';
-    } else $('c-calls').textContent = '—';
+    } else { $('c-calls').textContent = '—'; $('c-calls-n').textContent = '≈3.8 Mbps up and down per call'; }
     var v = gamingVerdict(r.p, r.j, r.g);
     $('c-game').textContent = v[0];
     $('c-game-n').textContent = v[1];
@@ -406,9 +413,9 @@
     $('plan-pct-t').textContent = 'of your ' + fmtMbps(plan) + ' Mbps plan delivered';
     $('plan-bar').style.width = Math.min(100, pct) + '%';
     var meter = $('plan-meter');
-    meter.setAttribute('data-level', pct >= 80 ? 'good' : pct >= 50 ? 'mid' : 'low');
+    meter.setAttribute('data-level', shown >= 80 ? 'good' : shown >= 50 ? 'mid' : 'low');
     meter.setAttribute('aria-label', shown + ' percent of plan delivered');
-    var bad = pct < 80;
+    var bad = shown < 80;
     $('complaint').hidden = !bad;
     if (bad) $('complaint-text').value = complaintText(plan, shown);
   }
@@ -479,8 +486,8 @@
   function compare(you, them, higherBetter) {
     if (you == null || them == null) return { cls: '', text: '—', win: 0 };
     if (them === 0 && you === 0) return { cls: '', text: 'Tie', win: 0 };
-    var diff = higherBetter ? (you - them) / (them || 1) : (them - you) / (them || 1);
-    var pct = Math.round(Math.abs(diff) * 100);
+    var diff = higherBetter ? you - them : them - you;
+    var pct = Math.round(Math.abs(diff) / ((diff > 0 ? them : you) || 1) * 100);
     if (pct === 0) return { cls: '', text: 'Tie', win: 0 };
     return diff > 0 ? { cls: 'win', text: 'You win (+' + pct + '%)', win: 1 } : { cls: 'lose', text: 'They win (' + pct + '% ' + (higherBetter ? 'faster' : 'lower') + ')', win: -1 };
   }
@@ -604,12 +611,20 @@
     ctx.fillStyle = '#1d2400'; fitFont(ctx, cta, 860, 40, 800); ctx.fillText(cta, 540, 1260);
     return c;
   }
+  var previewUrl = null, previewSeq = 0;
   function refreshPreview() {
-    var c = drawCard(), img = $('card-preview');
-    if (!c) return;
+    var c = drawCard(), img = $('card-preview'), seq = ++previewSeq;
+    if (!c || !c.toBlob || !window.URL || !URL.createObjectURL) return;
+    var alt = 'Share card preview: ' + fmtMbps(lastResult.d) + ' Mbps download' + (lastResult.d == null ? '' : ', ' + TIERS[tierIndex(lastResult.d)].name);
     try {
-      img.src = c.toDataURL('image/png');
-      img.alt = 'Share card preview: ' + fmtMbps(lastResult.d) + ' Mbps download, ' + (lastResult.d == null ? '' : TIERS[tierIndex(lastResult.d)].name);
+      c.toBlob(function (b) {
+        if (!b || seq !== previewSeq) return; // a newer preview was requested meanwhile
+        var old = previewUrl;
+        previewUrl = URL.createObjectURL(b);
+        img.src = previewUrl;
+        img.alt = alt;
+        if (old) URL.revokeObjectURL(old);
+      }, 'image/png');
     } catch (e) { /* ignore */ }
   }
   function cardBlob() {
@@ -696,7 +711,7 @@
     $('btn-share').disabled = !has;
     $('btn-link').disabled = !has;
     status(has ? 'Your share card is ready.' : 'The download test failed, so there is nothing to share yet.');
-    refreshPreview();
+    setTimeout(refreshPreview, 0); // separate task: keeps the result paint off the canvas work
   }
 
   /* ---------- History ---------- */
@@ -707,6 +722,7 @@
     } catch (e) { return []; }
   }
   function saveHistory(r) {
+    if (r.d == null && r.u == null) return;
     try {
       var arr = readHistory();
       arr.unshift({ d: r.d, u: r.u, p: r.p, g: r.g, t: r.t });

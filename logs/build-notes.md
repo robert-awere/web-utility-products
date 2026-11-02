@@ -82,3 +82,19 @@ Two pre-existing bugs found while building it. First, the FAQPage JSON-LD on bot
 - Sitemap updates are currently static/manual and tied to the curated indexability allowlist. Before final launch, choose either curated sitemap entries or a generator script; do not automatically index every user-generated repo page.
 
 **Next planned work:** consider a static generation strategy for curated popular repositories and decide whether an optional GitHub token flow is needed if rate limits become a real user problem.
+
+## 2026-11-02 — speedflex
+
+**Build:** New static internet speed test at `sites/speedflex/` (spec: `specs/speedflex.md`). Vanilla HTML/CSS/JS, no dependencies, no tracking. Measurement runs in-browser against Cloudflare's public speed endpoints (`speed.cloudflare.com/__down`, `/__up`, `/meta`). Features: autostart, log-scale SVG dial, download/upload/ping/jitter/loaded latency with bufferbloat grade, speed personas, "what your connection can do", plan-vs-actual check with ISP complaint text, 1080×1350 canvas share card (Web Share with file, download fallback), hash-encoded challenge links with head-to-head comparison, local recent-test history.
+
+**Validation:** Engine within ~6% of configured throttle across 5 mock settings; latency exact. Independent QA: zero console errors on all 4 pages, no overflow at 360px, CLS ≤0.011, keyboard/focus/reduced-motion pass, axe WCAG AA pass light+dark, JSON-LD FAQ matches visible text, hostile challenge hashes rejected, ≥7 arithmetic cases checked. Lighthouse mobile: Accessibility/Best Practices/SEO 100; homepage Performance 86–99 (variance from autostarted test work), trust pages 100. Homepage weight 93KB raw / 29KB gzip.
+
+**Design signature:** violet/lime/coral palette, 240° log-scale speed dial with upload colour shift, tier-ladder personas.
+
+**Known limitations / owner actions before launch:**
+- Domain `speedflex.app` is an assumed placeholder (canonical, OG, sitemap, robots, share-card wordmark in app.js).
+- Cloudflare endpoint use is untested from the sandbox (proxy blocks it) and needs owner review of Cloudflare's terms for third-party use.
+- Bufferbloat only verified against a non-queueing mock; real-world grading unverified.
+- Web Share with files only tested via download fallback.
+- Minor: engine `clearResourceTimings()` on abort cleanup can degrade one ping sample of an immediately restarted run.
+- No Vercel project created; Root Directory must be `sites/speedflex`.
