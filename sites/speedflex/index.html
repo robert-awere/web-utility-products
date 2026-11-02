@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet Speed Test — Fast, Free, No Ads | SpeedFlex</title>
+<meta name="description" content="Free internet speed test with no ads before your result. Measure download, upload, ping, jitter and bufferbloat, then challenge a friend to beat it.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.speedflex.app/">
+<meta name="theme-color" content="#f6f4fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#100d1f" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SpeedFlex">
+<meta property="og:title" content="Internet Speed Test — Fast, Free, No Ads | SpeedFlex">
+<meta property="og:description" content="Test your download, upload, ping and bufferbloat in about 20 seconds. Then flex your result and challenge a friend.">
+<meta property="og:url" content="https://www.speedflex.app/">
+<meta property="og:image" content="https://www.speedflex.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SpeedFlex speed gauge showing a fast internet result">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Internet Speed Test — Fast, Free, No Ads | SpeedFlex">
+<meta name="twitter:description" content="Test your download, upload, ping and bufferbloat in about 20 seconds. Then challenge a friend to beat it.">
+<meta name="twitter:image" content="https://www.speedflex.app/assets/og-image.png">
+<link rel="stylesheet" href="styles.css">
+<script>if(/^#c=/.test(location.hash))document.documentElement.className+=" has-c";</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SpeedFlex",
+  "url": "https://www.speedflex.app/",
+  "description": "Free internet speed test that measures download, upload, ping, jitter and bufferbloat in your browser. No ads before the result, no account.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this internet speed test free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. SpeedFlex is free, needs no account or app, and shows no ads before or during your result."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much speed do I need for 4K streaming?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 25 Mbps per 4K stream. Add 25 Mbps for each screen that might stream 4K at the same time, plus headroom for everything else on the connection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good ping for gaming?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under 20 ms is excellent, under 50 ms is good for most online games, and over 100 ms is noticeable. Low jitter and a good bufferbloat grade matter as much as the idle ping."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my Wi-Fi speed test lower than my plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wi-Fi signal, distance from the router, older devices, VPNs and other activity on the network all reduce speed. Test with an Ethernet cable close to the router to see what your line itself delivers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much data does a speed test use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 100 to 200 MB on a 100 Mbps connection and up to about 1 to 2 GB on a gigabit connection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does SpeedFlex store my results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not on any server of ours. Recent results are kept only in your own browser, and challenge links carry results in the part of the link after the # sign, which browsers do not send to the website."
+      }
+    }
+  ]
+}
+</script>
+<script defer src="engine.js"></script>
+<script defer src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to speed test</a>
+<header class="top">
+  <a class="brand" href="/" aria-label="SpeedFlex home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M7 21a9 9 0 0 1 18 0" fill="none" stroke="var(--volt)" stroke-width="3.2" stroke-linecap="round"/><path d="M16 21l6-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="21" r="2.4" fill="#fff"/></svg>
+    <span>Speed<b>Flex</b></span>
+  </a>
+  <span class="tagline">Test it. Flex it.</span>
+</header>
+
+<main id="main">
+  <section class="tool" aria-labelledby="title">
+    <h1 id="title">Internet speed test</h1>
+    <p class="lede">Download, upload, ping and bufferbloat. No ads before your result, no account.</p>
+
+    <div id="challenge-banner" class="banner" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>
+      <p id="challenge-text"></p>
+    </div>
+
+    <div class="dial" id="dial" data-phase="idle">
+      <svg class="gauge" viewBox="0 0 320 300" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="g-down" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--down-a)"/><stop offset="1" stop-color="var(--down-b)"/></linearGradient>
+          <linearGradient id="g-up" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--up-a)"/><stop offset="1" stop-color="var(--up-b)"/></linearGradient>
+        </defs>
+        <path class="g-track" id="g-track" d=""/>
+        <path class="g-fill" id="g-fill" d="" pathLength="1000" stroke-dasharray="0 1000"/>
+        <g id="g-ticks" class="g-ticks"></g>
+        <g id="g-needle" class="g-needle">
+          <path d="M160 160 L160 52" />
+          <circle cx="160" cy="160" r="11"/>
+        </g>
+      </svg>
+      <div class="readout">
+        <span class="phase-label" id="phase-label">Getting ready</span>
+        <span class="big" id="big-num">0</span>
+        <span class="unit" id="big-unit">Mbps</span>
+      </div>
+    </div>
+
+    <ol class="steps" id="steps">
+      <li data-step="latency"><span class="s-name">Ping</span><span class="s-val" id="sv-latency">—</span><span class="s-bar"><i id="sb-latency"></i></span></li>
+      <li data-step="download"><span class="s-name">Download</span><span class="s-val" id="sv-download">—</span><span class="s-bar"><i id="sb-download"></i></span></li>
+      <li data-step="upload"><span class="s-name">Upload</span><span class="s-val" id="sv-upload">—</span><span class="s-bar"><i id="sb-upload"></i></span></li>
+    </ol>
+
+    <div class="controls">
+      <button type="button" class="btn btn-primary" id="btn-again">Start test</button>
+      <button type="button" class="btn btn-ghost" id="btn-stop" hidden>Stop test</button>
+    </div>
+    <p class="data-note" id="data-note">Uses roughly 20–200&nbsp;MB of data, depending on your speed.</p>
+    <p class="err" id="err" role="alert" hidden></p>
+    <div class="sr-only" id="live" aria-live="polite" aria-atomic="true"></div>
+  </section>
+
+  <section class="card results" id="results" aria-labelledby="results-h" data-state="pending">
+    <div class="persona">
+      <p class="eyebrow">Your speed persona</p>
+      <h2 id="results-h"><span id="persona-name">Testing…</span></h2>
+      <p class="persona-tag" id="persona-tag">Hang tight while we measure your connection.</p>
+      <ol class="ladder" id="ladder" aria-label="Speed persona tiers"></ol>
+    </div>
+    <div class="nums">
+      <div class="num num-down"><span class="k">Download</span><span class="v"><b id="r-down">—</b> <small>Mbps</small></span></div>
+      <div class="num num-up"><span class="k">Upload</span><span class="v"><b id="r-up">—</b> <small>Mbps</small></span></div>
+    </div>
+    <dl class="minis">
+      <div><dt>Ping</dt><dd><b id="r-ping">—</b> ms</dd></div>
+      <div><dt>Jitter</dt><dd><b id="r-jitter">—</b> ms</dd></div>
+      <div><dt>Loaded latency</dt><dd><b id="r-loaded">—</b> ms</dd></div>
+      <div class="bloat"><dt>Bufferbloat</dt><dd><span class="grade" id="r-grade" data-g="">–</span> <span id="r-delta" class="delta"></span></dd></div>
+    </dl>
+    <p class="meta" id="r-meta">&nbsp;</p>
+  </section>
+
+  <section class="card versus" id="versus" aria-labelledby="versus-h" hidden>
+    <h2 id="versus-h">Head to head</h2>
+    <p class="vs-verdict" id="vs-verdict">Finish the test to see who wins.</p>
+    <table class="vs-table">
+      <thead><tr><th scope="col">Metric</th><th scope="col">You</th><th scope="col" id="vs-them-h">Them</th><th scope="col">Result</th></tr></thead>
+      <tbody id="vs-body"></tbody>
+    </table>
+    <button type="button" class="btn btn-primary" id="btn-challenge-back" disabled>Challenge back</button>
+  </section>
+
+  <section class="card cando" id="cando" aria-labelledby="cando-h">
+    <h2 id="cando-h">What your connection can do</h2>
+    <ul class="tiles">
+      <li><span class="t-k">4K streams at once</span><b class="t-v" id="c-4k">—</b><span class="t-n" id="c-4k-n">25 Mbps each</span></li>
+      <li><span class="t-k">HD video calls</span><b class="t-v" id="c-calls">—</b><span class="t-n" id="c-calls-n">≈3.8 Mbps up and down per call</span></li>
+      <li><span class="t-k">Gaming</span><b class="t-v" id="c-game">—</b><span class="t-n" id="c-game-n">From ping, jitter and bufferbloat</span></li>
+      <li><span class="t-k">50 GB game download</span><b class="t-v" id="c-50">—</b><span class="t-n">At your measured download speed</span></li>
+      <li><span class="t-k">20 GB 4K movie</span><b class="t-v" id="c-20">—</b><span class="t-n">At your measured download speed</span></li>
+    </ul>
+  </section>
+
+  <section class="card plan" id="plan" aria-labelledby="plan-h">
+    <h2 id="plan-h">Getting what you pay for?</h2>
+    <div class="plan-row">
+      <label for="plan-in">Your plan's download speed</label>
+      <span class="plan-input"><input id="plan-in" type="number" inputmode="decimal" min="1" max="100000" step="any" placeholder="e.g. 500" aria-describedby="plan-hint"><span>Mbps</span></span>
+    </div>
+    <p class="hint" id="plan-hint">Check your bill or your provider's app. Stays on this device.</p>
+    <div class="plan-out" id="plan-out" hidden>
+      <p class="plan-pct"><b id="plan-pct">0%</b> <span id="plan-pct-t">of your plan delivered</span></p>
+      <div class="meter" role="img" id="plan-meter" aria-label="Percent of plan delivered"><i id="plan-bar"></i><span class="mark80" title="80% line"></span></div>
+      <div class="complaint" id="complaint" hidden>
+        <label for="complaint-text">A polite message to your provider</label>
+        <textarea id="complaint-text" rows="7" readonly></textarea>
+        <button type="button" class="btn btn-ghost" id="btn-copy-msg">Copy message</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card share" id="share" aria-labelledby="share-h">
+    <h2 id="share-h">Flex it</h2>
+    <div class="share-grid">
+      <div class="share-ctrl">
+        <label for="name-in">Your first name <span class="opt">(optional, shows on your challenge)</span></label>
+        <input id="name-in" type="text" maxlength="20" autocomplete="given-name" placeholder="Sam" spellcheck="false">
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-share" disabled>Share result</button>
+          <button type="button" class="btn btn-ghost" id="btn-link" disabled>Copy challenge link</button>
+        </div>
+        <p class="hint" id="share-status" aria-live="polite">Run a test to unlock your share card.</p>
+      </div>
+      <div class="share-preview"><img id="card-preview" alt="" width="1080" height="1350"></div>
+    </div>
+  </section>
+
+  <section class="card history" id="history" aria-labelledby="history-h">
+    <div class="h-head"><h2 id="history-h">Recent tests</h2><button type="button" class="btn btn-link" id="btn-clear" hidden>Clear history</button></div>
+    <ol class="h-list" id="h-list"><li class="h-empty">No previous tests on this device yet.</li></ol>
+  </section>
+
+  <div class="ad-slot" data-slot="below-result" aria-hidden="true"></div>
+
+  <section class="content" aria-label="About internet speed tests">
+<section class="explainer" aria-labelledby="good-speed">
+  <h2 id="good-speed">What is a good internet speed?</h2>
+  <p>A good speed covers everything your household does at the same time. Use these typical per-activity figures and add up what runs at once.</p>
+  <table>
+    <caption>Typical speed needed per activity</caption>
+    <thead>
+      <tr><th scope="col">Activity</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">What matters most</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Browsing, email, music</td><td>1–5 Mbps</td><td>1 Mbps</td><td>Latency</td></tr>
+      <tr><td>HD streaming (1080p)</td><td>5–8 Mbps</td><td>–</td><td>Steady download</td></tr>
+      <tr><td>4K streaming</td><td>25 Mbps</td><td>–</td><td>Steady download</td></tr>
+      <tr><td>Online gaming</td><td>3–25 Mbps</td><td>1–5 Mbps</td><td>Ping under 50 ms, low jitter</td></tr>
+      <tr><td>HD video call</td><td>about 3.8 Mbps</td><td>about 3.8 Mbps</td><td>Upload and loaded latency</td></tr>
+      <tr><td>Working from home</td><td>25–50 Mbps</td><td>10 Mbps or more</td><td>Upload and stable latency</td></tr>
+      <tr><td>Busy household (4+ people)</td><td>200 Mbps or more</td><td>20 Mbps or more</td><td>Headroom and bufferbloat grade</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="upload-vs-download">Upload vs download speed</h2>
+  <p>Download speed is how fast data reaches you: streaming, web pages, game updates. Upload speed is how fast you send data out: video calls, cloud backups, sending large files, live streaming. Cable and DSL upload is often a fraction of download; fiber is often symmetric. If calls freeze while streaming is fine, upload is usually the bottleneck.</p>
+
+  <h2 id="ping-latency">What is ping (latency) and jitter?</h2>
+  <p>Ping, or latency, is the round-trip time for a tiny message to reach a server and come back, measured in milliseconds. Lower is better: under 20 ms feels instant, under 50 ms is fine for most games, and over 100 ms starts to feel sluggish in calls and fast-paced games. Jitter is how much that delay varies from one moment to the next. High jitter causes choppy audio and in-game lag even when average ping looks good. SpeedFlex reports the median of about 20 idle pings, and jitter as the average change between consecutive pings.</p>
+
+  <div class="ad-slot" data-slot="mid-explainer" aria-hidden="true"></div>
+
+  <h2 id="bufferbloat">What is bufferbloat (loaded latency)?</h2>
+  <p>Bufferbloat is the lag that appears when your connection is busy. When a big download or upload starts, routers can queue too much data and every other packet waits in line, so a call stutters the moment someone else starts a download. SpeedFlex keeps pinging during the download and upload phases and grades the increase:</p>
+  <ul>
+    <li><strong>A+</strong>: less than 5 ms increase</li>
+    <li><strong>A</strong>: less than 30 ms</li>
+    <li><strong>B</strong>: less than 60 ms</li>
+    <li><strong>C</strong>: less than 200 ms</li>
+    <li><strong>D</strong>: less than 400 ms</li>
+    <li><strong>F</strong>: 400 ms or more</li>
+  </ul>
+  <p>A poor grade is often fixable: turning on Smart Queue Management (SQM) or QoS in your router, if it supports it, can bring loaded latency close to idle latency at the cost of a little peak speed.</p>
+
+  <h2 id="slower-than-plan">Why is my internet slower than what I pay for?</h2>
+  <p>Plan speeds are usually "up to" figures measured at the modem with a cable. Common reasons for a lower result, and what to try:</p>
+  <ul>
+    <li><strong>Wi-Fi</strong>: walls, distance and neighbouring networks cut speed sharply. Move closer to the router, use the 5 GHz or 6 GHz band, or test with an Ethernet cable to see your true line speed.</li>
+    <li><strong>Your device</strong>: older phones, laptops and Wi-Fi adapters may top out well below a fast plan. Try another device.</li>
+    <li><strong>Time of day</strong>: evenings are peak time on shared networks. Test at a few different times before drawing conclusions.</li>
+    <li><strong>VPN</strong>: a VPN adds a detour and encryption overhead. Disconnect it and test again.</li>
+    <li><strong>Other activity</strong>: background updates, cloud sync, other people streaming, and busy browser tabs all compete for the same connection. Pause them while testing.</li>
+    <li><strong>Server distance</strong>: results depend on the route to the test server. A distant or congested route lowers speed and raises ping.</li>
+  </ul>
+  <p>If wired tests stay well below your plan, restart the modem and router, then contact your provider.</p>
+
+  <h2 id="how-it-measures">How SpeedFlex measures your speed</h2>
+  <p>SpeedFlex has no test server of its own. Your browser connects to Cloudflare's global edge network, usually to a nearby data centre. It measures idle latency first, then downloads using up to six parallel streams with growing request sizes, then uploads the same way, pinging throughout to measure loaded latency. Throughput is sampled in short rolling windows, and the reported speed is the 90th percentile of the stable windows, so a slow start or a single hiccup does not drag the figure down. The full test takes about 20–25 seconds. Data use scales with your speed: roughly 100–200 MB on a 100 Mbps connection and up to around 1–2 GB on a gigabit line, so take care on metered or mobile data.</p>
+
+  <h2 id="worked-example">Worked example</h2>
+  <p>Say a test shows 240 Mbps download, 22 Mbps upload, 18 ms ping, and ping rising by 12 ms under load.</p>
+  <ul>
+    <li><strong>Bufferbloat grade A</strong>: a 12 ms increase is under the 30 ms threshold.</li>
+    <li><strong>9 simultaneous 4K streams</strong>: 240 ÷ 25 = 9.6, rounded down to 9.</li>
+    <li><strong>5 HD video calls</strong>: calls are limited by upload, and 22 ÷ 3.8 = 5.8, rounded down to 5.</li>
+    <li><strong>Gaming ready</strong>: 18 ms idle and 30 ms under load are both comfortable.</li>
+    <li><strong>A 50 GB game in about 28 minutes</strong>: 50 GB is 400,000 megabits, and 400,000 ÷ 240 ≈ 1,667 seconds.</li>
+  </ul>
+
+  <h2 id="limitations">Assumptions and limitations</h2>
+  <p>SpeedFlex gives a practical estimate, not a certified measurement. Results vary with your device, browser, Wi-Fi conditions and the network route to the Cloudflare server you reach, and a browser test may read lower than a wired test run on the router itself. Activity figures above are typical values, not guarantees.</p>
+</section>
+
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">Speed test FAQ</h2>
+  <details>
+    <summary>Is this internet speed test free?</summary>
+    <p>Yes. SpeedFlex is free, needs no account or app, and shows no ads before or during your result.</p>
+  </details>
+  <details>
+    <summary>How much speed do I need for 4K streaming?</summary>
+    <p>About 25 Mbps per 4K stream. Add 25 Mbps for each screen that might stream 4K at the same time, plus headroom for everything else on the connection.</p>
+  </details>
+  <details>
+    <summary>What is a good ping for gaming?</summary>
+    <p>Under 20 ms is excellent, under 50 ms is good for most online games, and over 100 ms is noticeable. Low jitter and a good bufferbloat grade matter as much as the idle ping.</p>
+  </details>
+  <details>
+    <summary>Why is my Wi-Fi speed test lower than my plan?</summary>
+    <p>Wi-Fi signal, distance from the router, older devices, VPNs and other activity on the network all reduce speed. Test with an Ethernet cable close to the router to see what your line itself delivers.</p>
+  </details>
+  <details>
+    <summary>How much data does a speed test use?</summary>
+    <p>It depends on your speed, because the test downloads and uploads for a fixed time. Expect roughly 100 to 200 MB on a 100 Mbps connection and up to about 1 to 2 GB on a gigabit connection.</p>
+  </details>
+  <details>
+    <summary>Does SpeedFlex store my results?</summary>
+    <p>Not on any server of ours. Recent results are kept only in your own browser, and challenge links carry results in the part of the link after the # sign, which browsers do not send to the website.</p>
+  </details>
+</section>
+
+<div class="ad-slot" data-slot="above-footer" aria-hidden="true"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <nav aria-label="Site">
+    <a href="/about/">About</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/terms/">Terms</a>
+  </nav>
+  <nav aria-label="Sibling tools" class="sibs">
+    <span>More free tools:</span>
+    <a href="https://projectquantity.com/">Paint calculator</a>
+    <a href="https://subscriptioncreepcalculator.com/">Subscription creep calculator</a>
+    <a href="https://thestatisticslab.io/">The Statistics Lab</a>
+    <a href="https://www.sourcebrief.io/">SourceBrief</a>
+  </nav>
+  <p class="fine">SpeedFlex results are estimates that depend on your device, Wi-Fi, browser and the test server. Not a certified measurement.</p>
+</footer>
+</body>
+</html>
