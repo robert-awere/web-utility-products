@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb347"/>
+      <stop offset="0.55" stop-color="#ff6a33"/>
+      <stop offset="1" stop-color="#e2410c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#111318"/>
+  <!-- speed dial: centre (965,385), r=195, 240-degree sweep; needle at 50 degrees -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M796.1 482.5 A195 195 0 1 1 1133.9 482.5" stroke="#2a2f3a" stroke-width="30"/>
+    <path d="M796.1 482.5 A195 195 0 0 1 1090.3 235.6" stroke="url(#arc)" stroke-width="30"/>
+  </g>
+  <g stroke="#a3abba" stroke-width="5" stroke-linecap="round">
+    <line x1="830.8" y1="462.5" x2="846.4" y2="453.5"/>
+    <line x1="810.0" y1="385.0" x2="828.0" y2="385.0"/>
+    <line x1="830.8" y1="307.5" x2="846.4" y2="316.5"/>
+    <line x1="887.5" y1="250.8" x2="896.5" y2="266.4"/>
+    <line x1="965.0" y1="230.0" x2="965.0" y2="248.0"/>
+    <line x1="1042.5" y1="250.8" x2="1033.5" y2="266.4"/>
+    <line x1="1099.2" y1="307.5" x2="1083.6" y2="316.5"/>
+    <line x1="1120.0" y1="385.0" x2="1102.0" y2="385.0"/>
+    <line x1="1099.2" y1="462.5" x2="1083.6" y2="453.5"/>
+  </g>
+  <path d="M965 385 L1055.0 277.8" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="965" cy="385" r="24" fill="#ffffff"/>
+  <circle cx="965" cy="385" r="10" fill="#e2410c"/>
+  <text x="965" y="485" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-2">412</text>
+  <text x="965" y="525" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#a3abba" letter-spacing="3">MBPS</text>
+
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="80" y="150" font-size="30" font-weight="700" fill="#ff8a5c" letter-spacing="5">FREE INTERNET SPEED TEST</text>
+    <text x="76" y="290" font-size="128" font-weight="900" fill="#ffffff" letter-spacing="-5">Speed<tspan fill="#ff6a33">Flex</tspan></text>
+    <text x="80" y="375" font-size="58" font-weight="800" fill="#ffffff" letter-spacing="-1">Test it. Flex it.</text>
+    <text x="80" y="450" font-size="28" font-weight="500" fill="#a3abba">Download · Upload · Ping · Bufferbloat</text>
+    <text x="80" y="540" font-size="26" font-weight="600" fill="#eef0f4">No ads before your result · No account</text>
+    <text x="80" y="580" font-size="24" font-weight="500" fill="#7a8293">speedflex.app</text>
+  </g>
+</svg>

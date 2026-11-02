@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About SpeedFlex | Free, Lean Internet Speed Test</title>
+<meta name="description" content="SpeedFlex is a free, lean internet speed test with no ads before your result, no account and no trackers. Learn how it measures and how challenges work.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.speedflex.app/about/">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SpeedFlex">
+<meta property="og:title" content="About SpeedFlex | Free, Lean Internet Speed Test">
+<meta property="og:description" content="SpeedFlex is a free, lean internet speed test with no ads before your result, no account and no trackers. Learn how it measures and how challenges work.">
+<meta property="og:url" content="https://www.speedflex.app/about/">
+<meta property="og:image" content="https://www.speedflex.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--bg:#f7f8fb;--surface:#fff;--text:#14161c;--muted:#525a6b;--line:#dfe3ea;--accent:#e2410c;--accent-ink:#b8330a;--focus:#1b5cff}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1015;--surface:#171a21;--text:#eef0f4;--muted:#a3abba;--line:#2a2f3a;--accent:#ff6a33;--accent-ink:#ff8a5c;--focus:#7aa2ff}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent-ink);text-underline-offset:2px}
+a:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);background:var(--surface)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px}
+.brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;color:var(--text);text-decoration:none;letter-spacing:-.01em}
+.brand svg{width:28px;height:28px;color:var(--accent)}
+.home-link{font-weight:600;white-space:nowrap}
+main{padding:32px 0 48px}
+.eyebrow{margin:0 0 4px;color:var(--accent-ink);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em}
+h1{margin:0 0 12px;font-size:clamp(1.75rem,6vw,2.4rem);line-height:1.15;letter-spacing:-.02em}
+h2{margin:32px 0 8px;font-size:1.25rem;line-height:1.3}
+p,li{color:var(--text)}
+.lede{font-size:1.1rem;color:var(--muted)}
+.updated{color:var(--muted);font-size:.9rem}
+ul{padding-left:1.25em}
+li{margin:4px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:var(--line);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+.cta{display:inline-block;margin-top:16px;padding:12px 20px;border-radius:999px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none}
+@media (prefers-color-scheme:dark){.cta{color:#14161c}}
+.cta:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:.9rem}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:8px}
+footer nav a{color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<a class="brand" href="/" aria-label="SpeedFlex home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 22a11 11 0 1 1 22 0" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M16 22 22.5 12" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><circle cx="16" cy="22" r="2.6" fill="currentColor"/></svg><span>SpeedFlex</span></a>
+<a class="home-link" href="/">Run a speed test</a>
+</div>
+</header>
+<main class="wrap">
+<p class="eyebrow">About</p>
+<h1>A speed test that gets out of the way.</h1>
+<p class="lede">SpeedFlex is a free internet speed test that runs in your browser, shows you what your connection can actually do, and lets you challenge friends to beat it.</p>
+
+<h2>What it is</h2>
+<p>Open the page and the test starts. In about 20 to 25 seconds you get download speed, upload speed, idle ping, jitter and a bufferbloat grade that shows how much lag appears when your connection is busy. SpeedFlex then translates those numbers into everyday terms: how many 4K streams and HD video calls you can run at once, whether your connection is ready for online gaming, and how long a big game or movie download will take.</p>
+
+<h2>Why it is leaner</h2>
+<ul>
+<li>No ads before or during your result.</li>
+<li>No account, no app to install, no sign-up prompts.</li>
+<li>No cookies, no analytics and no third-party trackers.</li>
+<li>A small page that loads quickly, so the test starts sooner and the page itself does not compete with the measurement.</li>
+</ul>
+
+<h2>How it measures</h2>
+<p>SpeedFlex has no test server of its own. Your browser talks directly to Cloudflare's speed-test endpoints on its global edge network, usually reaching a nearby data centre. The test measures idle latency with a series of small requests, then downloads and uploads using several parallel streams whose size ramps up. Throughput is sampled in short windows and the reported speed is the 90th percentile of the stable windows. Ping keeps running during the transfers to measure loaded latency, which gives the bufferbloat grade.</p>
+<p>Results are a practical estimate, not a certified measurement. They depend on your device, browser, Wi-Fi and the route to the server. See the explainer on the <a href="/">home page</a> for details and limitations.</p>
+
+<h2>The challenge feature</h2>
+<p>After a test you can create a challenge link. Your download, upload and ping (plus a first name, if you choose to add one) are encoded in the part of the link after the <code>#</code> sign. Send it to a friend: they see your result, run their own test, and get a head-to-head comparison they can send back. Nothing is uploaded to a SpeedFlex server to make this work.</p>
+
+<a class="cta" href="/">Test your speed</a>
+</main>
+<footer>
+<div class="wrap">
+<nav aria-label="Footer">
+<a href="/">Home</a>
+<a href="/about/">About</a>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</nav>
+<p>&copy; 2026 SpeedFlex &middot; Free internet speed test</p>
+</div>
+</footer>
+</body>
+</html>
