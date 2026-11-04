@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Speed Test — Free WPM Test With Comprehension</title>
+<meta name="description" content="Find out how many words per minute you read, with a 5-question comprehension check. Free, instant, no sign-up. Share your score and challenge a friend.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://readingspeedtest.example/">
+<meta name="theme-color" content="#1f3d2b">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Reading Speed Test">
+<meta property="og:title" content="Reading Speed Test — Free WPM Test With Comprehension">
+<meta property="og:description" content="Find out how many words per minute you read, with a 5-question comprehension check. Free, instant, no sign-up. Share your score and challenge a friend.">
+<meta property="og:url" content="https://readingspeedtest.example/">
+<meta property="og:image" content="https://readingspeedtest.example/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Reading Speed Test: a reading-lamp gauge showing words per minute">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reading Speed Test — Free WPM Test With Comprehension">
+<meta name="twitter:description" content="How many words per minute do you read? Take the free 60-second test, then challenge a friend to beat your score.">
+<meta name="twitter:image" content="https://readingspeedtest.example/assets/og-image.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Reading Speed Test","alternateName":"WPM Reading Test","url":"https://readingspeedtest.example/","description":"Find out how many words per minute you read, with a 5-question comprehension check. Free, instant, no sign-up. Share your score and challenge a friend.","applicationCategory":"EducationalApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Words-per-minute reading speed","5-question comprehension check","Effective WPM","Shareable challenge link","Downloadable result card"],"image":"https://readingspeedtest.example/assets/og-image.jpg"}
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the average reading speed for adults?","acceptedAnswer":{"@type":"Answer","text":"About 238 words per minute for silent non-fiction reading and about 260 for fiction, according to Brysbaert's 2019 review of 190 studies. Reading aloud averages around 183 wpm."}},{"@type":"Question","name":"What is a good WPM score?","acceptedAnswer":{"@type":"Answer","text":"200 to 300 wpm with four or five questions correct is a normal adult result, and 300 to 400 is above average. Speed only counts as good when comprehension holds up."}},{"@type":"Question","name":"Is 300 words per minute fast?","acceptedAnswer":{"@type":"Answer","text":"Slightly, yes. 300 wpm is about 26 percent faster than the adult non-fiction average of 238 wpm, and sits at the bottom of the Above average band."}},{"@type":"Question","name":"Why does the test ask comprehension questions?","acceptedAnswer":{"@type":"Answer","text":"Because speed alone is meaningless; anyone can scroll a passage in ten seconds. The five questions check that you took in what you read, and effective wpm combines both."}},{"@type":"Question","name":"How accurate is an online reading speed test?","acceptedAnswer":{"@type":"Answer","text":"It is a snapshot, not a formal assessment. Your mood, the screen and how carefully you read all move the number, so try two or three passages and use the typical result."}},{"@type":"Question","name":"Is my result saved or sent anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser and nothing is uploaded. A share link contains only the passage id, your wpm and your correct-answer count. No accounts, cookies or analytics."}}]}</script>
+
+<!-- AdSense loader: owner pastes the publisher snippet here after approval. No publisher IDs until then. -->
+
+<style>
+/* =============================================================================
+   "Reading lamp" identity: cream paper, deep ink-green, one tangerine accent for
+   the needle and the primary button. System serif for display, system sans for UI.
+   Mobile-first; nothing below depends on a web font or an external file.
+   ============================================================================= */
+:root{
+  color-scheme:light;
+  --paper:#faf6ee; --card:#fffdf7; --ink:#1b2420; --brand:#1f3d2b; --brand-soft:#e4ebe2;
+  --accent:#e07a2f; --accent-ink:#1f3d2b; --muted:#5c6660; --line:#dfd8c8; --line-strong:#c9bfa8;
+  --focus:#1f3d2b; --shade:rgba(31,61,43,.08);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+  --radius:14px; --wrap:min(1040px,calc(100% - 32px));
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    color-scheme:dark;
+    --paper:#14201a; --card:#1b2a22; --ink:#ece6d6; --brand:#cfe3d4; --brand-soft:#243a2e;
+    --accent:#e8873d; --accent-ink:#14201a; --muted:#a7b1a9; --line:#2f433a; --line-strong:#4a6253;
+    --focus:#ffd9b8; --shade:rgba(255,255,255,.06);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:16px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+img,svg,canvas{max-width:100%;height:auto}
+a{color:var(--brand);text-underline-offset:.15em}
+h1,h2,h3{font-family:var(--serif);color:var(--brand);line-height:1.15;text-wrap:balance;font-weight:600}
+h1{font-size:clamp(1.5rem,4.8vw,2.5rem);margin:.1em 0 .3em;letter-spacing:-.01em}
+h2{font-size:clamp(1.35rem,3.6vw,1.8rem);margin:1.6em 0 .5em}
+h3{font-size:1.15rem;margin:1.3em 0 .4em}
+.wrap{width:var(--wrap);margin-inline:auto}
+main{padding:clamp(10px,2.5vw,30px) 0 40px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;z-index:20;padding:10px 14px;background:var(--card);border:2px solid var(--brand);border-radius:8px}
+:where(a,button,summary,input,select,textarea,[tabindex]):focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+[hidden]{display:none!important}
+
+/* Header: a small lamp glow next to the name is the only ornament. */
+.site-header{border-bottom:1px solid var(--line)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+.brand-link{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--brand);text-decoration:none;display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.brand-link::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(224,122,47,.18)}
+.header-note{color:var(--muted);font-size:.9rem;margin:0}
+@media (max-width:420px){.header-note{display:none}.lede{font-size:.98rem;margin-bottom:.8rem}.veil span:nth-child(6){display:none}.veil span:nth-child(5){width:46%;margin-bottom:.2em}}
+
+.lede{font-size:1.02rem;color:var(--muted);max-width:60ch;margin:0 0 1rem}
+
+/* Buttons: state the action, 44px minimum, tangerine for the one primary action. */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 22px;border-radius:999px;border:2px solid var(--brand);background:transparent;color:var(--brand);font-weight:600;font-size:1rem;cursor:pointer;text-decoration:none;transition:background-color .15s,transform .15s}
+.btn:hover{background:var(--shade)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-size:1.2rem;font-weight:700;min-height:56px;padding:12px 30px;box-shadow:0 6px 18px -8px rgba(224,122,47,.7)}
+.btn-primary:hover{background:#d8702a;border-color:#d8702a}
+.btn-quiet{border-color:transparent;min-height:44px;padding:8px 12px;font-weight:600;text-decoration:underline;text-underline-offset:.2em}
+.btn-quiet:hover{background:var(--shade)}
+
+/* Challenge banner: appears only when a share link brought the visitor here. */
+.challenge{display:flex;gap:12px;align-items:flex-start;background:var(--brand);color:#f4efe3;border-radius:var(--radius);padding:14px 18px;margin:0 0 16px;font-size:1.02rem}
+.challenge strong{color:#ffc795;font-size:1.15em}
+.challenge .flag{font-size:1.5rem;line-height:1}
+
+/* Passage card with a bookmark ribbon. */
+.passage-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px 18px;box-shadow:0 10px 30px -22px rgba(31,61,43,.45);margin:0 0 16px}
+.ribbon{position:absolute;top:-1px;right:22px;width:26px;height:46px;background:var(--accent);clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
+.passage-head{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;padding-right:40px;margin:0 0 10px}
+.passage-title{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--brand);margin:0}
+/* Reserve two title lines on narrow screens: the title is set by JS and a wrap after first paint would shift the Start button (CLS). */
+@media (max-width:720px){.passage-title{min-height:2.3em}}
+.passage-meta{color:var(--muted);font-size:.92rem;margin:0}
+.passage-controls{margin-left:auto}
+.passage-controls .btn-quiet{margin:-8px -12px -8px 0}
+.passage-body{font-family:var(--serif);font-size:clamp(1.15rem,1.05rem + .4vw,1.2rem);line-height:1.65;max-width:62ch}
+.passage-body p{margin:0 0 1em}
+.passage-body p:last-child{margin-bottom:0}
+/* Before start: decoy lines only — the real text is injected on Start, so it can't be peeked or copied. */
+.veil{max-width:62ch;filter:blur(5px);opacity:.55;user-select:none;pointer-events:none}
+.veil span{display:block;height:.8em;margin:0 0 .62em;border-radius:3px;background:var(--line-strong)}
+.veil span:nth-child(2){width:94%}.veil span:nth-child(4){width:82%}.veil span:last-child{width:46%;margin-bottom:.2em}
+.reading-note{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.95rem;margin:14px 0 0}
+.reading-note .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.tool-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:4px 0 8px}
+.tool-hint{color:var(--muted);font-size:.9rem;margin:0}
+
+/* Quiz: one list, five radio groups. */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:16px 0}
+.quiz h2{margin:0 0 .3em;font-size:1.4rem}
+.quiz-intro{color:var(--muted);margin:0 0 1em}
+.quiz fieldset{border:0;padding:0;margin:0 0 20px}
+.quiz legend{font-weight:700;padding:0;margin:0 0 8px;font-size:1.05rem}
+.quiz .q-num{color:var(--accent);font-family:var(--serif);margin-right:6px}
+.choice{display:flex;align-items:center;gap:12px;min-height:44px;padding:6px 10px 6px 8px;border-radius:10px;cursor:pointer}
+.choice:hover{background:var(--shade)}
+.choice input{width:22px;height:22px;margin:0;accent-color:var(--accent);flex:none}
+.quiz-progress{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+
+/* Result: the gauge is the signature element. */
+.result{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;margin:16px 0 0;box-shadow:0 14px 40px -28px rgba(31,61,43,.6)}
+.result h2{margin:0 0 .4em;font-size:1.4rem}
+.result-grid{display:grid;gap:18px;align-items:center}
+@media (min-width:720px){.result-grid{grid-template-columns:minmax(260px,1fr) 1.2fr}}
+.gauge-wrap{position:relative;max-width:360px;margin:0 auto;width:100%}
+.gauge-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.gauge-track{fill:none;stroke:var(--line);stroke-width:12;stroke-linecap:round}
+.gauge-band{fill:none;stroke:var(--brand);stroke-width:12}
+.gauge-tick{stroke:var(--card);stroke-width:2}
+.gauge-label{fill:var(--muted);font-size:8.5px;text-anchor:middle;font-family:var(--sans)}
+.gauge-needle{transform-origin:100px 100px;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.gauge-needle polygon{fill:var(--accent)}
+.gauge-needle circle{fill:var(--card);stroke:var(--accent);stroke-width:4}
+.hero{position:absolute;left:0;right:0;bottom:0;text-align:center;pointer-events:none}
+.hero-num{display:block;font-family:var(--serif);font-weight:700;font-size:clamp(3rem,13vw,4.2rem);line-height:1;color:var(--brand);letter-spacing:-.02em}
+.hero-unit{display:block;color:var(--muted);font-size:.9rem;text-transform:uppercase;letter-spacing:.08em}
+.band-line{font-size:1.15rem;margin:0 0 10px}
+.band-line strong{font-family:var(--serif);font-size:1.3rem;color:var(--brand)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:0}
+.stats > div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stats dt{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.stats dd{margin:2px 0 0;font-family:var(--serif);font-size:1.45rem;font-weight:700;color:var(--brand)}
+.stats dd.small{font-family:var(--sans);font-size:.82rem;font-weight:400;color:var(--muted);margin-top:2px}
+.outcome{margin:14px 0 0;padding:12px 14px;border-radius:10px;background:var(--brand-soft);font-weight:600}
+.outcome.win{background:var(--accent);color:var(--accent-ink)}
+.best{color:var(--muted);font-size:.92rem;margin:10px 0 0}
+.flags{list-style:none;padding:0;margin:16px 0 0}
+.flags li{border-left:4px solid var(--accent);padding:8px 12px;margin:8px 0;background:var(--paper);border-radius:0 8px 8px 0}
+.equiv{list-style:none;padding:0;margin:0}
+.equiv li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.equiv li:last-child{border-bottom:0}
+.equiv b{font-family:var(--serif);color:var(--brand);white-space:nowrap}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0}
+.fine{color:var(--muted);font-size:.85rem;margin:14px 0 0}
+.copy-status{min-height:1.4em;color:var(--brand);font-weight:600;margin:10px 0 0;font-size:.95rem}
+.invalid{padding:6px 0}
+.invalid p{font-size:1.05rem}
+
+/* Ad slots reserve height so nothing shifts when ads arrive. Never between passage/quiz and result. */
+.ad-slot{min-height:100px;margin:28px 0}
+
+/* Explainer prose (filled in by the content step). */
+.prose{max-width:68ch}
+.prose p,.prose li{font-size:1.02rem}
+.prose ul,.prose ol{padding-left:1.3em}
+.prose table{border-collapse:collapse;width:100%;font-size:.95rem;margin:1em 0}
+.prose th,.prose td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.prose th{color:var(--brand)}
+.prose .example,.prose blockquote,.prose aside{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin:1em 0}
+.prose dt{font-weight:700;color:var(--brand);margin-top:1em}
+.prose dd{margin:0 0 .5em}
+.prose caption{caption-side:top;text-align:left;color:var(--muted);font-size:.88rem;padding:0 0 6px}
+.prose .bands{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.prose .bands th,.prose .bands td{padding:9px 12px}
+.prose .bands thead th{background:var(--brand-soft);border-bottom:1px solid var(--line-strong)}
+.prose .bands tbody tr:nth-child(even){background:var(--shade)}
+.prose .bands tbody td:first-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.prose .bands tbody tr:last-child td{border-bottom:0}
+.prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:.92em;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px;overflow-wrap:anywhere}
+.prose details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:10px 0;padding:0 16px}
+.prose summary{display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 0;cursor:pointer;font-weight:700;color:var(--brand);list-style:none}
+.prose summary::-webkit-details-marker{display:none}
+.prose summary::before{content:"+";flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;line-height:22px;text-align:center;font-family:var(--sans)}
+.prose details[open] summary::before{content:"\2212"}
+.prose details[open] summary{border-bottom:1px dashed var(--line)}
+.prose details p{margin:12px 0 14px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 36px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:grid;gap:10px}
+footer p{margin:0}
+footer nav{display:flex;flex-wrap:wrap;gap:4px 18px}
+footer a{color:var(--brand);display:inline-block;padding:8px 0;min-height:44px;line-height:28px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#tool">Skip to the reading test</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand-link" href="/">Reading Speed Test</a>
+    <p class="header-note">Free · no sign-up · nothing sent</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Reading Speed Test: How Many Words Per Minute Do You Read?</h1>
+  <p class="lede">Read one short passage, answer five questions, and get your words per minute with a comprehension score. Free, about 90 seconds, no account. Then send the link and see if a friend can beat you.</p>
+
+  <!-- TOOL. Above the fold at 360x640. No ad slot between passage/quiz and result. -->
+  <section id="tool" aria-label="Reading speed test">
+
+    <!-- Challenge banner: shown only when the URL carries ?p=&wpm=&c= from a share link. -->
+    <div id="challenge" class="challenge" hidden>
+      <span class="flag" aria-hidden="true">&#9873;</span>
+      <p id="challenge-text" style="margin:0"></p>
+    </div>
+
+    <article class="passage-card" aria-labelledby="passage-title">
+      <span class="ribbon" aria-hidden="true"></span>
+      <header class="passage-head">
+        <h2 class="passage-title" id="passage-title">Loading passage…</h2>
+        <p class="passage-meta"><span id="passage-words">—</span> words</p>
+        <div class="passage-controls" id="passage-controls">
+          <button type="button" class="btn btn-quiet" id="change-passage">Change passage</button>
+        </div>
+      </header>
+      <!-- Decoy lines until Start; the text itself is injected by app.js on Start. -->
+      <div id="veil" class="veil" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div id="passage-body" class="passage-body" hidden></div>
+      <p id="reading-note" class="reading-note" hidden><span class="dot" aria-hidden="true"></span><span>Reading… press <b>I’m done reading</b> (or Space) the moment you finish.</span></p>
+    </article>
+
+    <div class="tool-actions">
+      <button type="button" class="btn btn-primary" id="primary-btn">Start reading</button>
+      <p class="tool-hint" id="tool-hint">The timer starts when you press the button. Read at your normal pace.</p>
+    </div>
+
+    <!-- Quiz: five questions, one list, result button disabled until all answered. -->
+    <section id="quiz" class="quiz" aria-labelledby="quiz-heading" hidden>
+      <h2 id="quiz-heading" tabindex="-1">Five quick questions</h2>
+      <p class="quiz-intro">Answer from memory. There is no going back to the passage.</p>
+      <form id="quiz-form" novalidate>
+        <div id="quiz-questions"></div>
+        <p class="quiz-progress" id="quiz-progress">0 of 5 answered</p>
+        <button type="submit" class="btn btn-primary" id="show-result" disabled>Show my result</button>
+      </form>
+    </section>
+
+    <!-- RESULT. role=status so the score is announced when it appears. -->
+    <div id="result" class="result" role="status" aria-live="polite" hidden>
+      <h2 id="result-heading" tabindex="-1">Your reading speed</h2>
+
+      <div id="result-invalid" class="invalid" hidden>
+        <p id="invalid-text"></p>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="invalid-retry">Read it again</button>
+        </div>
+      </div>
+
+      <div id="result-body" hidden>
+        <div class="result-grid">
+          <div class="gauge-wrap">
+            <svg id="gauge" viewBox="0 0 200 164" aria-hidden="true" focusable="false"></svg>
+            <div class="hero"><span class="hero-num" id="r-wpm">0</span><span class="hero-unit">words per minute</span></div>
+          </div>
+          <div>
+            <p class="band-line"><strong id="r-band"></strong><br><span id="r-band-note"></span></p>
+            <dl class="stats">
+              <div><dt>Comprehension</dt><dd id="r-comp"></dd></div>
+              <div><dt>Effective WPM</dt><dd id="r-eff"></dd><dd class="small">Speed × share of questions correct</dd></div>
+              <div><dt>vs average adult</dt><dd id="r-vs"></dd><dd class="small">Average adult: 238 wpm</dd></div>
+            </dl>
+            <p id="r-outcome" class="outcome" hidden></p>
+            <p id="r-best" class="best" hidden></p>
+          </div>
+        </div>
+
+        <ul id="r-flags" class="flags" hidden></ul>
+
+        <h3>At your speed you would finish…</h3>
+        <ul id="r-equiv" class="equiv"></ul>
+
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="share-btn">Share my score</button>
+          <button type="button" class="btn" id="copy-btn">Copy link</button>
+          <button type="button" class="btn" id="download-btn">Download result card</button>
+          <button type="button" class="btn" id="another-btn">Try another passage</button>
+          <button type="button" class="btn" id="again-btn">Read it again</button>
+        </div>
+        <p class="copy-status" id="copy-status"></p>
+        <p class="fine">Benchmark: Brysbaert 2019, non-fiction, adults (238 wpm). This is a snapshot of one short read, not an assessment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT 1 — below the result. Empty until the owner adds publisher code. -->
+  <div class="ad-slot" data-slot="below-result" aria-hidden="true"></div>
+
+  <!-- EXPLAINER. Sections carry class="prose"; the FAQ mirrors the FAQPage JSON-LD in <head> verbatim. -->
+<section class="prose">
+  <h2>How the reading speed test works</h2>
+  <p>Press <strong>Start reading</strong> and the clock begins. Read the passage at your normal pace, then press <strong>I'm done reading</strong>. Five multiple-choice questions follow.</p>
+  <p>Your words per minute (wpm) comes from the passage length and your time; your comprehension score, from the questions. A fast time with wrong answers is skimming, not reading.</p>
+</section>
+
+<section class="prose">
+  <h2>What is a good reading speed?</h2>
+  <p>Most adults land between 200 and 300 wpm on non-fiction like this. Four or five correct answers in that range is a solid result. The result card uses these bands:</p>
+  <table class="bands">
+    <caption>Reading speed bands</caption>
+    <thead><tr><th scope="col">wpm</th><th scope="col">Band</th></tr></thead>
+    <tbody>
+      <tr><td>Under 150</td><td>Developing</td></tr>
+      <tr><td>150 to 199</td><td>Below average</td></tr>
+      <tr><td>200 to 299</td><td>Average adult</td></tr>
+      <tr><td>300 to 399</td><td>Above average</td></tr>
+      <tr><td>400 to 599</td><td>Fast</td></tr>
+      <tr><td>600 and above</td><td>Very fast (check comprehension)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="prose">
+  <h2>Average reading speed by age and level</h2>
+  <p>The best single source is <a href="https://www.sciencedirect.com/science/article/pii/S0749596X19300786" rel="noopener">Brysbaert (2019)</a>, a review of 190 studies in the <em>Journal of Memory and Language</em>. It puts the adult average at about <strong>238 wpm for non-fiction</strong> and <strong>260 wpm for fiction</strong>, with reading aloud slower at around <strong>183 wpm</strong>.</p>
+  <p>Children read more slowly and speed up through school; older adults often slow a little, partly because of vision. Rates also shift with the text and whether it is your first language. We do not publish grade-by-grade targets because figures differ widely between studies and countries.</p>
+</section>
+
+<section class="prose">
+  <h2>How words per minute is calculated</h2>
+  <p><code>wpm = words in the passage / (seconds taken / 60)</code></p>
+  <p><strong>Worked example:</strong> a 260-word passage read in 1 minute 10 seconds is 260 / (70 / 60) = 222.9, or <strong>223 wpm</strong>.</p>
+  <p>Effective wpm scales for comprehension: <code>effective wpm = wpm x correct / 5</code>. With 4 of 5 correct, 223 x 0.8 = 178.4, so <strong>178 effective wpm</strong>. Against the 238 wpm adult average, 223 wpm shows as about 6 percent slower.</p>
+</section>
+
+<section class="prose">
+  <h2>How to read faster without losing comprehension</h2>
+  <p>No trick doubles your speed overnight; speed-reading courses mostly trade comprehension for speed. These habits do help:</p>
+  <ul>
+    <li><strong>Preview first.</strong> Glance at the title and first sentences to see where the text is heading.</li>
+    <li><strong>Stop re-reading.</strong> Trust the first pass instead of jumping back.</li>
+    <li><strong>Remove distractions.</strong> Every notification costs you a re-read.</li>
+    <li><strong>Grow your vocabulary.</strong> Eyes stall on unfamiliar words.</li>
+    <li><strong>Read a little every day</strong>, ideally slightly challenging material.</li>
+  </ul>
+</section>
+
+<section class="prose">
+  <h2>Assumptions and limitations</h2>
+  <p>This is a snapshot, not an assessment. It cannot diagnose a reading difficulty or track a child's progress.</p>
+  <ul>
+    <li>One short passage is a small sample; repeat on a few for a steadier number.</li>
+    <li>Screen reading is slightly slower than paper for many people.</li>
+    <li>Non-native English readers should expect a lower figure than in their strongest language.</li>
+    <li>Timing runs between your two clicks; a slow reaction adds a second or two.</li>
+    <li>Skimming inflates wpm, which is why comprehension matters more than speed alone.</li>
+  </ul>
+</section>
+
+  <!-- AD SLOT 2 — mid-explainer, between the explainer sections and the FAQ. -->
+  <div class="ad-slot" data-slot="mid-explainer" aria-hidden="true"></div>
+
+<section class="prose" id="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>What is the average reading speed for adults?</summary>
+    <p>About 238 words per minute for silent non-fiction reading and about 260 for fiction, according to Brysbaert's 2019 review of 190 studies. Reading aloud averages around 183 wpm.</p>
+  </details>
+  <details>
+    <summary>What is a good WPM score?</summary>
+    <p>200 to 300 wpm with four or five questions correct is a normal adult result, and 300 to 400 is above average. Speed only counts as good when comprehension holds up.</p>
+  </details>
+  <details>
+    <summary>Is 300 words per minute fast?</summary>
+    <p>Slightly, yes. 300 wpm is about 26 percent faster than the adult non-fiction average of 238 wpm, and sits at the bottom of the Above average band.</p>
+  </details>
+  <details>
+    <summary>Why does the test ask comprehension questions?</summary>
+    <p>Because speed alone is meaningless; anyone can scroll a passage in ten seconds. The five questions check that you took in what you read, and effective wpm combines both.</p>
+  </details>
+  <details>
+    <summary>How accurate is an online reading speed test?</summary>
+    <p>It is a snapshot, not a formal assessment. Your mood, the screen and how carefully you read all move the number, so try two or three passages and use the typical result.</p>
+  </details>
+  <details>
+    <summary>Is my result saved or sent anywhere?</summary>
+    <p>No. Everything runs in your browser and nothing is uploaded. A share link contains only the passage id, your wpm and your correct-answer count. No accounts, cookies or analytics.</p>
+  </details>
+</section>
+
+  <!-- AD SLOT 3 — above the footer. -->
+  <div class="ad-slot" data-slot="above-footer" aria-hidden="true"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Benchmark: Brysbaert (2019), 238 wpm, adult non-fiction. Results are computed in your browser and never sent anywhere.</p>
+    <nav aria-label="Site">
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+    <p>More free tools:</p>
+    <nav aria-label="Other tools">
+      <a href="https://autoloanpayment.com/">Auto loan calculator</a>
+      <a href="https://subscriptioncreepcalculator.com/">Subscription creep calculator</a>
+      <a href="https://thestatisticslab.io/">The Statistics Lab</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="passages.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

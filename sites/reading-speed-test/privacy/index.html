@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy - Reading Speed Test</title>
+<meta name="description" content="No accounts, no cookies, no analytics. Your reading speed result is computed in your browser and never uploaded. Exactly what a share link contains.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://readingspeedtest.example/privacy/">
+<meta name="theme-color" content="#1f3d2b">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Reading Speed Test">
+<meta property="og:title" content="Privacy - Reading Speed Test">
+<meta property="og:description" content="No accounts, no cookies, no analytics. Your reading speed result is computed in your browser and never uploaded.">
+<meta property="og:url" content="https://readingspeedtest.example/privacy/">
+<meta property="og:image" content="https://readingspeedtest.example/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:light dark;--paper:#faf6ee;--card:#fffdf8;--ink:#1f2a22;--brand:#1f3d2b;--accent:#e07a2f;--muted:#5c6660;--line:#e3dccb;--link:#1f3d2b;--wrap:min(720px,calc(100% - 32px));--serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
+@media (prefers-color-scheme:dark){:root{--paper:#14201a;--card:#1a2a21;--ink:#ece6d6;--brand:#dfe9df;--accent:#f0955a;--muted:#a3ada5;--line:#2c3f33;--link:#f0955a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%}
+a{color:var(--link);text-underline-offset:2px}
+h1,h2{line-height:1.15;text-wrap:balance;color:var(--brand)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,6vw,2.6rem);margin:.2em 0 .5em}
+h2{font-size:1.2rem;margin:1.8em 0 .4em}
+.wrap{width:var(--wrap);margin-inline:auto}
+:where(a,button,summary,input,[tabindex]):focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.site-header{border-bottom:1px solid var(--line)}
+.header-inner{min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--brand);font-family:var(--serif);font-weight:600;font-size:1.1rem;text-decoration:none}
+.ribbon{display:inline-block;width:12px;height:22px;background:var(--accent);clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
+.site-nav{display:flex;flex-wrap:wrap;gap:2px}
+.site-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;color:var(--muted);font-size:.92rem;font-weight:600;text-decoration:none}
+.site-nav a:hover,.site-nav a[aria-current]{color:var(--brand)}
+main{padding:clamp(24px,5vw,52px) 0 56px}
+.card{margin:22px 0;padding:18px 20px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;background:var(--card)}
+ol,ul{padding-left:1.3em}
+code{font-size:.95em;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.muted{color:var(--muted);font-size:.92rem}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer .wrap{padding:26px 0;display:grid;gap:8px}
+.siblings{display:flex;flex-wrap:wrap;gap:6px 18px;list-style:none;padding:0;margin:0}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/"><span class="ribbon" aria-hidden="true"></span>Reading Speed Test</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Take the test</a>
+      <a href="/about/">About</a>
+      <a href="/privacy/" aria-current="page">Privacy</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <h1>Privacy</h1>
+  <p class="muted">Last updated: 4 November 2026</p>
+  <p>The short version: this site has no accounts, sets no cookies, runs no analytics, and never sends your reading result anywhere. Everything the test does happens inside your browser.</p>
+
+  <h2>What happens when you take the test</h2>
+  <ul>
+    <li>The timer, the word count, the comprehension score and the words-per-minute figure are all calculated by JavaScript running on your device.</li>
+    <li>Nothing you read, click or answer is uploaded to us or to anyone else. There is no server-side processing and no database.</li>
+    <li>The result card image you can download is drawn in your browser and saved straight to your device.</li>
+  </ul>
+
+  <h2>Share links</h2>
+  <p>When you share your score, the link you create contains exactly three things and nothing else: the passage id, your words per minute, and how many of the five questions you answered correctly. It looks like this:</p>
+  <p><code>?p=lighthouses&amp;wpm=312&amp;c=4</code></p>
+  <p>The link contains no name, no device information and no identifier of any kind. Anyone who opens it simply sees the challenge and takes the same passage. We cannot see who created or opened a link.</p>
+
+  <h2>Cookies and local storage</h2>
+  <p>This site sets no cookies. It may optionally remember your personal best score in your browser's <code>localStorage</code> so you can see whether you have improved. That value never leaves your device, is not read by us, and the test works exactly the same if storage is unavailable or you clear it. You can remove it at any time by clearing site data in your browser.</p>
+
+  <h2>Analytics and tracking</h2>
+  <p>None. There is no analytics script, no tag manager, no pixel and no third-party JavaScript on this site. The page loads no fonts or assets from outside servers.</p>
+
+  <h2>Advertising</h2>
+  <div class="card">
+    <p>The page contains a few empty advertising placeholders. They are currently inactive: no advertising code is loaded and no advertising network receives any information about your visit.</p>
+    <p>If advertising is enabled in future, an advertising partner's script would load on the page and could set its own cookies or use similar technology to serve and measure ads. If that happens, this page will be updated to name the partner, explain what they collect, and describe how to opt out of personalised advertising. The test itself will still compute your result locally.</p>
+  </div>
+
+  <h2>Hosting</h2>
+  <p>Like any website, the server that delivers these files may keep standard access logs (such as IP address, time and the page requested) for security and reliability. We do not combine these with any test data, because there is no test data to combine them with.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy can be raised on the project's GitHub issues page: <a href="https://github.com/robert-awere/web-utility-products/issues" rel="noopener">github.com/robert-awere/web-utility-products/issues</a>.</p>
+
+  <p><a href="/">Back to the reading speed test</a></p>
+</main>
+<footer>
+  <div class="wrap">
+    <p>Benchmark: Brysbaert 2019, non-fiction, adults. Results are a snapshot, not an assessment.</p>
+    <p>More free tools:</p>
+    <ul class="siblings">
+      <li><a href="https://autoloanpayment.com/" rel="noopener">Auto loan payment calculator</a></li>
+      <li><a href="https://subscriptioncreepcalculator.com/" rel="noopener">Subscription creep calculator</a></li>
+      <li><a href="https://thestatisticslab.io/" rel="noopener">The Statistics Lab</a></li>
+    </ul>
+    <p><a href="/">Home</a> &middot; <a href="/about/">About</a> &middot; <a href="/privacy/">Privacy</a></p>
+  </div>
+</footer>
+</body>
+</html>

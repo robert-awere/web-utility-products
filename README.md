@@ -7,3 +7,4 @@ Small, evergreen web utilities that provide an immediate answer.
 - [Project Quantity — Paint Calculator](sites/paint-calculator/) — [Live site](https://projectquantity.com/)
 - [Subscription Creep Calculator](sites/subscription-creep-calculator/) — [Live site](https://subscriptioncreepcalculator.com/)
 - [The Statistics Lab](sites/the-statistics-lab/) — [Live site](https://thestatisticslab.io/)
+- [Reading Speed Test](sites/reading-speed-test/) — domain pending

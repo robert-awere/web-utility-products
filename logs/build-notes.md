@@ -4,6 +4,37 @@ Append one entry per site: date, slug, Lighthouse scores, design signature, what
 
 ---
 
+## 2026-11-04 — reading-speed-test
+
+**Lighthouse (mobile, Lighthouse 13.6.0, headless Chromium 1243, served from a local static server):** Performance 100 · SEO 100 · Accessibility 100 · Best Practices 100. LCP 1.4s, TBT 0ms, CLS 0.000 (root) / 0.002 (`?p=pigeons`, the longest passage title). Page weight 79.3KB before ads (index.html + passages.js + engine.js + app.js + favicon), og-image.jpg 54KB (1200×630, JPEG q70).
+
+**Validation:** `node sites/reading-speed-test/test-cases.js` → 35 passed, 0 failed, exit 0 against the shipped `engine.js` + `passages.js` (spec cases 1–8, band boundaries, share-link encode/decode rejection, passage data contract for all six ids). Playwright (Chromium, http server, not file://) at 360×640 and 1280×800: 100 checks, 0 failures — zero console errors and zero failed requests on `/`, `/about/`, `/privacy/`; `scrollWidth` ≤ viewport at idle, result and with FAQ open; Start button fully inside the 360×640 fold (top 551, bottom 609); full flow Start → 6s read → done → 5 answers → "Show my result" → result shows wpm, band label, 4/5, three equivalents, URL rewritten to `?p=&wpm=&c=`; fresh load of that share URL shows the challenge banner with the wpm, "Beat this score" button, Change passage hidden, scrollY 0, outcome line after the rematch; keyboard end to end (Tab×4 to Start, Enter starts, Space finishes, Space in the quiz radios, Enter on "Show my result", focus lands on the result heading); Space inside a text input does not end the read; <5s read refused with the retry panel and no share URL; garbage `?wpm=abc&c=9` shows no banner but still honours the `?p=`; `prefers-reduced-motion: reduce` sets the needle without transition; dark mode paper `rgb(20,32,26)`; every internal link on all three pages returns 200. Static: title 53 chars, meta 151 (about 153, privacy 148), exactly one h1 per page, both JSON-LD blocks parse (WebApplication + FAQPage), all six FAQ names and answers appear verbatim in visible text, explainer 692 visible words, passages 100% ASCII, no ad slot inside the tool section.
+
+**Design signature:** "reading lamp" — cream paper, ink-green serif display, one tangerine accent carried by the SVG arc gauge needle (0–800 wpm, band ticks), the bookmark ribbon on the passage card, the primary button and the FAQ toggles. System fonts only. Passage text is never in the DOM before Start (blurred decoy lines), so it cannot be peeked or copied, and it is removed again when the quiz begins. The canvas result card reuses the same gauge geometry as the SVG.
+
+**What worked, reuse:**
+- Three parallel roles (engine/UI, content, integrator) against one spec with named HTML markers (`<!-- FAQ-JSONLD -->`, `EXPLAINER:START/END`) merged cleanly in one pass; the content agent shipping its fragment with the FAQPage JSON-LD generated from the same array as the visible `<details>` meant the verbatim check passed first time.
+- `test-cases.js` accepting either `module.exports = [...]` or `{PASSAGES}` and asserting the id regex the share-link validator uses, so a bad passage id would fail in Node before it broke a share link.
+- `decodeShare` returning `{p, wpm:null, c:null}` for a bare `?p=` keeps "pick this passage" links and challenge links on one code path.
+- Screenshotting a 1200×630 HTML card with Playwright is the quickest way to an og-image that matches the page palette exactly; JPEG q80 was 64.7KB (over the 60KB cap), q70 is 54KB with no visible loss.
+
+**What bit, avoid:**
+- CLS from JS-set text: the passage title is written after first paint and a two-line title ("How carrier pigeons found their way home") pushed the Start button down for a 0.085 shift and Performance 98 on some loads, invisible on short-title loads. Fixed by reserving two title lines (`min-height:2.3em`) below 720px. Any element whose text is filled by JS above the fold needs a reserved height.
+- The fold at 360×640 is tight: with the real passages (longer titles than the stub) the Start button overflowed by 17px. Trimmed the lede, dropped one decoy line and 0.04rem of lede size under 420px.
+- The sibling pages' meta descriptions arrived at 166 and 178 chars; trimmed to 153 and 148. Check every page's meta length, not just the main one.
+- Chrome reports a 0.01ms transition as `1e-05s` in `getComputedStyle`, which tripped a string compare in the first QA pass.
+
+**Known limitations:** one short passage is a small sample; the 238 wpm benchmark is adult non-fiction (Brysbaert 2019) and no age/grade norms are shown; Web Share API path not exercised headlessly (clipboard fallback verified); the optional personal best uses `localStorage` behind try/catch (stated on the privacy page; delete `updatePersonalBest()` in `app.js` for zero storage); passages read at roughly Flesch-Kincaid grade 7–8 by a crude estimator, slightly under the spec's 8–10.
+
+**Open items for owner:**
+- Domain not secured. Placeholder `https://readingspeedtest.example/` is in canonical, OG, twitter image, both JSON-LD blocks, robots.txt, sitemap.xml and the about/privacy pages. One-line swap once the domain exists: `grep -rl 'readingspeedtest.example' sites/reading-speed-test | xargs sed -i 's#https://readingspeedtest.example/#https://REAL-DOMAIN/#g'`
+- Create the Vercel project with Root Directory `sites/reading-speed-test`, Framework Preset Other, no build command, no output directory override.
+- AdSense: paste the loader where the `<head>` comment marks it and the units into the three `.ad-slot` divs (`below-result`, `mid-explainer`, `above-footer`). No publisher IDs or ads.txt shipped.
+- Sibling footers (autoloanpayment.com, subscriptioncreepcalculator.com, thestatisticslab.io) do not yet link back to this site.
+- Not committed or deployed: the site directory and `specs/reading-speed-test.md` are untracked in the working tree.
+
+---
+
 ## 2026-08-21 — p2-auto-loan
 
 **Lighthouse (mobile, default Slow-4G simulation):** Performance 99 · SEO 100 · Accessibility 100 · Best Practices 100. LCP 1.3s, CLS 0, TBT 120ms; interactive 0.4s on regular 4G (10 Mbps / 40 ms RTT, 4× CPU). Page weight 48KB before ads.
