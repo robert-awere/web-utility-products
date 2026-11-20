@@ -30,5 +30,6 @@ assert.throws(() => calc({...base,coverage:0}));
 assert.throws(() => calc({...base,waste:101}));
 for (const text of ['29.91 m²','6.666 L','6.67 L','Plan for 7 L','42.3 m²','9.306 L','9.31 L','9.5 L','2.64 L','0.55 US gallon','two decimal places']) assert.ok(html.includes(text), `Missing article result: ${text}`);
 assert.equal((html.match(/<h1[ >]/g)||[]).length,1);
+for (const text of ['<h1>How to Measure Walls for Painting</h1>', 'how to measure walls for painting, start', 'How to Measure Walls for Painting: final checklist']) assert.ok(html.includes(text), `Missing reviewed heading phrase: ${text}`);
 assert.ok(!html.includes('wallpaper-calculator'));
 console.log('PASS conversion, manual examples, invalid inputs and article assertions.');
