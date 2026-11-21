@@ -18,7 +18,7 @@
     .header-inner, main, .footer-inner { width:min(820px,calc(100% - 32px)); margin:auto; }
     .header-inner { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
     .brand { color:var(--ink); font-weight:750; text-decoration:none; }
-    nav { display:flex; gap:6px; }
+    nav { display:flex; flex-wrap:wrap; gap:6px; }
     nav a { min-height:44px; display:inline-flex; align-items:center; padding:0 10px; border-radius:8px; color:var(--muted); font-size:.88rem; font-weight:650; text-decoration:none; }
     nav a:hover { color:var(--green); background:var(--soft); }
     main { padding:clamp(36px,7vw,72px) 0; }
@@ -33,7 +33,7 @@
   </style>
 </head>
 <body>
-  <header><div class="header-inner"><a class="brand" href="/">Project Quantity</a><nav aria-label="Primary navigation"><a href="/">Paint</a><a href="/floor-calculator.html">Flooring</a><a href="/about/">About</a><a href="/privacy/" aria-current="page">Privacy</a></nav></div></header>
+  <header><div class="header-inner"><a class="brand" href="/">Project Quantity</a><nav aria-label="Primary navigation"><a href="/">Paint</a><a href="/floor-calculator.html">Flooring</a><a href="/wallpaper-calculator.html">Wallpaper</a><a href="/about/">About</a><a href="/privacy/" aria-current="page">Privacy</a></nav></div></header>
   <main>
     <h1>Privacy Policy</h1>
     <p class="updated">Last updated: 10 August 2026</p>
