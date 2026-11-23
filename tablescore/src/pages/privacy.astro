@@ -1,0 +1,19 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="Privacy — TableScore"
+  description="Scores stay in your browser. TableScore v0.2 has no accounts, no analytics, and no advertising network."
+  path="/privacy/"
+>
+  <h1>Privacy</h1>
+  <div class="prose">
+    <p>TableScore v0.2 stores player names, the selected rules variant, and the current game in your browser’s localStorage. That data does not leave the device. Reloading the page restores it. A “Resume game?” prompt appears if you return within 24 hours.</p>
+    <p>After you open the Hand and Foot tool once, a small service worker may keep that page, its scoring script, and styles in this browser so you can keep scoring if the network drops. It does not send scores anywhere. There is no install prompt and no app-install banner.</p>
+    <p>There are no accounts and no sign-in. There is no email capture. This sandbox does not load analytics scripts and does not load an advertising network. The reserved ad boxes on the game page are empty, fixed-height placeholders.</p>
+    <p>The Screen Wake Lock API, where the browser supports it, is requested while a game is in progress so the phone is less likely to sleep mid-deal. That permission stays on the device. If the API is missing, the tool continues without it.</p>
+    <p>Clearing this site’s data in the browser deletes names and scores. Starting a new game, after confirm, does the same for the saved game.</p>
+    <p>This page will be updated if a public site later adds a consent-gated advertising or analytics script. Scoring will still work if that consent is refused.</p>
+    <p><a href="/">Home</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a></p>
+  </div>
+</Base>

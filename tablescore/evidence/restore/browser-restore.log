@@ -1,0 +1,11 @@
+TableScore v0.2 - FR-5 restore evidence (headless browser / CDP)
+Date: 2026-08-16T20:26:57.411Z
+URL: http://127.0.0.1:4322/hand-and-foot-score-keeper/
+Method: seed localStorage mid-game, reload, assert Resume banner, accept, assert exact totals.
+Resume banner: true
+Restored names: ["Ada","Ben"]
+Recomputed totals: [{"name":"Ada","total":1475},{"name":"Ben","total":440}]
+Rounds played: 1
+PASS: true
+Expected: Ada 1475, Ben 440, 1 deal, Whitnack.
+Companion node test: src/engine/storage.test.js

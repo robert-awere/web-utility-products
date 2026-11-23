@@ -1,0 +1,16 @@
+{
+  "date": "2026-08-16T20:25:46.588Z",
+  "url": "http://127.0.0.1:4322/hand-and-foot-score-keeper/",
+  "formFactor": "mobile",
+  "performance": 100,
+  "cls": 0,
+  "lcp": 906.4011,
+  "fcp": 906.4011,
+  "tbt": 0,
+  "si": 906.4011,
+  "gate": {
+    "performanceMin": 90,
+    "clsMax": 0.1,
+    "pass": true
+  }
+}

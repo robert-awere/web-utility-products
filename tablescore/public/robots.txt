@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Sandbox build. Sitemap lists paths only until a domain is attached.
+# Sitemap: /sitemap.xml

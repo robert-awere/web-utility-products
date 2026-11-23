@@ -1,0 +1,15 @@
+{
+  "sw": {
+    "supported": true,
+    "active": true,
+    "scope": "http://127.0.0.1:4322/"
+  },
+  "off": {
+    "hasEngine": true,
+    "version": "0.2",
+    "total": 500,
+    "title": "Hand and Foot Score Keeper",
+    "toolPresent": true
+  },
+  "offlineOk": true
+}
